@@ -15,11 +15,13 @@
     "@trpc/next": "^9.25.3",
     "@trpc/react": "^9.25.3",
     "@trpc/server": "^9.25.3",
+    "formik": "^2.2.9",
     "next": "12.2.1",
     "prisma": "^4.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.1",
+    "yup": "^0.32.11",
     "zod": "^3.17.3"
   },
   "devDependencies": {
