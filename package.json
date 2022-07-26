@@ -15,6 +15,7 @@
     "@trpc/next": "^9.25.3",
     "@trpc/react": "^9.25.3",
     "@trpc/server": "^9.25.3",
+    "clsx": "^1.2.1",
     "formik": "^2.2.9",
     "next": "12.2.1",
     "prisma": "^4.0.0",

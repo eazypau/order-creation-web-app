@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bodyHeight {
+    min-height: calc(100vh - 128px);
+}
+
+.sidebarHeading {
+    @apply font-semibold text-2xl
+}
