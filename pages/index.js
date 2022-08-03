@@ -1,5 +1,6 @@
 // import Head from "next/head";
 // import Image from "next/image";
+import { useState } from "react";
 import { Footer } from "../components/global/Footer";
 import { NavBar } from "../components/global/NavBar";
 import { Pagination } from "../components/data_display/Pagination";
@@ -11,18 +12,22 @@ import { SelectBox } from "../components/forms/SelectBox";
 // import styles from "../styles/Home.module.css";
 
 export default function Home() {
-	return (
-		<div className="bg-slate-200">
-			<NavBar />
-			<div className="relative">
-				<div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto bodyHeight">
-					<Table />
-					<Sidebar />
-				</div>
-			</div>
-			<Footer />
-		</div>
-	);
+  const [showSideBar, setShowSideBar] = useState(true);
+
+  return (
+    <div className="bg-slate-200">
+      <NavBar />
+      <div className="relative">
+        <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto bodyHeight">
+          <Table toggleSidebarFunc={() => setShowSideBar(true)} />
+          {showSideBar && (
+            <Sidebar toggleSidebarFunc={() => setShowSideBar(false)} />
+          )}
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
 // TODO:

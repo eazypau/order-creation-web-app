@@ -2,10 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* keep class and id name as kebab-case */
+
 .bodyHeight {
     min-height: calc(100vh - 128px);
 }
 
 .sidebarHeading {
     @apply font-semibold text-2xl
+}
+
+.table-row-style {
+    @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700
+}
+
+.item-column-one-style {
+    @apply py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer
 }
