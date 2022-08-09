@@ -17,5 +17,9 @@
 }
 
 .item-column-one-style {
-    @apply py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer
+    @apply font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer
+}
+
+.row-general-style {
+    @apply py-4 px-6 align-top
 }
