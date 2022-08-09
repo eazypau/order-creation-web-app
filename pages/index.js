@@ -12,81 +12,95 @@ import { Sidebar } from "../components/forms/Sidebar";
 // import styles from "../styles/Home.module.css";
 
 const tableHeader = [
-  "Order No.",
-  "Customer Name",
-  "Items",
-  "Total Price (RM)",
-  "Status",
+	"Order No.",
+	"Customer Name",
+	"Items",
+	"Total Price (RM)",
+	"Status",
+	"", // empty column for fulfilled order tick button
 ];
 
 const dummyOrders = [
-  {
-    orderNumber: 1,
-    customerName: "Jennifer",
-    items: [
-      {
-        itemName: "Dou Sha Bing",
-        quantity: 1,
-      },
-      {
-        itemName: "Xiang Bing",
-        quantity: 10,
-      },
-    ],
-    totalPrice: 32,
-    status: "unfulfilled",
-  },
-  {
-    orderNumber: 1,
-    customerName: "Jennifer",
-    items: [
-      {
-        itemName: "Dou Sha Bing",
-        quantity: 1,
-      },
-      {
-        itemName: "Xiang Bing",
-        quantity: 10,
-      },
-    ],
-    totalPrice: 32,
-    status: "unfulfilled",
-  },
-  {
-    orderNumber: 1,
-    customerName: "Jennifer",
-    items: [
-      {
-        itemName: "Dou Sha Bing",
-        quantity: 1,
-      },
-      {
-        itemName: "Xiang Bing",
-        quantity: 10,
-      },
-    ],
-    totalPrice: 32,
-    status: "unfulfilled",
-  },
+	{
+		orderNumber: 1,
+		customerName: "Jennifer",
+		items: [
+			{
+				itemName: "Dou Sha Bing",
+				quantity: 1,
+			},
+			{
+				itemName: "Xiang Bing",
+				quantity: 10,
+			},
+		],
+		totalPrice: 32,
+		status: "unfulfilled",
+	},
+	{
+		orderNumber: 2,
+		customerName: "Jennifer",
+		items: [
+			{
+				itemName: "Dou Sha Bing",
+				quantity: 1,
+			},
+			{
+				itemName: "Xiang Bing",
+				quantity: 10,
+			},
+		],
+		totalPrice: 32,
+		status: "unfulfilled",
+	},
+	{
+		orderNumber: 3,
+		customerName: "Jennifer",
+		items: [
+			{
+				itemName: "Dou Sha Bing",
+				quantity: 1,
+			},
+			{
+				itemName: "Xiang Bing",
+				quantity: 10,
+			},
+		],
+		totalPrice: 32,
+		status: "unfulfilled",
+	},
 ];
 
 export default function Home() {
-  const [showSideBar, setShowSideBar] = useState(true);
+	const [showSideBar, setShowSideBar] = useState(false);
 
-  return (
-    <div className="bg-slate-200">
-      <NavBar />
-      <div className="relative">
-        <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
-          <Table toggleSidebarFunc={() => setShowSideBar(true)} />
-          {showSideBar && (
-            <Sidebar toggleSidebarFunc={() => setShowSideBar(false)} />
-          )}
-        </div>
-      </div>
-      <Footer />
-    </div>
-  );
+	const updateOrderStatus = (id) => {
+		console.log("update order status");
+	};
+
+	const openSideBar = () => {
+		console.log("pass data to sidebar...");
+		console.log("open side bar");
+		setShowSideBar(true);
+	};
+
+	return (
+		<div className="bg-slate-200">
+			<NavBar />
+			<div className="relative">
+				<div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
+					<Table
+						tableHeader={tableHeader}
+						tableContent={dummyOrders}
+						toggleSidebarFunc={openSideBar}
+						updateOrderStatus={updateOrderStatus}
+					/>
+					{showSideBar && <Sidebar toggleSidebarFunc={() => setShowSideBar(false)} />}
+				</div>
+			</div>
+			<Footer />
+		</div>
+	);
 }
 
 // TODO:

@@ -60,7 +60,9 @@ export const Sidebar = ({ toggleSidebarFunc }) => {
             </div>
           </div>
           <div className="flex justify-end">
-            <Button />
+            <Button customColor="bg-green-500 hover:bg-transparent">
+              Done
+            </Button>
           </div>
         </form>
       </div>
