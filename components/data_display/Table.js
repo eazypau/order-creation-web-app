@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export const Table = ({ toggleSidebarFunc }) => {
+export const Table = ({ tableHeader, tableContent, toggleSidebarFunc }) => {
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -131,5 +131,7 @@ export const Table = ({ toggleSidebarFunc }) => {
 };
 
 Table.prototype = {
+  tableHeader: PropTypes.array,
+  tableContent: PropTypes.array,
   toggleSidebarFunc: PropTypes.func,
 };

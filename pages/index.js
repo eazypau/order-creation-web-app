@@ -6,10 +6,69 @@ import { NavBar } from "../components/global/NavBar";
 import { Pagination } from "../components/data_display/Pagination";
 import { Table } from "../components/data_display/Table";
 import { Button } from "../components/global/Button";
-import { InputField } from "../components/forms/InputField";
+// import { InputField } from "../components/forms/InputField";
 import { Sidebar } from "../components/forms/Sidebar";
-import { SelectBox } from "../components/forms/SelectBox";
+// import { SelectBox } from "../components/forms/SelectBox";
 // import styles from "../styles/Home.module.css";
+
+const tableHeader = [
+  "Order No.",
+  "Customer Name",
+  "Items",
+  "Total Price (RM)",
+  "Status",
+];
+
+const dummyOrders = [
+  {
+    orderNumber: 1,
+    customerName: "Jennifer",
+    items: [
+      {
+        itemName: "Dou Sha Bing",
+        quantity: 1,
+      },
+      {
+        itemName: "Xiang Bing",
+        quantity: 10,
+      },
+    ],
+    totalPrice: 32,
+    status: "unfulfilled",
+  },
+  {
+    orderNumber: 1,
+    customerName: "Jennifer",
+    items: [
+      {
+        itemName: "Dou Sha Bing",
+        quantity: 1,
+      },
+      {
+        itemName: "Xiang Bing",
+        quantity: 10,
+      },
+    ],
+    totalPrice: 32,
+    status: "unfulfilled",
+  },
+  {
+    orderNumber: 1,
+    customerName: "Jennifer",
+    items: [
+      {
+        itemName: "Dou Sha Bing",
+        quantity: 1,
+      },
+      {
+        itemName: "Xiang Bing",
+        quantity: 10,
+      },
+    ],
+    totalPrice: 32,
+    status: "unfulfilled",
+  },
+];
 
 export default function Home() {
   const [showSideBar, setShowSideBar] = useState(true);

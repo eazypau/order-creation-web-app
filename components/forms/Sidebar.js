@@ -7,7 +7,7 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 
 export const Sidebar = ({ toggleSidebarFunc }) => {
   return (
-    <aside className="absolute right-0 top-0 lg:w-3/12 xl:w-1/4 2xl:w-3/12 px-5 py-10 bg-white body-height">
+    <aside className="absolute right-0 top-0 z-20 lg:w-3/12 xl:w-1/4 2xl:w-3/12 px-5 py-10 bg-white h-full">
       <div className="flex items-center gap-2 mb-5">
         {/* only for create and update */}
         <button onClick={toggleSidebarFunc}>
