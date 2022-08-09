@@ -4,11 +4,11 @@
 
 /* keep class and id name as kebab-case */
 
-.bodyHeight {
+.body-height {
     min-height: calc(100vh - 128px);
 }
 
-.sidebarHeading {
+.sidebar-heading {
     @apply font-semibold text-2xl
 }
 

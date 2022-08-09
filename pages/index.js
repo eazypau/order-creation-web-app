@@ -18,7 +18,7 @@ export default function Home() {
     <div className="bg-slate-200">
       <NavBar />
       <div className="relative">
-        <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto bodyHeight">
+        <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
           <Table toggleSidebarFunc={() => setShowSideBar(true)} />
           {showSideBar && (
             <Sidebar toggleSidebarFunc={() => setShowSideBar(false)} />
