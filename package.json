@@ -26,6 +26,8 @@
     "zod": "^3.17.3"
   },
   "devDependencies": {
+    "@types/node": "^18.7.1",
+    "@types/react": "^18.0.17",
     "autoprefixer": "^10.4.7",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.1",

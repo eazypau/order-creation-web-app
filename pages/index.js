@@ -22,7 +22,7 @@ const tableHeader = [
 
 const dummyOrders = [
 	{
-		orderNumber: 1,
+		orderNumber: "#1",
 		customerName: "Jennifer",
 		items: [
 			{
@@ -38,7 +38,7 @@ const dummyOrders = [
 		status: "unfulfilled",
 	},
 	{
-		orderNumber: 2,
+		orderNumber: "#2",
 		customerName: "Jennifer",
 		items: [
 			{
@@ -50,11 +50,11 @@ const dummyOrders = [
 				quantity: 10,
 			},
 		],
-		totalPrice: 32,
+		totalPrice: "string",
 		status: "unfulfilled",
 	},
 	{
-		orderNumber: 3,
+		orderNumber: "#3",
 		customerName: "Jennifer",
 		items: [
 			{
@@ -73,14 +73,15 @@ const dummyOrders = [
 
 export default function Home() {
 	const [showSideBar, setShowSideBar] = useState(false);
+	const [orderDetails, setOrderDetails] = useState({});
 
 	const updateOrderStatus = (id) => {
 		console.log("update order status");
 	};
 
-	const openSideBar = () => {
-		console.log("pass data to sidebar...");
-		console.log("open side bar");
+	const openSideBar = (orderNumber) => {
+		const findOrder = dummyOrders.find((order) => order.orderNumber);
+		setOrderDetails(findOrder);
 		setShowSideBar(true);
 	};
 
@@ -95,7 +96,9 @@ export default function Home() {
 						toggleSidebarFunc={openSideBar}
 						updateOrderStatus={updateOrderStatus}
 					/>
-					{showSideBar && <Sidebar toggleSidebarFunc={() => setShowSideBar(false)} />}
+					{showSideBar && (
+						<Sidebar data={orderDetails} toggleSidebarFunc={() => setShowSideBar(false)} />
+					)}
 				</div>
 			</div>
 			<Footer />
