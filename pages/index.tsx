@@ -50,7 +50,7 @@ const dummyOrders = [
 				quantity: 10,
 			},
 		],
-		totalPrice: "string",
+		totalPrice: 40,
 		status: "unfulfilled",
 	},
 	{
@@ -75,11 +75,11 @@ export default function Home() {
 	const [showSideBar, setShowSideBar] = useState(false);
 	const [orderDetails, setOrderDetails] = useState({});
 
-	const updateOrderStatus = (id) => {
+	const updateOrderStatus = (id: string) => {
 		console.log("update order status");
 	};
 
-	const openSideBar = (orderNumber) => {
+	const openSideBar = (orderNumber: string) => {
 		const findOrder = dummyOrders.find((order) => order.orderNumber);
 		setOrderDetails(findOrder);
 		setShowSideBar(true);

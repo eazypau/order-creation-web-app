@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Button } from "../global/Button";
 import { InputField } from "./InputField";
 import { SelectBox } from "./SelectBox";
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 
-export const Sidebar = ({ data, toggleSidebarFunc }) => {
+type Props = {
+	data?: object, // set to optional for now, will remove "?" when going to production
+	toggleSidebarFunc?: () => void
+}
+
+export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
 	const [inputValue, setInputValue] = useState([]);
 
-	const handleChange = (e) => {
+	const handleChange = (e: Event) => {
 		console.log("update input values....");
 	};
 
@@ -34,7 +38,7 @@ export const Sidebar = ({ data, toggleSidebarFunc }) => {
 							<InputField
 								hasBorder
 								customWidth="w-24"
-								type="email"
+								type="number"
 								placeholder="0"
 								name="qty1"
 								onChange={handleChange}
@@ -66,15 +70,4 @@ export const Sidebar = ({ data, toggleSidebarFunc }) => {
 			</div>
 		</aside>
 	);
-};
-
-Sidebar.prototype = {
-	data: PropTypes.exact({
-    orderNumber: PropTypes.string,
-    customerName: PropTypes.string,
-    items: PropTypes.array,
-    totalPrice: PropTypes.number,
-    status: PropTypes.string
-  }).isRequired,
-	toggleSidebarFunc: PropTypes.func,
 };

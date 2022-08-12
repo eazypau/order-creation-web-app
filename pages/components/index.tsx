@@ -22,7 +22,7 @@ const tableHeader = [
 
 const dummyOrders = [
   {
-    orderNumber: 1,
+    orderNumber: "#1",
     customerName: "Jennifer",
     items: [
       {
@@ -38,7 +38,7 @@ const dummyOrders = [
     status: "unfulfilled",
   },
   {
-    orderNumber: 2,
+    orderNumber: "#2",
     customerName: "Jennifer",
     items: [
       {
@@ -54,7 +54,7 @@ const dummyOrders = [
     status: "unfulfilled",
   },
   {
-    orderNumber: 3,
+    orderNumber: "#3",
     customerName: "Jennifer",
     items: [
       {

@@ -1,7 +1,15 @@
 import clsx from "clsx";
 import React from "react";
-import PropTypes from "prop-types";
-// import PropTypes from "../../node_modules/@types/prop-types/index";
+
+type Props = {
+	hasBorder?: string | boolean,
+	customWidth?: string,
+	name?: string,
+	value?: string | number,
+	onChange?: (e?: any) => void,
+	type?: "text" | "number",
+	placeholder?: string
+}
 
 // need flexible width class edit
 export const InputField = ({
@@ -12,7 +20,7 @@ export const InputField = ({
 	onChange,
 	type = "text",
 	placeholder = "Enter text here",
-}) => {
+}: Props) => {
 	const baseClassName = "w-full p-3 text-sm border-gray-200 rounded-lg";
 	const width = "w-full"; // default width
 	const style = clsx(hasBorder && "border", baseClassName);
@@ -32,14 +40,4 @@ export const InputField = ({
 			/>
 		</div>
 	);
-};
-
-InputField.prototype = {
-	hasBorder: PropTypes.bool,
-	customWidth: PropTypes.string,
-	name: PropTypes.string,
-	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  	onChange: PropTypes.func,
-	type: PropTypes.oneOf(["text", "number"]),
-	placeholder: PropTypes.string,
 };
