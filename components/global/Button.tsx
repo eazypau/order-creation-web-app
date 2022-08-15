@@ -41,11 +41,3 @@ export const Button = ({
 		</button>
 	);
 };
-
-// Button.prototype= {
-// 	variant: PropTypes.string,
-// 	customBorder: PropTypes.string,
-// 	customColor: PropTypes.string,
-// 	customWidth: PropTypes.string,
-// 	onClick: PropTypes.func,
-// }

@@ -3,17 +3,35 @@ import { Button } from "../global/Button";
 import { InputField } from "./InputField";
 import { SelectBox } from "./SelectBox";
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
+import { Order } from "../../types/Order";
+import { useEffect } from "react";
 
 type Props = {
-	data?: object, // set to optional for now, will remove "?" when going to production
-	toggleSidebarFunc?: () => void
-}
+	data?: Order; // set to optional for now, will remove "?" when going to production
+	toggleSidebarFunc?: () => void;
+};
 
 export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
-	const [inputValue, setInputValue] = useState([]);
+	const [inputValue, setInputValue] = useState<Order>({
+		orderNumber: "",
+		customerName: "",
+		items: [],
+		totalPrice: 0,
+		status: "",
+	});
+
+	useEffect(() => {
+		setInputValue(data);
+	}, [data]);
 
 	const handleChange = (e: Event) => {
 		console.log("update input values....");
+		const { name, value } = e.target;
+		setInputValue((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+		console.log(inputValue);
 	};
 
 	return (
@@ -23,13 +41,19 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
 				<button onClick={toggleSidebarFunc}>
 					<ChevronDoubleRightIcon width={25} height={25} className="hover:opacity-70" />
 				</button>
-				<h5 className="sidebar-heading">Order number</h5>
+				<h5 className="sidebar-heading">{inputValue.orderNumber}</h5>
 			</div>
 			<div>
 				<form>
 					<div className="mb-2">
-						<label>Customer name:</label>
-						<InputField hasBorder={true} type="text" placeholder="Enter name here" />
+						<label htmlFor="customerName">Customer name:</label>
+						<InputField
+							hasBorder={true}
+							type="text"
+							name="customerName"
+							placeholder="Enter name here"
+							value={inputValue.customerName}
+						/>
 					</div>
 					<label>List of items</label>
 					<div className="mb-5 space-y-2">
@@ -44,24 +68,6 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
 								onChange={handleChange}
 							/>
 						</div>
-						{/* <div className="flex gap-2">
-              <SelectBox />
-              <InputField
-                hasBorder
-                type="number"
-                placeholder="0"
-                customWidth="w-24"
-              />
-            </div>
-            <div className="flex gap-2">
-              <SelectBox />
-              <InputField
-                hasBorder
-                type="number"
-                placeholder="0"
-                customWidth="w-24"
-              />
-            </div> */}
 					</div>
 					<div className="flex justify-end">
 						<Button customColor="bg-green-500 hover:bg-transparent">Done</Button>

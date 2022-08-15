@@ -1,17 +1,7 @@
 import React from "react";
 import { Button } from "../global/Button";
 import { CheckIcon } from "@heroicons/react/solid";
-
-type Order = {
-	orderNumber: string;
-	customerName: string;
-	items: {
-    itemName: string,
-    quantity: number
-  }[];
-	totalPrice: number;
-	status: string;
-};
+import { Order } from "../../types/Order";
 
 type Props = {
 	tableHeader: string[];

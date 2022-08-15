@@ -39,7 +39,7 @@ const dummyOrders = [
 	},
 	{
 		orderNumber: "#2",
-		customerName: "Jennifer",
+		customerName: "Joel",
 		items: [
 			{
 				itemName: "Dou Sha Bing",
@@ -55,7 +55,7 @@ const dummyOrders = [
 	},
 	{
 		orderNumber: "#3",
-		customerName: "Jennifer",
+		customerName: "Nicholas",
 		items: [
 			{
 				itemName: "Dou Sha Bing",
@@ -73,14 +73,25 @@ const dummyOrders = [
 
 export default function Home() {
 	const [showSideBar, setShowSideBar] = useState(false);
-	const [orderDetails, setOrderDetails] = useState({});
+	const [orderDetails, setOrderDetails] = useState({
+		orderNumber: "",
+		customerName: "",
+		items: [],
+		totalPrice: 0,
+		status: "",
+	});
 
+	/**
+	 * Update order status by ID
+	 *
+	 * @param {string} id
+	 */
 	const updateOrderStatus = (id: string) => {
 		console.log("update order status");
 	};
 
-	const openSideBar = (orderNumber: string) => {
-		const findOrder = dummyOrders.find((order) => order.orderNumber);
+	const passDataToSideBar = (orderNumber: string) => {
+		const findOrder = dummyOrders.find((order) => order.orderNumber === orderNumber);
 		setOrderDetails(findOrder);
 		setShowSideBar(true);
 	};
@@ -93,7 +104,7 @@ export default function Home() {
 					<Table
 						tableHeader={tableHeader}
 						tableContent={dummyOrders}
-						toggleSidebarFunc={openSideBar}
+						toggleSidebarFunc={passDataToSideBar}
 						updateOrderStatus={updateOrderStatus}
 					/>
 					{showSideBar && (
