@@ -9,7 +9,7 @@
 }
 
 .sidebar-heading {
-    @apply font-semibold text-2xl
+    @apply font-bold text-lg lg:text-2xl pb-0.5 lg:pb-1
 }
 
 .table-row-style {

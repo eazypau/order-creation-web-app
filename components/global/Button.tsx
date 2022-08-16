@@ -1,6 +1,14 @@
 import clsx from "clsx";
 import React from "react";
-import PropTypes from "prop-types";
+
+type Props = {
+	variant?: string,
+	customColor?: string,
+	customBorder?: string,
+	customWidth?: string,
+	onClick?: () => void,
+	children: JSX.Element | string
+}
 
 export const Button = ({
 	variant = "primary",
@@ -9,9 +17,9 @@ export const Button = ({
 	customWidth,
 	onClick,
 	children,
-}) => {
+}: Props) => {
 	const baseClassName = "inline-block text-sm font-medium focus:outline-none focus:ring";
-	const width = "w-auto px-12 py-3";
+	const width = "w-auto px-7 lg:px-12 py-1.5 lg:py-3";
 	const border = "border border-indigo-600 rounded";
 	const variants = {
 		primary:
@@ -33,11 +41,3 @@ export const Button = ({
 		</button>
 	);
 };
-
-Button.prototype= {
-	variant: PropTypes.string,
-	customBorder: PropTypes.string,
-	customColor: PropTypes.string,
-	customWidth: PropTypes.string,
-	onClick: PropTypes.func,
-}

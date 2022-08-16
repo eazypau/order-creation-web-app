@@ -1,12 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Button } from "../global/Button";
 import { CheckIcon } from "@heroicons/react/solid";
+import { Order } from "../../types/Order";
 
-export const Table = ({ tableHeader, tableContent, toggleSidebarFunc, updateOrderStatus }) => {
+type Props = {
+	tableHeader: string[];
+	tableContent: Order[];
+	toggleSidebarFunc?: (orderId?: string) => void;
+	updateOrderStatus?: (orderId?: string) => void;
+};
+
+export const Table = ({
+	tableHeader,
+	tableContent,
+	toggleSidebarFunc,
+	updateOrderStatus,
+}: Props) => {
 	return (
 		<div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-			<table className="w-max lg:w-full text-sm text-left text-gray-500 dark:text-gray-400">
+			<table className="w-max md:w-full text-sm text-left text-gray-500 dark:text-gray-400">
 				<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 					<tr>
 						{tableHeader.map((column) => {
@@ -30,6 +42,13 @@ export const Table = ({ tableHeader, tableContent, toggleSidebarFunc, updateOrde
 									</th>
 								);
 							}
+							if (column === "Status") {
+								return (
+									<th scope="col" className="hidden lg:block py-3 px-6" key={column}>
+										{column}
+									</th>
+								)
+							}
 							return (
 								<th scope="col" className="py-3 px-6" key={column}>
 									{column}
@@ -42,7 +61,7 @@ export const Table = ({ tableHeader, tableContent, toggleSidebarFunc, updateOrde
 					{tableContent.map((row) => (
 						<tr className="table-row-style" key={row.orderNumber}>
 							<th
-								onClick={toggleSidebarFunc}
+								onClick={() => toggleSidebarFunc(row.orderNumber)}
 								scope="row"
 								className="item-column-one-style row-general-style"
 							>
@@ -57,7 +76,7 @@ export const Table = ({ tableHeader, tableContent, toggleSidebarFunc, updateOrde
 								))}
 							</td>
 							<td className="row-general-style">${row.totalPrice}</td>
-							<td className="row-general-style">${row.status}</td>
+							<td className="row-general-style hidden lg:block">{row.status}</td>
 							<td className="row-general-style text-right">
 								<Button customWidth="py-1 px-3" onClick={updateOrderStatus}>
 									<CheckIcon width={15} height={15} />
@@ -69,11 +88,4 @@ export const Table = ({ tableHeader, tableContent, toggleSidebarFunc, updateOrde
 			</table>
 		</div>
 	);
-};
-
-Table.prototype = {
-	tableHeader: PropTypes.array,
-	tableContent: PropTypes.array,
-	toggleSidebarFunc: PropTypes.func,
-	updateOrderStatus: PropTypes.func,
 };

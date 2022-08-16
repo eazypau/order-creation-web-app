@@ -22,11 +22,11 @@ const tableHeader = [
 
 const dummyOrders = [
 	{
-		orderNumber: 1,
+		orderNumber: "#1",
 		customerName: "Jennifer",
 		items: [
 			{
-				itemName: "Dou Sha Bing",
+				itemName: "Dou Sa Bing",
 				quantity: 1,
 			},
 			{
@@ -35,14 +35,14 @@ const dummyOrders = [
 			},
 		],
 		totalPrice: 32,
-		status: "unfulfilled",
+		status: "unfulfill",
 	},
 	{
-		orderNumber: 2,
-		customerName: "Jennifer",
+		orderNumber: "#2",
+		customerName: "Joel",
 		items: [
 			{
-				itemName: "Dou Sha Bing",
+				itemName: "Dou Sa Bing",
 				quantity: 1,
 			},
 			{
@@ -50,15 +50,15 @@ const dummyOrders = [
 				quantity: 10,
 			},
 		],
-		totalPrice: 32,
-		status: "unfulfilled",
+		totalPrice: 40,
+		status: "fulfilled",
 	},
 	{
-		orderNumber: 3,
-		customerName: "Jennifer",
+		orderNumber: "#3",
+		customerName: "Nicholas",
 		items: [
 			{
-				itemName: "Dou Sha Bing",
+				itemName: "Dou Sa Bing",
 				quantity: 1,
 			},
 			{
@@ -67,20 +67,32 @@ const dummyOrders = [
 			},
 		],
 		totalPrice: 32,
-		status: "unfulfilled",
+		status: "unfulfill",
 	},
 ];
 
 export default function Home() {
 	const [showSideBar, setShowSideBar] = useState(false);
+	const [orderDetails, setOrderDetails] = useState({
+		orderNumber: "",
+		customerName: "",
+		items: [],
+		totalPrice: 0,
+		status: "",
+	});
 
-	const updateOrderStatus = (id) => {
+	/**
+	 * Update order status by ID
+	 *
+	 * @param {string} id
+	 */
+	const updateOrderStatus = (id: string) => {
 		console.log("update order status");
 	};
 
-	const openSideBar = () => {
-		console.log("pass data to sidebar...");
-		console.log("open side bar");
+	const passDataToSideBar = (orderNumber: string) => {
+		const findOrder = dummyOrders.find((order) => order.orderNumber === orderNumber);
+		setOrderDetails(findOrder);
 		setShowSideBar(true);
 	};
 
@@ -92,10 +104,12 @@ export default function Home() {
 					<Table
 						tableHeader={tableHeader}
 						tableContent={dummyOrders}
-						toggleSidebarFunc={openSideBar}
+						toggleSidebarFunc={passDataToSideBar}
 						updateOrderStatus={updateOrderStatus}
 					/>
-					{showSideBar && <Sidebar toggleSidebarFunc={() => setShowSideBar(false)} />}
+					{showSideBar && (
+						<Sidebar data={orderDetails} toggleSidebarFunc={() => setShowSideBar(false)} />
+					)}
 				</div>
 			</div>
 			<Footer />

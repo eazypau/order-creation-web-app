@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
@@ -8,14 +8,25 @@ const people = [
   { name: 'Yue Bing' },
 ]
 
+type Props = {
+  customWidth?: string,
+  value: string,
+  onChange?: (e?:any) => void,
+}
+
 // need flexible width class edit
 
-export const SelectBox = () => {
+export const SelectBox = ({customWidth = "", value, onChange}: Props) => {
+  const width = "w-full" // default width
   const [selected, setSelected] = useState(people[0])
 
+  useEffect(() => {
+    setSelected(people.find(item => item.name === value))
+  }, [value])
+  
   return (
-    <div className="w-full">
-      <Listbox value={selected} onChange={setSelected}>
+    <div className={customWidth ? customWidth : width}>
+      <Listbox value={selected} onChange={onChange}>
         <div className="relative h-full">
           <Listbox.Button className="relative w-full h-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="block truncate">{selected.name}</span>
