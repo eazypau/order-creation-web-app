@@ -19,7 +19,7 @@ export const Button = ({
 	children,
 }: Props) => {
 	const baseClassName = "inline-block text-sm font-medium focus:outline-none focus:ring";
-	const width = "w-auto px-12 py-3";
+	const width = "w-auto px-7 lg:px-12 py-1.5 lg:py-3";
 	const border = "border border-indigo-600 rounded";
 	const variants = {
 		primary:

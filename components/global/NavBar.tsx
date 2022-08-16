@@ -1,8 +1,15 @@
-import React from "react";
-import Image from "next/image";
+import React, { useState } from "react";
+// import Image from "next/image";
 import Link from "next/link";
 
 export const NavBar = () => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const togglMenu = () => {
+		if (isOpen) setIsOpen(false);
+		else setIsOpen(true);
+	};
+
 	return (
 		<nav className="bg-white shadow dark:bg-gray-800 sticky top-0 z-50">
 			<div className="container px-6 py-4 mx-auto">
@@ -16,6 +23,7 @@ export const NavBar = () => {
 								type="button"
 								className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
 								aria-label="toggle menu"
+								onClick={togglMenu}
 							>
 								<svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
 									<path
@@ -26,35 +34,22 @@ export const NavBar = () => {
 							</button>
 						</div>
 					</div>
-					<div className="flex-1 md:flex md:items-center md:justify-between">
-						<div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
+					<div className="flex-1 md:flex md:items-center md:justify-between mt-2 lg:mt-0">
+						<div
+							className={
+								(isOpen ? "" : "hidden") +
+								" md:flex flex-col -mx-4 md:flex-row md:items-center md:mx-8"
+							}
+						>
 							<a
 								href="/components"
 								className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
 							>
 								Components
 							</a>
-							<a
-								href="#"
-								className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
-							>
-								Browse Topics
-							</a>
-							<a
-								href="#"
-								className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
-							>
-								Random Item
-							</a>
-							<a
-								href="#"
-								className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
-							>
-								Experts
-							</a>
 						</div>
 
-						<div className="flex items-center mt-4 md:mt-0">
+						{/* <div className="flex items-center mt-4 md:mt-0">
 							<button
 								className="hidden mx-4 text-gray-600 transition-colors duration-200 transform md:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
 								aria-label="show notifications"
@@ -81,20 +76,20 @@ export const NavBar = () => {
 								aria-label="toggle profile dropdown"
 							>
 								<div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
-									{/* <Image
+									<Image
 										src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
 										className="object-cover w-full h-full"
 										alt="avatar"
                                         width={100}
                                         height={100}
-									/> */}
+									/>
 								</div>
 
 								<h3 className="mx-2 text-sm font-medium text-gray-700 dark:text-gray-200 md:hidden">
 									Khatab wedaa
 								</h3>
 							</button>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

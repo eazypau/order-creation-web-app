@@ -7,6 +7,7 @@ type Props = {
 	name?: string,
 	value?: string | number,
 	onChange?: (e?: any) => void,
+	customTextAlign?: string,
 	type?: "text" | "number",
 	placeholder?: string
 }
@@ -18,12 +19,14 @@ export const InputField = ({
 	name,
 	value,
 	onChange,
+	customTextAlign,
 	type = "text",
 	placeholder = "Enter text here",
 }: Props) => {
-	const baseClassName = "w-full p-3 text-sm border-gray-200 rounded-lg";
+	const baseClassName = "w-full p-1.5 lg:p-3 text-sm border-gray-200 rounded-lg";
 	const width = "w-full"; // default width
-	const style = clsx(hasBorder && "border", baseClassName);
+	const textAlign = "text-left" // defaul alignment
+	const style = clsx(hasBorder && "border", textAlign && customTextAlign, baseClassName);
 
 	return (
 		<div className={width && customWidth}>

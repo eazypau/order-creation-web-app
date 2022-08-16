@@ -26,7 +26,7 @@ const dummyOrders = [
 		customerName: "Jennifer",
 		items: [
 			{
-				itemName: "Dou Sha Bing",
+				itemName: "Dou Sa Bing",
 				quantity: 1,
 			},
 			{
@@ -35,14 +35,14 @@ const dummyOrders = [
 			},
 		],
 		totalPrice: 32,
-		status: "unfulfilled",
+		status: "unfulfill",
 	},
 	{
 		orderNumber: "#2",
 		customerName: "Joel",
 		items: [
 			{
-				itemName: "Dou Sha Bing",
+				itemName: "Dou Sa Bing",
 				quantity: 1,
 			},
 			{
@@ -51,14 +51,14 @@ const dummyOrders = [
 			},
 		],
 		totalPrice: 40,
-		status: "unfulfilled",
+		status: "fulfilled",
 	},
 	{
 		orderNumber: "#3",
 		customerName: "Nicholas",
 		items: [
 			{
-				itemName: "Dou Sha Bing",
+				itemName: "Dou Sa Bing",
 				quantity: 1,
 			},
 			{
@@ -67,7 +67,7 @@ const dummyOrders = [
 			},
 		],
 		totalPrice: 32,
-		status: "unfulfilled",
+		status: "unfulfill",
 	},
 ];
 

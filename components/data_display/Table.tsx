@@ -18,7 +18,7 @@ export const Table = ({
 }: Props) => {
 	return (
 		<div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-			<table className="w-max lg:w-full text-sm text-left text-gray-500 dark:text-gray-400">
+			<table className="w-max md:w-full text-sm text-left text-gray-500 dark:text-gray-400">
 				<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 					<tr>
 						{tableHeader.map((column) => {
@@ -41,6 +41,13 @@ export const Table = ({
 										</div>
 									</th>
 								);
+							}
+							if (column === "Status") {
+								return (
+									<th scope="col" className="hidden lg:block py-3 px-6" key={column}>
+										{column}
+									</th>
+								)
 							}
 							return (
 								<th scope="col" className="py-3 px-6" key={column}>
@@ -69,7 +76,7 @@ export const Table = ({
 								))}
 							</td>
 							<td className="row-general-style">${row.totalPrice}</td>
-							<td className="row-general-style">{row.status}</td>
+							<td className="row-general-style hidden lg:block">{row.status}</td>
 							<td className="row-general-style text-right">
 								<Button customWidth="py-1 px-3" onClick={updateOrderStatus}>
 									<CheckIcon width={15} height={15} />
