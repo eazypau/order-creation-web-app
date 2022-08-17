@@ -12,7 +12,7 @@ import { Sidebar } from "../components/forms/Sidebar";
 // import styles from "../styles/Home.module.css";
 
 const tableHeader = [
-    	"Order No.",
+    "Order No.",
     "Customer Name",
     "Items",
     "Total Price (RM)",

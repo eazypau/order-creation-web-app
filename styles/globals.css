@@ -9,17 +9,17 @@
 }
 
 .sidebar-heading {
-    @apply font-bold text-lg lg:text-2xl pb-0.5 lg:pb-1
+    @apply font-bold text-lg lg:text-2xl pb-0.5 lg:pb-1;
 }
 
 .table-row-style {
-    @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700
+    @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700;
 }
 
 .item-column-one-style {
-    @apply font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer
+    @apply font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer;
 }
 
 .row-general-style {
-    @apply py-4 px-6 align-top
+    @apply py-4 px-6 align-top;
 }
