@@ -9,3 +9,26 @@ datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
+
+model OrderItem {
+  id            Int         @id @default(autoincrement())
+  name          String
+  quantity      Int
+  order         OrderList   @relation(fields: [orderId], references: [id])
+  orderId       Int
+}
+
+model OrderList {
+  id            Int         @id @default(autoincrement())
+  customerName  String
+  items         OrderItem[]
+  totalPrice    Int
+  status        String
+}
+
+model ProductList {
+  id            Int         @id @default(autoincrement())
+  name          String
+  price         Int
+  active        Boolean     @default(false)
+}
