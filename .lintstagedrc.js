@@ -16,4 +16,12 @@ module.exports = {
       'tsc --noEmit',
       'eslint --fix'
     ],
+    'server/*.ts': () => [
+      'tsc --noEmit',
+      'eslint --fix'
+    ],
+    'utils/*.ts': () => [
+      'tsc --noEmit',
+      'eslint --fix'
+    ],
 };

@@ -3,23 +3,20 @@ import { z } from "zod";
 
 import { Context } from "./context";
 
-export const serverRouter = trpc
-    .router<Context>()
-    .query("findAll", {
+const createRouter = () => {
+    return trpc.router<Context>();
+};
+
+const orders = createRouter()
+    // the first param is the route naming
+    .query("findAllOrders", {
         resolve: async ({ ctx }) => {
             return await ctx.prisma.orderList.findMany();
         },
     })
-    .mutation("insertOne", {
+    .mutation("createOrder", {
         input: z.object({
             customerName: z.string(),
-            items: z
-                .object({
-                    name: z.string(),
-                    quantity: z.number(),
-                    orderId: z.number(),
-                })
-                .array(),
             totalPrice: z.number(),
             status: z.string(),
         }),
@@ -27,14 +24,29 @@ export const serverRouter = trpc
             return await ctx.prisma.orderList.create({
                 data: {
                     customerName: input.customerName,
-                    items: input.items,
                     totalPrice: input.totalPrice,
                     status: input.status,
                 },
             });
         },
     })
-    .mutation("updateOne", {
+    .mutation("createOrderItem", {
+        input: z.object({
+            name: z.string(),
+            quantity: z.number(),
+            orderId: z.number(),
+        }),
+        resolve: async ({ input, ctx }) => {
+            return await ctx.prisma.orderItem.create({
+                data: {
+                    name: input.name,
+                    quantity: input.quantity,
+                    order: { connect: { id: input.orderId } }, // for relational models
+                },
+            });
+        },
+    })
+    .mutation("updateOneOrder", {
         input: z.object({
             id: z.number(),
             customerName: z.string(),
@@ -56,7 +68,7 @@ export const serverRouter = trpc
             });
         },
     })
-    .mutation("deleteOne", {
+    .mutation("deleteOneOrder", {
         input: z.object({
             id: z.number(),
         }),
@@ -66,6 +78,58 @@ export const serverRouter = trpc
             });
         },
     });
-// still got more needed for Product list and maybe OrderItem
 
-export type ServerRouter = typeof serverRouter;
+const products = createRouter()
+    .query("findAllProducts", {
+        resolve: async ({ ctx }) => {
+            return await ctx.prisma.productList.findMany();
+        },
+    })
+    .mutation("createProduct", {
+        input: z.object({
+            name: z.string(),
+            price: z.number(),
+            active: z.boolean(),
+        }),
+        resolve: async ({ input, ctx }) => {
+            return await ctx.prisma.productList.create({
+                data: {
+                    name: input.name,
+                    price: input.price,
+                    active: input.active,
+                },
+            });
+        },
+    })
+    .mutation("updateProduct", {
+        input: z.object({
+            name: z.string(),
+            price: z.number(),
+            active: z.boolean(),
+        }),
+        resolve: async ({ input, ctx }) => {
+            return await ctx.prisma.productList.create({
+                data: {
+                    name: input.name,
+                    price: input.price,
+                    active: input.active,
+                },
+            });
+        },
+    })
+    .mutation("deleteProduct", {
+        input: z.object({
+            id: z.number(),
+        }),
+        resolve: async ({ input, ctx }) => {
+            return await ctx.prisma.productList.delete({
+                where: { ...input },
+            });
+        },
+    });
+
+export const appRouter = createRouter()
+    .merge("orders.", orders)
+    .merge("products.", products);
+
+export type ServerRouter = typeof appRouter;
