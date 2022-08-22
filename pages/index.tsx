@@ -8,6 +8,9 @@ import { Table } from "../components/data_display/Table";
 import { Button } from "../components/global/Button";
 // import { InputField } from "../components/forms/InputField";
 import { Sidebar } from "../components/forms/Sidebar";
+import { useRouter } from "next/router";
+import en from "../locales/en";
+import cn from "../locales/cn";
 // import { SelectBox } from "../components/forms/SelectBox";
 // import styles from "../styles/Home.module.css";
 
@@ -72,6 +75,9 @@ const dummyOrders = [
 ];
 
 export default function Home() {
+    let router = useRouter();
+    let t = router.locale === "en" ? en : cn;
+
     const [showSideBar, setShowSideBar] = useState(false);
     const [orderDetails, setOrderDetails] = useState({
         orderNumber: "",
@@ -104,7 +110,14 @@ export default function Home() {
             <div className="relative">
                 <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
                     <Table
-                        tableHeader={tableHeader}
+                        tableHeader={[
+                            t.orderNumber,
+                            t.customerName,
+                            t.items,
+                            t.totalPrice,
+                            t.status,
+                            "",
+                        ]}
                         tableContent={dummyOrders}
                         toggleSidebarFunc={passDataToSideBar}
                         updateOrderStatus={updateOrderStatus}

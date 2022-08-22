@@ -46,7 +46,7 @@ export const Table = ({
                                     </th>
                                 );
                             }
-                            if (column === "Status") {
+                            if (column === "Status" || column === "状态") {
                                 return (
                                     <th
                                         scope="col"
