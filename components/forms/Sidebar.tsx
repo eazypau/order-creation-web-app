@@ -5,6 +5,9 @@ import { SelectBox } from "./SelectBox";
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { Order } from "../../types/Order";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import en from "../../locales/en";
+import cn from "../../locales/cn";
 
 type Props = {
     data?: Order; // set to optional for now, will remove "?" when going to production
@@ -12,6 +15,8 @@ type Props = {
 };
 
 export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
+    let router = useRouter();
+    let t = router.locale === "en" ? en : cn;
     const [inputValue, setInputValue] = useState<Order>({
         orderNumber: "",
         customerName: "",
@@ -100,7 +105,7 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
                             htmlFor="customerName"
                             className="pl-1 font-semibold text-sm lg:font-base"
                         >
-                            Customer name:
+                            {t.customerName}:
                         </label>
                         <InputField
                             hasBorder={true}
@@ -112,7 +117,7 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
                         />
                     </div>
                     <label className="pl-1 font-semibold text-sm lg:font-base">
-                        List of items
+                        {t.listOfItems}
                     </label>
                     <div className="mb-5 space-y-2">
                         {inputValue.items.map((item, index) => (
@@ -140,8 +145,8 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
                         ))}
                     </div>
                     <div className="flex justify-end">
-                        <Button customColor="bg-green-500 hover:bg-transparent">
-                            Done
+                        <Button customColor="bg-green-500 hover:bg-transparent capitalize">
+                            {t.update}
                         </Button>
                     </div>
                 </form>
