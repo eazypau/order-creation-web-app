@@ -76,13 +76,23 @@ export default function Home() {
 
     return (
         <div className="bg-slate-200 flex flex-col justify-between">
-            <NavBar />
+            <NavBar
+                toggleSidebarToCreate={() => {
+                    console.log("toggled");
+                }}
+            />
             <div className="relative">
                 <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
                     <p>Table</p>
                     <Table
                         tableHeader={tableHeader}
                         tableContent={dummyOrders}
+                        toggleSidebarFunc={(e) => {
+                            console.log("toggled");
+                        }}
+                        updateOrderStatus={(e) => {
+                            console.log("toggled");
+                        }}
                     />
                     <div className="pt-4">
                         <p>Pagination</p>
@@ -90,18 +100,33 @@ export default function Home() {
                     </div>
                     <div className="pt-4">
                         <p>Button</p>
-                        <Button>Confirm</Button>
+                        <Button
+                            onClick={() => {
+                                console.log("clicked");
+                            }}
+                        >
+                            Confirm
+                        </Button>
                     </div>
                     <div className="pt-4">
                         <p>Text Input</p>
-                        <InputField value="something" />
+                        <InputField min="1" value="something" />
                     </div>
                     <div className="pt-4">
-                        <Sidebar />
+                        <Sidebar
+                            createOrderFunc={(e) => {
+                                console.log("toggled");
+                            }}
+                        />
                     </div>
                     <div className="pt-4 pb-20">
                         <p>Select Box</p>
-                        <SelectBox value="Dou Sa Bing" />
+                        <SelectBox
+                            value="Dou Sa Bing"
+                            onChange={(e) => {
+                                console.log("do nothing");
+                            }}
+                        />
                     </div>
                 </div>
             </div>

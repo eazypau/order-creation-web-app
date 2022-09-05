@@ -2,11 +2,11 @@ import clsx from "clsx";
 import React from "react";
 
 type Props = {
-    variant?: string;
+    variant?: "primary" | "secondary" | "inline";
     customColor?: string;
     customBorder?: string;
     customWidth?: string;
-    onClick?: () => void;
+    onClick: (e: any) => void;
     children: JSX.Element | string;
 };
 

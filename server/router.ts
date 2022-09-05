@@ -11,7 +11,14 @@ const orders = createRouter()
     // the first param is the route naming
     .query("findAllOrders", {
         resolve: async ({ ctx }) => {
-            return await ctx.prisma.orderList.findMany();
+            return await ctx.prisma.orderList.findMany({
+                include: { items: true },
+            });
+        },
+    })
+    .query("findAllOrderItems", {
+        resolve: async ({ ctx }) => {
+            return await ctx.prisma.orderItem.findMany();
         },
     })
     .mutation("createOrder", {
@@ -46,7 +53,34 @@ const orders = createRouter()
             });
         },
     })
-    .mutation("updateOneOrder", {
+    .mutation("updateOrderItem", {
+        input: z.object({
+            id: z.number(),
+            name: z.string(),
+            quantity: z.number(),
+        }),
+        resolve: async ({ input, ctx }) => {
+            const { id, ...rest } = input;
+            return await ctx.prisma.orderItem.update({
+                where: { id },
+                data: {
+                    name: input.name,
+                    quantity: input.quantity,
+                },
+            });
+        },
+    })
+    .mutation("deleteOrderItem", {
+        input: z.object({
+            id: z.number(),
+        }),
+        resolve: async ({ input, ctx }) => {
+            await ctx.prisma.orderItem.delete({
+                where: { ...input },
+            });
+        },
+    })
+    .mutation("updateOrder", {
         input: z.object({
             id: z.number(),
             customerName: z.string(),
@@ -68,7 +102,7 @@ const orders = createRouter()
             });
         },
     })
-    .mutation("deleteOneOrder", {
+    .mutation("deleteOrder", {
         input: z.object({
             id: z.number(),
         }),

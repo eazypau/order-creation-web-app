@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
-const people = [
+const productList = [
     { name: "Dou Sa Bing" },
     { name: "Xiang Bing" },
     { name: "Yue Bing" },
@@ -11,17 +11,23 @@ const people = [
 type Props = {
     customWidth?: string;
     value: string;
-    onChange?: (e?: any) => void;
+    onChange: (e?: any) => void;
 };
 
 // need flexible width class edit
 
 export const SelectBox = ({ customWidth = "", value, onChange }: Props) => {
     const width = "w-full"; // default width
-    const [selected, setSelected] = useState(people[0]);
+    const [selected, setSelected] = useState(productList[0]);
 
     useEffect(() => {
-        setSelected(people.find((item) => item.name === value));
+        if (!value) setSelected({ name: "" });
+        else {
+            const productFinder = productList.find(
+                (item) => item.name === value
+            );
+            setSelected(productFinder || { name: "" });
+        }
     }, [value]);
 
     return (
@@ -44,7 +50,7 @@ export const SelectBox = ({ customWidth = "", value, onChange }: Props) => {
                         leaveTo="opacity-0"
                     >
                         <Listbox.Options className="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                            {people.map((person, personIdx) => (
+                            {productList.map((person, personIdx) => (
                                 <Listbox.Option
                                     key={personIdx}
                                     className={({ active }) =>

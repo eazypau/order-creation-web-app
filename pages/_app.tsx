@@ -9,9 +9,10 @@ const App: AppType = ({ Component, pageProps }) => {
 
 export default withTRPC<ServerRouter>({
     config({ ctx }) {
-        const url = process.env.HEROKU_URL
-            ? `https://${process.env.HEROKU_URL}/api/trpc`
-            : "http://localhost:3000/api/trpc";
+        const url =
+            process.env.NODE_ENV === "production"
+                ? `https://${process.env.HEROKU_URL}/api/trpc`
+                : "http://localhost:3000/api/trpc";
 
         return { url };
     },

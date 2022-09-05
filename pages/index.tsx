@@ -1,13 +1,14 @@
 // import Head from "next/head";
 // import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Footer } from "../components/global/Footer";
 import { NavBar } from "../components/global/NavBar";
-import { Pagination } from "../components/data_display/Pagination";
+// import { Pagination } from "../components/data_display/Pagination";
 import { Table } from "../components/data_display/Table";
-import { Button } from "../components/global/Button";
+// import { Button } from "../components/global/Button";
 // import { InputField } from "../components/forms/InputField";
 import { Sidebar } from "../components/forms/Sidebar";
+import { trpc } from "../utils/trpc";
 // import { SelectBox } from "../components/forms/SelectBox";
 // import styles from "../styles/Home.module.css";
 
@@ -71,15 +72,107 @@ const dummyOrders = [
     },
 ];
 
+const dataFormat = {
+    orderNumber: "",
+    customerName: "",
+    items: [
+        {
+            itemName: "",
+            quantity: 1,
+        },
+    ],
+    totalPrice: 0,
+    status: "",
+};
+
 export default function Home() {
     const [showSideBar, setShowSideBar] = useState(false);
     const [orderDetails, setOrderDetails] = useState({
         orderNumber: "",
         customerName: "",
-        items: [],
+        items: [
+            {
+                itemName: "",
+                quantity: 1,
+            },
+        ],
         totalPrice: 0,
         status: "",
     });
+    const [buttonName, setButtonName] = useState<"update" | "create">("update");
+
+    const { data: orderList, refetch } = trpc.useQuery([
+        "orders.findAllOrders",
+    ]);
+
+    const { data: orderItems, refetch: refetchOrderItems } = trpc.useQuery([
+        "orders.findAllOrderItems",
+    ]);
+
+    // console.log("current orderlist: ", orderList);
+    // console.log("order item list: ", orderItems);
+
+    const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
+        onSuccess: () => {
+            refetch();
+        },
+    });
+
+    const createOrderItemMutation = trpc.useMutation(
+        ["orders.createOrderItem"],
+        {
+            onSuccess: () => {
+                console.log("new item is created...");
+                refetch();
+                console.log("updated order list: ", orderList);
+            },
+        }
+    );
+
+    const deleteOrderItemMutation = trpc.useMutation(
+        ["orders.deleteOrderItem"],
+        {
+            onSuccess: () => {
+                console.log("new item is created...");
+                refetch();
+                console.log("updated order list: ", orderList);
+            },
+        }
+    );
+
+    const createOrder = useCallback(
+        (e: Event) => {
+            e.preventDefault();
+            createOrderMutation.mutate({
+                customerName: "Jenn",
+                totalPrice: 0,
+                status: "unfulfill",
+            });
+        },
+        [createOrderMutation]
+    );
+
+    const createOrderItem = useCallback(
+        (e: Event) => {
+            e.preventDefault();
+            createOrderItemMutation.mutate({
+                name: "Dou Sa Bing",
+                quantity: 5,
+                orderId: 1,
+            });
+        },
+        [createOrderItemMutation]
+    );
+
+    const deleteOrderItem = useCallback(
+        (e: Event) => {
+            e.preventDefault();
+            deleteOrderItemMutation.mutate({
+                id: 7,
+            });
+        },
+        [deleteOrderItemMutation]
+    );
 
     /**
      * Update order status by ID
@@ -91,16 +184,36 @@ export default function Home() {
     };
 
     const passDataToSideBar = (orderNumber: string) => {
+        setShowSideBar(false);
         const findOrder = dummyOrders.find(
             (order) => order.orderNumber === orderNumber
         );
-        setOrderDetails(findOrder);
+        setOrderDetails(findOrder || dataFormat);
+        setButtonName("update");
+        setShowSideBar(true);
+    };
+
+    const openCreateOrderSidebar = () => {
+        setShowSideBar(false);
+        setOrderDetails({
+            orderNumber: "Create Order",
+            customerName: "",
+            items: [
+                {
+                    itemName: "",
+                    quantity: 1,
+                },
+            ],
+            totalPrice: 0,
+            status: "unfulfill",
+        });
+        setButtonName("create");
         setShowSideBar(true);
     };
 
     return (
         <div className="bg-slate-200">
-            <NavBar />
+            <NavBar toggleSidebarToCreate={openCreateOrderSidebar} />
             <div className="relative">
                 <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
                     <Table
@@ -113,6 +226,9 @@ export default function Home() {
                         <Sidebar
                             data={orderDetails}
                             toggleSidebarFunc={() => setShowSideBar(false)}
+                            buttonName={buttonName}
+                            process={buttonName}
+                            createOrderFunc={deleteOrderItem}
                         />
                     )}
                 </div>

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 // import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./Button";
+import { PlusIcon } from "@heroicons/react/solid";
 
-export const NavBar = () => {
+type Props = {
+    toggleSidebarToCreate: () => void;
+};
+
+export const NavBar = ({ toggleSidebarToCreate }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const togglMenu = () => {
@@ -49,6 +55,16 @@ export const NavBar = () => {
                                     Components
                                 </a>
                             </Link>
+                        </div>
+                        <div>
+                            <Button
+                                customWidth="py-2 px-5"
+                                onClick={toggleSidebarToCreate}
+                            >
+                                <span className="flex items-center gap-1">
+                                    <PlusIcon className="w-4" /> Create Order
+                                </span>
+                            </Button>
                         </div>
 
                         {/* <div className="flex items-center mt-4 md:mt-0">

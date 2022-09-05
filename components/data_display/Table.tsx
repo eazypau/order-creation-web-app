@@ -6,8 +6,8 @@ import { Order } from "../../types/Order";
 type Props = {
     tableHeader: string[];
     tableContent: Order[];
-    toggleSidebarFunc?: (orderId?: string) => void;
-    updateOrderStatus?: (orderId?: string) => void;
+    toggleSidebarFunc: (orderId: string) => void;
+    updateOrderStatus: (orderId: string) => void;
 };
 
 export const Table = ({
