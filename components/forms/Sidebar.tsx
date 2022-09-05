@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button } from "../global/Button";
 import { InputField } from "./InputField";
 import { SelectBox } from "./SelectBox";
-import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
+import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/solid";
 import { Order } from "../../types/Order";
 import { useEffect } from "react";
+import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
 import en from "../../locales/en";
 import cn from "../../locales/cn";
@@ -12,9 +13,18 @@ import cn from "../../locales/cn";
 type Props = {
     data?: Order; // set to optional for now, will remove "?" when going to production
     toggleSidebarFunc?: () => void;
+    buttonName?: string;
+    process?: "create" | "update";
+    createOrderFunc: (e: Event) => void;
 };
 
-export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
+export const Sidebar = ({
+    data,
+    toggleSidebarFunc,
+    buttonName = "update",
+    process = "update",
+    createOrderFunc,
+}: Props) => {
     let router = useRouter();
     let t = router.locale === "en" ? en : cn;
     const [inputValue, setInputValue] = useState<Order>({
@@ -37,7 +47,7 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
             });
     }, [data]);
 
-    const handleChange = (e: any, index?: number) => {
+    const handleChange = (e: any, index: number) => {
         if (index >= 0) {
             let previousInput = { ...inputValue };
             let items = previousInput.items;
@@ -58,7 +68,7 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
     };
 
     const handleSelectChange = (e: any, index: number) => {
-        console.log(e);
+        // console.log(e);
         const { name } = e;
         let previousInput = { ...inputValue };
         let items = previousInput.items;
@@ -66,6 +76,20 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
             ...items[index],
             itemName: name,
         };
+        setInputValue((prev) => ({
+            ...prev,
+            items: items,
+        }));
+    };
+
+    const handleCreateNewItem = (e: Event) => {
+        e.preventDefault();
+        const previousInput = { ...inputValue };
+        let items = previousInput.items;
+        items.push({
+            itemName: "",
+            quantity: 1,
+        });
         setInputValue((prev) => ({
             ...prev,
             items: items,
@@ -113,7 +137,8 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
                             name="customerName"
                             placeholder="Enter name here"
                             value={inputValue.customerName}
-                            onChange={handleChange}
+                            onChange={(e) => handleSelectChange(e, -1)}
+                            min="1"
                         />
                     </div>
                     <label className="pl-1 font-semibold text-sm lg:font-base">
@@ -139,14 +164,26 @@ export const Sidebar = ({ data, toggleSidebarFunc }: Props) => {
                                     customTextAlign="text-center"
                                     name={inputValue.orderNumber + "-" + index}
                                     value={item.quantity}
+                                    min="1"
                                     onChange={(e) => handleChange(e, index)}
                                 />
                             </div>
                         ))}
+                        <Button
+                            customWidth="px-3 py-1"
+                            onClick={handleCreateNewItem}
+                        >
+                            <span className="flex items-center gap-1">
+                                <PlusIcon className="w-4" /> Item
+                            </span>
+                        </Button>
                     </div>
                     <div className="flex justify-end">
-                        <Button customColor="bg-green-500 hover:bg-transparent capitalize">
-                            {t.update}
+                        <Button
+                            customColor="bg-green-500 hover:bg-transparent"
+                            onClick={createOrderFunc}
+                        >
+                            {buttonName}
                         </Button>
                     </div>
                 </form>

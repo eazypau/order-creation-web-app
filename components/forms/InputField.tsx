@@ -10,6 +10,7 @@ type Props = {
     customTextAlign?: string;
     type?: "text" | "number";
     placeholder?: string;
+    min: string;
 };
 
 // need flexible width class edit
@@ -21,6 +22,7 @@ export const InputField = ({
     onChange,
     customTextAlign,
     type = "text",
+    min = "1",
     placeholder = "Enter text here",
 }: Props) => {
     const baseClassName =
@@ -45,6 +47,7 @@ export const InputField = ({
                 name={name}
                 value={value}
                 onChange={onChange}
+                min={min}
             />
         </div>
     );

@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 // import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./Button";
+import { PlusIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import en from "../../locales/en";
 import cn from "../../locales/cn";
 
-export const NavBar = () => {
-    let router = useRouter();
-    let t = router.locale === "en" ? en : cn;
+type Props = {
+    toggleSidebarToCreate: () => void;
+};
 
+export const NavBar = ({ toggleSidebarToCreate }: Props) => {
+    let router: any = useRouter();
+    let t = router.locale === "en" ? en : cn;
     const [isOpen, setIsOpen] = useState(false);
     const [isLangOpen, setIsLangOpen] = useState(false);
 
@@ -42,7 +47,7 @@ export const NavBar = () => {
                                 </button>
                                 {isLangOpen ? (
                                     <ul className="absolute left-0 top-0 mt-9 w-full bg-white shadow">
-                                        {router.locales.map((locale) => (
+                                        {router.locales.map((locale: any) => (
                                             <li
                                                 key={locale}
                                                 className="w-full text-sm font-medium uppercase text-gray-700 transition-colors duration-200 transform md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
@@ -100,6 +105,16 @@ export const NavBar = () => {
                                 </a>
                             </Link>
                         </div>
+                        <div>
+                            <Button
+                                customWidth="py-2 px-5"
+                                onClick={toggleSidebarToCreate}
+                            >
+                                <span className="flex items-center gap-1">
+                                    <PlusIcon className="w-4" /> Create Order
+                                </span>
+                            </Button>
+                        </div>
 
                         <div className="relative w-14 hidden md:block">
                             <button
@@ -111,7 +126,7 @@ export const NavBar = () => {
                             </button>
                             {isLangOpen ? (
                                 <ul className="absolute left-0 top-0 mt-9 w-full bg-white shadow">
-                                    {router.locales.map((locale) => (
+                                    {router.locales.map((locale: any) => (
                                         <li
                                             key={locale}
                                             className="w-full text-sm font-medium uppercase text-gray-700 transition-colors duration-200 transform md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"

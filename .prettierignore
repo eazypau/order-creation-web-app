@@ -14,3 +14,4 @@ postcss.config.js
 start.ps1
 tsconfig.json
 tsconfig.tsbuildinfo
+prisma
