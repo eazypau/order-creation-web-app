@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const NavBar = ({ toggleSidebarToCreate }: Props) => {
-    let router = useRouter();
+    let router: any = useRouter();
     let t = router.locale === "en" ? en : cn;
     const [isOpen, setIsOpen] = useState(false);
     const [isLangOpen, setIsLangOpen] = useState(false);
@@ -47,7 +47,7 @@ export const NavBar = ({ toggleSidebarToCreate }: Props) => {
                                 </button>
                                 {isLangOpen ? (
                                     <ul className="absolute left-0 top-0 mt-9 w-full bg-white shadow">
-                                        {router.locales.map((locale) => (
+                                        {router.locales.map((locale: any) => (
                                             <li
                                                 key={locale}
                                                 className="w-full text-sm font-medium uppercase text-gray-700 transition-colors duration-200 transform md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
@@ -126,7 +126,7 @@ export const NavBar = ({ toggleSidebarToCreate }: Props) => {
                             </button>
                             {isLangOpen ? (
                                 <ul className="absolute left-0 top-0 mt-9 w-full bg-white shadow">
-                                    {router.locales.map((locale) => (
+                                    {router.locales.map((locale: any) => (
                                         <li
                                             key={locale}
                                             className="w-full text-sm font-medium uppercase text-gray-700 transition-colors duration-200 transform md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
