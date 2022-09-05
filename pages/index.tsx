@@ -107,78 +107,78 @@ export default function Home() {
     });
     const [buttonName, setButtonName] = useState<"update" | "create">("update");
 
-    const { data: orderList, refetch } = trpc.useQuery([
-        "orders.findAllOrders",
-    ]);
+    // const { data: orderList, refetch } = trpc.useQuery([
+    //     "orders.findAllOrders",
+    // ]);
 
-    const { data: orderItems, refetch: refetchOrderItems } = trpc.useQuery([
-        "orders.findAllOrderItems",
-    ]);
+    // const { data: orderItems, refetch: refetchOrderItems } = trpc.useQuery([
+    //     "orders.findAllOrderItems",
+    // ]);
 
     // console.log("current orderlist: ", orderList);
     // console.log("order item list: ", orderItems);
 
-    const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
-        onSuccess: () => {
-            refetch();
-        },
-    });
+    // const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
+    //     onSuccess: () => {
+    //         refetch();
+    //     },
+    // });
 
-    const createOrderItemMutation = trpc.useMutation(
-        ["orders.createOrderItem"],
-        {
-            onSuccess: () => {
-                console.log("new item is created...");
-                refetch();
-                console.log("updated order list: ", orderList);
-            },
-        }
-    );
+    // const createOrderItemMutation = trpc.useMutation(
+    //     ["orders.createOrderItem"],
+    //     {
+    //         onSuccess: () => {
+    //             console.log("new item is created...");
+    //             refetch();
+    //             console.log("updated order list: ", orderList);
+    //         },
+    //     }
+    // );
 
-    const deleteOrderItemMutation = trpc.useMutation(
-        ["orders.deleteOrderItem"],
-        {
-            onSuccess: () => {
-                console.log("new item is created...");
-                refetch();
-                console.log("updated order list: ", orderList);
-            },
-        }
-    );
+    // const deleteOrderItemMutation = trpc.useMutation(
+    //     ["orders.deleteOrderItem"],
+    //     {
+    //         onSuccess: () => {
+    //             console.log("new item is created...");
+    //             refetch();
+    //             console.log("updated order list: ", orderList);
+    //         },
+    //     }
+    // );
 
-    const createOrder = useCallback(
-        (e: Event) => {
-            e.preventDefault();
-            createOrderMutation.mutate({
-                customerName: "Jenn",
-                totalPrice: 0,
-                status: "unfulfill",
-            });
-        },
-        [createOrderMutation]
-    );
+    // const createOrder = useCallback(
+    //     (e: Event) => {
+    //         e.preventDefault();
+    //         createOrderMutation.mutate({
+    //             customerName: "Jenn",
+    //             totalPrice: 0,
+    //             status: "unfulfill",
+    //         });
+    //     },
+    //     [createOrderMutation]
+    // );
 
-    const createOrderItem = useCallback(
-        (e: Event) => {
-            e.preventDefault();
-            createOrderItemMutation.mutate({
-                name: "Dou Sa Bing",
-                quantity: 5,
-                orderId: 1,
-            });
-        },
-        [createOrderItemMutation]
-    );
+    // const createOrderItem = useCallback(
+    //     (e: Event) => {
+    //         e.preventDefault();
+    //         createOrderItemMutation.mutate({
+    //             name: "Dou Sa Bing",
+    //             quantity: 5,
+    //             orderId: 1,
+    //         });
+    //     },
+    //     [createOrderItemMutation]
+    // );
 
-    const deleteOrderItem = useCallback(
-        (e: Event) => {
-            e.preventDefault();
-            deleteOrderItemMutation.mutate({
-                id: 7,
-            });
-        },
-        [deleteOrderItemMutation]
-    );
+    // const deleteOrderItem = useCallback(
+    //     (e: Event) => {
+    //         e.preventDefault();
+    //         deleteOrderItemMutation.mutate({
+    //             id: 7,
+    //         });
+    //     },
+    //     [deleteOrderItemMutation]
+    // );
 
     /**
      * Update order status by ID
@@ -241,7 +241,9 @@ export default function Home() {
                             toggleSidebarFunc={() => setShowSideBar(false)}
                             buttonName={buttonName}
                             process={buttonName}
-                            createOrderFunc={deleteOrderItem}
+                            createOrderFunc={() => {
+                                console.log("do nothing");
+                            }}
                         />
                     )}
                 </div>
