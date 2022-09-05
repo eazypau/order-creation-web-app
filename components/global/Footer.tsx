@@ -1,17 +1,23 @@
+import { useRouter } from "next/router";
 import React from "react";
+import cn from "../../locales/cn";
+import en from "../../locales/en";
 
 export const Footer = () => {
+    let router = useRouter();
+    let t = router.locale === "en" ? en : cn;
+
     return (
         <footer className="flex flex-col items-center justify-between px-6 py-4 bg-white dark:bg-gray-800 sm:flex-row">
             <a
                 href="#"
                 className="text-xl font-bold text-gray-800 dark:text-white hover:text-gray-700 dark:hover:text-gray-300"
             >
-                Brand
+                {t.brand}
             </a>
 
             <p className="py-2 text-gray-800 dark:text-white sm:py-0">
-                All rights reserved
+                {t.allRightsReserve}
             </p>
 
             <div className="flex -mx-2">

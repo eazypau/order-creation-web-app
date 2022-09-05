@@ -3,17 +3,29 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "./Button";
 import { PlusIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/router";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+import en from "../../locales/en";
+import cn from "../../locales/cn";
 
 type Props = {
     toggleSidebarToCreate: () => void;
 };
 
 export const NavBar = ({ toggleSidebarToCreate }: Props) => {
+    let router = useRouter();
+    let t = router.locale === "en" ? en : cn;
     const [isOpen, setIsOpen] = useState(false);
+    const [isLangOpen, setIsLangOpen] = useState(false);
 
     const togglMenu = () => {
         if (isOpen) setIsOpen(false);
         else setIsOpen(true);
+    };
+
+    const toggleLangButton = () => {
+        if (isLangOpen) setIsLangOpen(false);
+        else setIsLangOpen(true);
     };
 
     return (
@@ -22,37 +34,74 @@ export const NavBar = ({ toggleSidebarToCreate }: Props) => {
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="flex items-center justify-between">
                         <div className="text-2xl font-bold text-gray-800 transition-colors duration-200 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300">
-                            <Link href="/">Brand</Link>
+                            <Link href="/">{t.brand}</Link>
                         </div>
-                        <div className="flex md:hidden">
-                            <button
-                                type="button"
-                                className="text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
-                                aria-label="toggle menu"
-                                onClick={togglMenu}
-                            >
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    className="w-6 h-6 fill-current"
+                        <div className="flex items-center">
+                            <div className="relative w-14 md:hidden">
+                                <button
+                                    onClick={toggleLangButton}
+                                    className="w-full px-2 py-1 uppercase flex justify-between items-center focus:outline rounded-sm"
                                 >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
-                                    ></path>
-                                </svg>
-                            </button>
+                                    {router.locale}
+                                    <ChevronDownIcon className="w-5" />
+                                </button>
+                                {isLangOpen ? (
+                                    <ul className="absolute left-0 top-0 mt-9 w-full bg-white shadow">
+                                        {router.locales.map((locale) => (
+                                            <li
+                                                key={locale}
+                                                className="w-full text-sm font-medium uppercase text-gray-700 transition-colors duration-200 transform md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
+                                            >
+                                                <Link
+                                                    href={router.asPath}
+                                                    locale={locale}
+                                                >
+                                                    <a
+                                                        onClick={() =>
+                                                            setIsLangOpen(false)
+                                                        }
+                                                        className="block w-full h-full px-2 py-2"
+                                                    >
+                                                        {locale}
+                                                    </a>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    ""
+                                )}
+                            </div>
+                            <div className="flex md:hidden">
+                                <button
+                                    type="button"
+                                    className="px-2 text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
+                                    aria-label="toggle menu"
+                                    onClick={togglMenu}
+                                >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        className="w-6 h-6 fill-current"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                                        ></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div className="flex-1 md:flex md:items-center md:justify-between mt-2 lg:mt-0">
-                        <div
-                            className={
-                                (isOpen ? "" : "hidden") +
-                                " md:flex flex-col -mx-4 md:flex-row md:items-center md:mx-8"
-                            }
-                        >
+                    <div
+                        className={
+                            (isOpen ? "" : "hidden") +
+                            " marker:selection:flex-1 md:flex md:items-center md:justify-between mt-2 lg:mt-0"
+                        }
+                    >
+                        <div className=" md:flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
                             <Link href="/components">
                                 <a className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">
-                                    Components
+                                    {t.components}
                                 </a>
                             </Link>
                         </div>
@@ -65,6 +114,42 @@ export const NavBar = ({ toggleSidebarToCreate }: Props) => {
                                     <PlusIcon className="w-4" /> Create Order
                                 </span>
                             </Button>
+                        </div>
+
+                        <div className="relative w-14 hidden md:block">
+                            <button
+                                onClick={toggleLangButton}
+                                className="w-full px-2 py-1 uppercase text-sm flex justify-between items-center focus:outline rounded-sm"
+                            >
+                                {router.locale}
+                                <ChevronDownIcon className="w-5" />
+                            </button>
+                            {isLangOpen ? (
+                                <ul className="absolute left-0 top-0 mt-9 w-full bg-white shadow">
+                                    {router.locales.map((locale) => (
+                                        <li
+                                            key={locale}
+                                            className="w-full text-sm font-medium uppercase text-gray-700 transition-colors duration-200 transform md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
+                                        >
+                                            <Link
+                                                href={router.asPath}
+                                                locale={locale}
+                                            >
+                                                <a
+                                                    onClick={() =>
+                                                        setIsLangOpen(false)
+                                                    }
+                                                    className="block w-full h-full px-2 py-2"
+                                                >
+                                                    {locale}
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                ""
+                            )}
                         </div>
 
                         {/* <div className="flex items-center mt-4 md:mt-0">
