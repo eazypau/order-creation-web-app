@@ -10,9 +10,10 @@ import cn from "../../locales/cn";
 
 type Props = {
     toggleSidebarToCreate: () => void;
+    hasCTAButton: boolean;
 };
 
-export const NavBar = ({ toggleSidebarToCreate }: Props) => {
+export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
     let router: any = useRouter();
     let t = router.locale === "en" ? en : cn;
     const [isOpen, setIsOpen] = useState(false);
@@ -33,8 +34,20 @@ export const NavBar = ({ toggleSidebarToCreate }: Props) => {
             <div className="container px-6 py-4 mx-auto">
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold text-gray-800 transition-colors duration-200 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300">
+                        <div className="text-2xl font-bold text-gray-800 w-32 transition-colors duration-200 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300">
                             <Link href="/">{t.brand}</Link>
+                        </div>
+                        <div className="flex">
+                            <Link href="/">
+                                <a className="px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">
+                                    {t.orders}
+                                </a>
+                            </Link>
+                            <Link href="/products">
+                                <a className="px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">
+                                    {t.products}
+                                </a>
+                            </Link>
                         </div>
                         <div className="flex items-center">
                             <div className="relative w-14 md:hidden">
@@ -98,28 +111,10 @@ export const NavBar = ({ toggleSidebarToCreate }: Props) => {
                             " marker:selection:flex-1 md:flex md:items-center md:justify-between mt-2 lg:mt-0"
                         }
                     >
-                        <div className=" md:flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
-                            <Link href="/components">
-                                <a className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">
-                                    {t.components}
-                                </a>
-                            </Link>
-                        </div>
-                        <div>
-                            <Button
-                                customWidth="py-2 px-5"
-                                onClick={toggleSidebarToCreate}
-                            >
-                                <span className="flex items-center gap-1">
-                                    <PlusIcon className="w-4" /> Create Order
-                                </span>
-                            </Button>
-                        </div>
-
-                        <div className="relative w-14 hidden md:block">
+                        <div className="relative w-14 hidden md:block mr-2">
                             <button
                                 onClick={toggleLangButton}
-                                className="w-full px-2 py-1 uppercase text-sm flex justify-between items-center focus:outline rounded-sm"
+                                className="w-full px-2 py-1 uppercase text-sm flex justify-between items-center focus:outline border rounded-md"
                             >
                                 {router.locale}
                                 <ChevronDownIcon className="w-5" />
@@ -151,7 +146,27 @@ export const NavBar = ({ toggleSidebarToCreate }: Props) => {
                                 ""
                             )}
                         </div>
-
+                        <div>
+                            {hasCTAButton ? (
+                                <Button
+                                    customWidth="py-2 px-5"
+                                    onClick={
+                                        hasCTAButton
+                                            ? toggleSidebarToCreate
+                                            : (e) => {
+                                                  console.log("do nothing");
+                                              }
+                                    }
+                                >
+                                    <span className="flex items-center gap-1">
+                                        <PlusIcon className="w-4" /> Create
+                                        Order
+                                    </span>
+                                </Button>
+                            ) : (
+                                ""
+                            )}
+                        </div>
                         {/* <div className="flex items-center mt-4 md:mt-0">
 							<button
 								className="hidden mx-4 text-gray-600 transition-colors duration-200 transform md:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"

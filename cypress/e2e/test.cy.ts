@@ -4,9 +4,11 @@ describe("Navigation", () => {
         cy.visit("http://localhost:3000/");
 
         // Find a link with an href attribute containing "about" and click it
-        cy.get('a[href*="components"]').click();
+        cy.get('a[href*="products"]').click();
 
         // The new url should include "/about"
-        cy.url().should("include", "/components");
+        cy.url().should("include", "/products");
+
+        cy.get("h1").contains("Product page");
     });
 });
