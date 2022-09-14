@@ -16,13 +16,19 @@ export const Table = ({
     toggleSidebarFunc,
     updateOrderStatus,
 }: Props) => {
+    const sortNames = () => {
+        console.log("sort customer name");
+    };
     return (
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
             <table className="w-max md:w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         {tableHeader.map((column) => {
-                            if (column === "Customer Name") {
+                            if (
+                                column === "Customer Name" ||
+                                column === "客户名称"
+                            ) {
                                 return (
                                     <th
                                         scope="col"

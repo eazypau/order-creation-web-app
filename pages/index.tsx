@@ -219,7 +219,10 @@ export default function Home() {
 
     return (
         <div className="bg-slate-200">
-            <NavBar toggleSidebarToCreate={openCreateOrderSidebar} />
+            <NavBar
+                toggleSidebarToCreate={openCreateOrderSidebar}
+                hasCTAButton
+            />
             <div className="relative">
                 <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
                     <Table

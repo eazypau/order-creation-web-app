@@ -8,5 +8,7 @@ export default {
     listOfItems: "List of items",
     update: "update",
     components: "Components",
+    orders: "orders",
+    products: "products",
     allRightsReserve: "All rights reserved",
 };

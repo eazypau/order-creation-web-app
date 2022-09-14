@@ -77,6 +77,7 @@ export default function Home() {
     return (
         <div className="bg-slate-200 flex flex-col justify-between">
             <NavBar
+                hasCTAButton={false}
                 toggleSidebarToCreate={() => {
                     console.log("toggled");
                 }}

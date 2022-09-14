@@ -8,5 +8,7 @@ export default {
     listOfItems: "物品列表",
     update: "更新",
     components: "组件",
+    orders: "订单",
+    products: "物品",
     allRightsReserve: "现在 _placeholder_ 版权所有",
 };
