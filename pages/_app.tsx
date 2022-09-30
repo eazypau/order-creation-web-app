@@ -10,7 +10,7 @@ const App: AppType = ({ Component, pageProps }) => {
 export default withTRPC<ServerRouter>({
     config({ ctx }) {
         const url =
-            process.env.NODE_ENV === "development"
+            process.env.NODE_ENV === "production"
                 ? `https://order-creation-web-app-vd9x.vercel.app/api/trpc`
                 : "http://localhost:3000/api/trpc";
 
