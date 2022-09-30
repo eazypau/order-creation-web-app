@@ -107,15 +107,15 @@ export default function Home() {
     });
     const [buttonName, setButtonName] = useState<"update" | "create">("update");
 
-    // const { data: orderList, refetch } = trpc.useQuery([
-    //     "orders.findAllOrders",
-    // ]);
+    const { data: orderList, refetch } = trpc.useQuery([
+        "orders.findAllOrders",
+    ]);
 
     // const { data: orderItems, refetch: refetchOrderItems } = trpc.useQuery([
     //     "orders.findAllOrderItems",
     // ]);
 
-    // console.log("current orderlist: ", orderList);
+    console.log("current orderlist: ", orderList);
     // console.log("order item list: ", orderItems);
 
     // const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
