@@ -11,5 +11,5 @@ export default {
     orders: "orders",
     products: "products",
     allRightsReserve: "All rights reserved",
-    createOrder: "Create Order"
+    createOrder: "Create Order",
 };

@@ -11,5 +11,5 @@ export default {
     orders: "订单",
     products: "物品",
     allRightsReserve: "现在 _placeholder_ 版权所有",
-    createOrder: "新订单"
+    createOrder: "新订单",
 };
