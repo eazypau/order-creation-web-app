@@ -15,14 +15,14 @@ import cn from "../locales/cn";
 // import { SelectBox } from "../components/forms/SelectBox";
 // import styles from "../styles/Home.module.css";
 
-const tableHeader = [
-    "Order No.",
-    "Customer Name",
-    "Items",
-    "Total Price (RM)",
-    "Status",
-    "", // empty column for fulfilled order tick button
-];
+// const tableHeader = [
+//     "Order No.",
+//     "Customer Name",
+//     "Items",
+//     "Total Price (RM)",
+//     "Status",
+//     "", // empty column for fulfilled order tick button
+// ];
 
 const dummyOrders = [
     {
@@ -105,7 +105,9 @@ export default function Home() {
         totalPrice: 0,
         status: "",
     });
-    const [buttonName, setButtonName] = useState<"update" | "create">("update");
+    const [buttonName, setButtonName] = useState<"update" | "create" | "添加">(
+        "update"
+    );
 
     // const { data: orderList, refetch } = trpc.useQuery([
     //     "orders.findAllOrders",
@@ -202,7 +204,7 @@ export default function Home() {
     const openCreateOrderSidebar = () => {
         setShowSideBar(false);
         setOrderDetails({
-            orderNumber: "Create Order",
+            orderNumber: router.locale === "en" ? "Create Order" : "新订单",
             customerName: "",
             items: [
                 {
@@ -213,7 +215,7 @@ export default function Home() {
             totalPrice: 0,
             status: "unfulfill",
         });
-        setButtonName("create");
+        setButtonName(router.locale === "en" ? "create" : "添加");
         setShowSideBar(true);
     };
 

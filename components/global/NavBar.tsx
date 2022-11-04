@@ -159,8 +159,8 @@ export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
                                     }
                                 >
                                     <span className="flex items-center gap-1">
-                                        <PlusIcon className="w-4" /> Create
-                                        Order
+                                        <PlusIcon className="w-4" />
+                                        {t.createOrder}
                                     </span>
                                 </Button>
                             ) : (
