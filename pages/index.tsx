@@ -191,30 +191,38 @@ export default function Home() {
         orderData: Order;
     }) => {
         // console.log("current step is ", step);
-        if (["create", "添加"].includes(step)) {
-            setIsLoading(true);
-            const newOrderDetails = {
-                customerName: orderData.customerName,
-                status: orderData.status,
-                totalPrice: orderData.totalPrice,
-            };
-            const data = await createOrderMutation.mutateAsync(newOrderDetails);
-            // console.log("test returned data: ", data);
-            const orderItems = orderData.items;
-            for (const item of orderItems) {
-                const itemDetails = {
-                    orderId: Number(data.id),
-                    name: item.name,
-                    quantity: Number(item.quantity),
+        try {
+            if (["create", "添加"].includes(step)) {
+                setIsLoading(true);
+                const newOrderDetails = {
+                    customerName: orderData.customerName,
+                    status: orderData.status,
+                    totalPrice: orderData.totalPrice,
                 };
-                // console.log(itemDetails);
-                await createOrderItemMutation.mutateAsync(itemDetails);
+                const data = await createOrderMutation.mutateAsync(
+                    newOrderDetails
+                );
+                // console.log("test returned data: ", data);
+                const orderItems = orderData.items;
+                for (const item of orderItems) {
+                    const itemDetails = {
+                        orderId: Number(data.id),
+                        name: item.name,
+                        quantity: Number(item.quantity),
+                    };
+                    // console.log(itemDetails);
+                    await createOrderItemMutation.mutateAsync(itemDetails);
+                }
+                setShowSideBar(false);
+                setIsLoading(false);
+                await refetch();
+            } else if (["update", "更新"].includes(step)) {
+                console.log("updating order details");
             }
-            setShowSideBar(false);
+        } catch (error) {
+            console.log(error);
+        } finally {
             setIsLoading(false);
-            await refetch();
-        } else if (["update", "更新"].includes(step)) {
-            console.log("updating order details");
         }
     };
 
