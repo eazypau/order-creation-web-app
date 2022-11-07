@@ -3,6 +3,7 @@ import React from "react";
 
 type Props = {
     variant?: "primary" | "secondary" | "inline";
+    type?: "button" | "submit";
     customColor?: string;
     customBorder?: string;
     customWidth?: string;
@@ -12,6 +13,7 @@ type Props = {
 
 export const Button = ({
     variant = "primary",
+    type = "button",
     customColor,
     customBorder,
     customWidth,
@@ -37,7 +39,7 @@ export const Button = ({
     );
 
     return (
-        <button className={style} onClick={onClick}>
+        <button type={type} className={style} onClick={onClick}>
             {children}
         </button>
     );

@@ -1,8 +1,9 @@
 export type Order = {
-    orderNumber: string;
+    id: string | number;
     customerName: string;
     items: {
-        itemName: string;
+        id: string | number;
+        name: string;
         quantity: number;
     }[];
     totalPrice: number;

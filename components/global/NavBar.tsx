@@ -9,7 +9,7 @@ import en from "../../locales/en";
 import cn from "../../locales/cn";
 
 type Props = {
-    toggleSidebarToCreate: () => void;
+    toggleSidebarToCreate: (e: Event) => void;
     hasCTAButton: boolean;
 };
 
@@ -30,7 +30,7 @@ export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
     };
 
     return (
-        <nav className="bg-white shadow dark:bg-gray-800 sticky top-0 z-50">
+        <nav className="bg-white shadow dark:bg-gray-800 sticky top-0 z-40">
             <div className="container px-6 py-4 mx-auto">
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="flex items-center justify-between">

@@ -6,8 +6,8 @@ import { Order } from "../../types/Order";
 type Props = {
     tableHeader: string[];
     tableContent: Order[];
-    toggleSidebarFunc: (orderId: string) => void;
-    updateOrderStatus: (orderId: string) => void;
+    toggleSidebarFunc: (orderId: string | number) => void;
+    updateOrderStatus: (orderId: string | number) => void;
 };
 
 export const Table = ({
@@ -77,23 +77,21 @@ export const Table = ({
                 </thead>
                 <tbody>
                     {tableContent.map((row) => (
-                        <tr className="table-row-style" key={row.orderNumber}>
+                        <tr className="table-row-style" key={row.id}>
                             <th
-                                onClick={() =>
-                                    toggleSidebarFunc(row.orderNumber)
-                                }
+                                onClick={() => toggleSidebarFunc(row.id)}
                                 scope="row"
                                 className="item-column-one-style row-general-style"
                             >
-                                {row.orderNumber}&quot;
+                                {row.id}&quot;
                             </th>
                             <td className="row-general-style">
                                 {row.customerName}
                             </td>
                             <td className="row-general-style">
                                 {row.items.map((item) => (
-                                    <p key={item.itemName + row.orderNumber}>
-                                        {item.itemName}: {item.quantity}
+                                    <p key={item.name + item.id + row.id}>
+                                        {item.name}: {item.quantity}
                                     </p>
                                 ))}
                             </td>

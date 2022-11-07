@@ -9,7 +9,6 @@ import { InputField } from "../../components/forms/InputField";
 import { Sidebar } from "../../components/forms/Sidebar";
 import { SelectBox } from "../../components/forms/SelectBox";
 import { useState } from "react";
-// import styles from "../../styles/Home.module.css";
 
 const tableHeader = [
     "Order No.",
@@ -22,15 +21,17 @@ const tableHeader = [
 
 const dummyOrders = [
     {
-        orderNumber: "#1",
+        id: 1,
         customerName: "Jennifer",
         items: [
             {
-                itemName: "Dou Sha Bing",
+                id: 2,
+                name: "Dou Sha Bing",
                 quantity: 1,
             },
             {
-                itemName: "Xiang Bing",
+                id: 2,
+                name: "Xiang Bing",
                 quantity: 10,
             },
         ],
@@ -38,15 +39,17 @@ const dummyOrders = [
         status: "unfulfilled",
     },
     {
-        orderNumber: "#2",
+        id: 2,
         customerName: "Jennifer",
         items: [
             {
-                itemName: "Dou Sha Bing",
+                id: 2,
+                name: "Dou Sha Bing",
                 quantity: 1,
             },
             {
-                itemName: "Xiang Bing",
+                id: 2,
+                name: "Xiang Bing",
                 quantity: 10,
             },
         ],
@@ -54,15 +57,17 @@ const dummyOrders = [
         status: "unfulfilled",
     },
     {
-        orderNumber: "#3",
+        id: 3,
         customerName: "Jennifer",
         items: [
             {
-                itemName: "Dou Sha Bing",
+                id: 2,
+                name: "Dou Sha Bing",
                 quantity: 1,
             },
             {
-                itemName: "Xiang Bing",
+                id: 2,
+                name: "Xiang Bing",
                 quantity: 10,
             },
         ],
@@ -115,7 +120,7 @@ export default function Home() {
                     </div>
                     <div className="pt-4">
                         <Sidebar
-                            createOrderFunc={(e) => {
+                            orderFunctionHandle={(e: any) => {
                                 console.log("toggled");
                             }}
                         />
