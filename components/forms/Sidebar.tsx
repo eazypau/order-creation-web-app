@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../global/Button";
 import { InputField } from "./InputField";
 import { SelectBox } from "./SelectBox";
 import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/solid";
 import { Order } from "../../types/Order";
 import { useEffect } from "react";
-import { trpc } from "../../utils/trpc";
+// import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
 import en from "../../locales/en";
 import cn from "../../locales/cn";
@@ -15,7 +15,13 @@ type Props = {
     toggleSidebarFunc?: () => void;
     buttonName?: string;
     process?: "create" | "update" | "添加";
-    createOrderFunc: (e: Event) => void;
+    orderFunctionHandle: ({
+        step,
+        orderData,
+    }: {
+        step: string;
+        orderData: Order;
+    }) => void;
 };
 
 export const Sidebar = ({
@@ -23,12 +29,12 @@ export const Sidebar = ({
     toggleSidebarFunc,
     buttonName = "update",
     process = "update",
-    createOrderFunc,
+    orderFunctionHandle,
 }: Props) => {
     let router = useRouter();
     let t = router.locale === "en" ? en : cn;
     const [inputValue, setInputValue] = useState<Order>({
-        orderNumber: "",
+        id: "",
         customerName: "",
         items: [],
         totalPrice: 0,
@@ -39,7 +45,7 @@ export const Sidebar = ({
         if (data) setInputValue(data);
         else
             setInputValue({
-                orderNumber: "",
+                id: "",
                 customerName: "",
                 items: [],
                 totalPrice: 0,
@@ -74,7 +80,7 @@ export const Sidebar = ({
         let items = previousInput.items;
         items[index] = {
             ...items[index],
-            itemName: name,
+            name: name,
         };
         setInputValue((prev) => ({
             ...prev,
@@ -87,13 +93,39 @@ export const Sidebar = ({
         const previousInput = { ...inputValue };
         let items = previousInput.items;
         items.push({
-            itemName: "",
+            id: "",
+            name: "",
             quantity: 1,
         });
         setInputValue((prev) => ({
             ...prev,
             items: items,
         }));
+    };
+
+    const orderMutationHandler = (event: Event) => {
+        event.preventDefault();
+        const step = buttonName;
+        const orderData = { ...inputValue };
+        let hasEmptyInput = false;
+        // console.log("data provided: ", inputValue);
+        inputValue.items.forEach((item) => {
+            if (!item.name || !item.quantity) {
+                hasEmptyInput = true;
+            }
+        });
+        if (!inputValue.customerName) {
+            alert("Please enter the customer name.");
+            return;
+        }
+        if (inputValue.items.length < 1 || hasEmptyInput) {
+            alert("Please select the product and quantity to proceed.");
+            return;
+        }
+        orderFunctionHandle({
+            step: step,
+            orderData: orderData,
+        });
     };
 
     return (
@@ -107,9 +139,7 @@ export const Sidebar = ({
                     >
                         <ChevronDoubleRightIcon className="w-5 lg:w-7 hover:opacity-70" />
                     </button>
-                    <h5 className="sidebar-heading">
-                        {inputValue.orderNumber}
-                    </h5>
+                    <h5 className="sidebar-heading">{inputValue.id}</h5>
                 </div>
                 <p
                     className={
@@ -137,7 +167,12 @@ export const Sidebar = ({
                             name="customerName"
                             placeholder="Enter name here"
                             value={inputValue.customerName}
-                            onChange={(e) => handleSelectChange(e, -1)}
+                            onChange={(e) => {
+                                setInputValue((prev) => ({
+                                    ...prev,
+                                    customerName: e.target.value,
+                                }));
+                            }}
                             min="1"
                         />
                     </div>
@@ -147,11 +182,11 @@ export const Sidebar = ({
                     <div className="mb-5 space-y-2">
                         {inputValue.items.map((item, index) => (
                             <div
-                                key={inputValue.orderNumber + "-" + index}
+                                key={inputValue.id + "-" + index}
                                 className="flex gap-2"
                             >
                                 <SelectBox
-                                    value={item.itemName}
+                                    value={item.name}
                                     onChange={(e) =>
                                         handleSelectChange(e, index)
                                     }
@@ -162,7 +197,7 @@ export const Sidebar = ({
                                     type="number"
                                     placeholder="0"
                                     customTextAlign="text-center"
-                                    name={inputValue.orderNumber + "-" + index}
+                                    name={inputValue.id + "-" + index}
                                     value={item.quantity}
                                     min="1"
                                     onChange={(e) => handleChange(e, index)}
@@ -181,7 +216,7 @@ export const Sidebar = ({
                     <div className="flex justify-end">
                         <Button
                             customColor="bg-green-500 hover:bg-transparent"
-                            onClick={createOrderFunc}
+                            onClick={orderMutationHandler}
                         >
                             {buttonName}
                         </Button>

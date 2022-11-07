@@ -1,86 +1,82 @@
 // import Head from "next/head";
 // import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Footer } from "../components/global/Footer";
 import { NavBar } from "../components/global/NavBar";
 // import { Pagination } from "../components/data_display/Pagination";
 import { Table } from "../components/data_display/Table";
-// import { Button } from "../components/global/Button";
-// import { InputField } from "../components/forms/InputField";
 import { Sidebar } from "../components/forms/Sidebar";
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
 import en from "../locales/en";
 import cn from "../locales/cn";
-// import { SelectBox } from "../components/forms/SelectBox";
-// import styles from "../styles/Home.module.css";
+import { Order } from "../types/Order";
+import { Loading } from "../components/global/Loading";
 
-// const tableHeader = [
-//     "Order No.",
-//     "Customer Name",
-//     "Items",
-//     "Total Price (RM)",
-//     "Status",
-//     "", // empty column for fulfilled order tick button
+// const dummyOrders = [
+//     {
+//         id: "#1",
+//         customerName: "Jennifer",
+//         items: [
+//             {
+//                 id: "4",
+//                 name: "Dou Sa Bing",
+//                 quantity: 1,
+//             },
+//             {
+//                 id: "5",
+//                 name: "Xiang Bing",
+//                 quantity: 10,
+//             },
+//         ],
+//         totalPrice: 32,
+//         status: "unfulfill",
+//     },
+//     {
+//         id: "#2",
+//         customerName: "Joel",
+//         items: [
+//             {
+//                 id: "6",
+//                 name: "Dou Sa Bing",
+//                 quantity: 1,
+//             },
+//             {
+//                 id: "7",
+//                 name: "Xiang Bing",
+//                 quantity: 10,
+//             },
+//         ],
+//         totalPrice: 40,
+//         status: "fulfilled",
+//     },
+//     {
+//         id: "#3",
+//         customerName: "Nicholas",
+//         items: [
+//             {
+//                 id: "8",
+//                 name: "Dou Sa Bing",
+//                 quantity: 1,
+//             },
+//             {
+//                 id: "9",
+//                 name: "Xiang Bing",
+//                 quantity: 10,
+//             },
+//         ],
+//         totalPrice: 32,
+//         status: "unfulfill",
+//     },
 // ];
 
-const dummyOrders = [
-    {
-        orderNumber: "#1",
-        customerName: "Jennifer",
-        items: [
-            {
-                itemName: "Dou Sa Bing",
-                quantity: 1,
-            },
-            {
-                itemName: "Xiang Bing",
-                quantity: 10,
-            },
-        ],
-        totalPrice: 32,
-        status: "unfulfill",
-    },
-    {
-        orderNumber: "#2",
-        customerName: "Joel",
-        items: [
-            {
-                itemName: "Dou Sa Bing",
-                quantity: 1,
-            },
-            {
-                itemName: "Xiang Bing",
-                quantity: 10,
-            },
-        ],
-        totalPrice: 40,
-        status: "fulfilled",
-    },
-    {
-        orderNumber: "#3",
-        customerName: "Nicholas",
-        items: [
-            {
-                itemName: "Dou Sa Bing",
-                quantity: 1,
-            },
-            {
-                itemName: "Xiang Bing",
-                quantity: 10,
-            },
-        ],
-        totalPrice: 32,
-        status: "unfulfill",
-    },
-];
-
 const dataFormat = {
-    orderNumber: "",
+    id: "",
     customerName: "",
     items: [
         {
-            itemName: "",
+            id: "",
+            name: "",
             quantity: 1,
         },
     ],
@@ -94,11 +90,12 @@ export default function Home() {
 
     const [showSideBar, setShowSideBar] = useState(false);
     const [orderDetails, setOrderDetails] = useState({
-        orderNumber: "",
+        id: "",
         customerName: "",
         items: [
             {
-                itemName: "",
+                id: "",
+                name: "",
                 quantity: 1,
             },
         ],
@@ -108,10 +105,12 @@ export default function Home() {
     const [buttonName, setButtonName] = useState<"update" | "create" | "添加">(
         "update"
     );
+    const [isLoading, setIsLoading] = useState(false);
+    // const [apiResponse, setApiResponse] = useState<any>({});
 
-    // const { data: orderList, refetch } = trpc.useQuery([
-    //     "orders.findAllOrders",
-    // ]);
+    const { data: orderList, refetch } = trpc.useQuery([
+        "orders.findAllOrders",
+    ]);
 
     // const { data: orderItems, refetch: refetchOrderItems } = trpc.useQuery([
     //     "orders.findAllOrderItems",
@@ -120,95 +119,60 @@ export default function Home() {
     // console.log("current orderlist: ", orderList);
     // console.log("order item list: ", orderItems);
 
-    // const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
-    //     onSuccess: () => {
-    //         refetch();
-    //     },
-    // });
+    const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
+        onSuccess: (data, variables, context) => {
+            console.log("data: ", data);
+            // setApiResponse({ ...data });
+            // console.log("set API response...");
+            // refetch();
+            // return data;
+        },
+    });
 
-    // const createOrderItemMutation = trpc.useMutation(
-    //     ["orders.createOrderItem"],
-    //     {
-    //         onSuccess: () => {
-    //             console.log("new item is created...");
-    //             refetch();
-    //             console.log("updated order list: ", orderList);
-    //         },
-    //     }
-    // );
+    const createOrderItemMutation = trpc.useMutation(
+        ["orders.createOrderItem"],
+        {
+            onSuccess: () => {
+                console.log("new item is created...");
+                // refetch();
+                // console.log("updated order list: ", orderList);
+            },
+        }
+    );
 
-    // const deleteOrderItemMutation = trpc.useMutation(
-    //     ["orders.deleteOrderItem"],
-    //     {
-    //         onSuccess: () => {
-    //             console.log("new item is created...");
-    //             refetch();
-    //             console.log("updated order list: ", orderList);
-    //         },
-    //     }
-    // );
-
-    // const createOrder = useCallback(
-    //     (e: Event) => {
-    //         e.preventDefault();
-    //         createOrderMutation.mutate({
-    //             customerName: "Jenn",
-    //             totalPrice: 0,
-    //             status: "unfulfill",
-    //         });
-    //     },
-    //     [createOrderMutation]
-    // );
-
-    // const createOrderItem = useCallback(
-    //     (e: Event) => {
-    //         e.preventDefault();
-    //         createOrderItemMutation.mutate({
-    //             name: "Dou Sa Bing",
-    //             quantity: 5,
-    //             orderId: 1,
-    //         });
-    //     },
-    //     [createOrderItemMutation]
-    // );
-
-    // const deleteOrderItem = useCallback(
-    //     (e: Event) => {
-    //         e.preventDefault();
-    //         deleteOrderItemMutation.mutate({
-    //             id: 7,
-    //         });
-    //     },
-    //     [deleteOrderItemMutation]
-    // );
+    const updateOrderMutation = trpc.useMutation(["orders.updateOrder"], {
+        onSuccess: () => {
+            console.log("successfully update order total price.");
+        },
+    });
 
     /**
      * Update order status by ID
      *
      * @param {string} id
      */
-    const updateOrderStatus = (id: string) => {
+    const updateOrderStatus = (id: string | number) => {
         console.log("update order status");
     };
 
-    const passDataToSideBar = (orderNumber: string) => {
+    const passDataToSideBar = (id: string | number) => {
         setShowSideBar(false);
-        const findOrder = dummyOrders.find(
-            (order) => order.orderNumber === orderNumber
-        );
+        const findOrder: any = orderList?.find((order) => order.id === id);
         setOrderDetails(findOrder || dataFormat);
         setButtonName("update");
         setShowSideBar(true);
     };
 
-    const openCreateOrderSidebar = () => {
+    const openCreateOrderSidebar = (event: Event) => {
+        event.preventDefault();
         setShowSideBar(false);
         setOrderDetails({
-            orderNumber: router.locale === "en" ? "Create Order" : "新订单",
+            id: router.locale === "en" ? "Create Order" : "新订单",
             customerName: "",
             items: [
                 {
-                    itemName: "",
+                    id: "",
+                    name: "",
                     quantity: 1,
                 },
             ],
@@ -219,8 +183,44 @@ export default function Home() {
         setShowSideBar(true);
     };
 
+    const orderCreateUpdateHandler = async ({
+        step,
+        orderData,
+    }: {
+        step: string;
+        orderData: Order;
+    }) => {
+        // console.log("current step is ", step);
+        if (["create", "添加"].includes(step)) {
+            setIsLoading(true);
+            const newOrderDetails = {
+                customerName: orderData.customerName,
+                status: orderData.status,
+                totalPrice: orderData.totalPrice,
+            };
+            const data = await createOrderMutation.mutateAsync(newOrderDetails);
+            // console.log("test returned data: ", data);
+            const orderItems = orderData.items;
+            for (const item of orderItems) {
+                const itemDetails = {
+                    orderId: Number(data.id),
+                    name: item.name,
+                    quantity: Number(item.quantity),
+                };
+                // console.log(itemDetails);
+                await createOrderItemMutation.mutateAsync(itemDetails);
+            }
+            setShowSideBar(false);
+            setIsLoading(false);
+            await refetch();
+        } else if (["update", "更新"].includes(step)) {
+            console.log("updating order details");
+        }
+    };
+
     return (
         <div className="bg-slate-200">
+            {isLoading ? <Loading /> : ""}
             <NavBar
                 toggleSidebarToCreate={openCreateOrderSidebar}
                 hasCTAButton
@@ -236,7 +236,7 @@ export default function Home() {
                             t.status,
                             "",
                         ]}
-                        tableContent={dummyOrders}
+                        tableContent={orderList || []}
                         toggleSidebarFunc={passDataToSideBar}
                         updateOrderStatus={updateOrderStatus}
                     />
@@ -246,9 +246,7 @@ export default function Home() {
                             toggleSidebarFunc={() => setShowSideBar(false)}
                             buttonName={buttonName}
                             process={buttonName}
-                            createOrderFunc={() => {
-                                console.log("do nothing");
-                            }}
+                            orderFunctionHandle={orderCreateUpdateHandler}
                         />
                     )}
                 </div>
@@ -263,3 +261,6 @@ export default function Home() {
 // - create reusable button, inputs and selector
 // - sidebar only use for create and update
 // - features: create, update, delete and mark as done
+// - need loading screen
+// - error handling
+// - form validation
