@@ -1,13 +1,18 @@
 import React from "react";
 import { Button } from "../global/Button";
 import { CheckIcon } from "@heroicons/react/solid";
-import { Order } from "../../types/Order";
+import { Order, OrderV2 } from "../../types/Order";
 
 type Props = {
     tableHeader: string[];
-    tableContent: Order[];
+    tableContent: OrderV2[];
     toggleSidebarFunc: (orderId: string | number) => void;
-    updateOrderStatus: (orderId: string | number) => void;
+    updateOrderStatus: (order: {
+        id: number;
+        customerName: string;
+        totalPrice: number;
+        status: string;
+    }) => void;
 };
 
 export const Table = ({
@@ -19,6 +24,15 @@ export const Table = ({
     const sortNames = () => {
         console.log("sort customer name");
     };
+    const updateStatus = (order: {
+        id: number;
+        customerName: string;
+        totalPrice: number;
+        status: string;
+    }) => {
+        updateOrderStatus(order);
+    };
+
     return (
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
             <table className="w-max md:w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -104,7 +118,9 @@ export const Table = ({
                             <td className="row-general-style text-right">
                                 <Button
                                     customWidth="py-1 px-3"
-                                    onClick={updateOrderStatus}
+                                    onClick={() => {
+                                        updateStatus(row);
+                                    }}
                                 >
                                     <CheckIcon width={15} height={15} />
                                 </Button>

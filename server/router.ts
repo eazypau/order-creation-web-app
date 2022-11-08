@@ -84,13 +84,13 @@ const orders = createRouter()
         input: z.object({
             id: z.number(),
             customerName: z.string(),
-            items: z
-                .object({
-                    name: z.string(),
-                    quantity: z.number(),
-                    orderId: z.number(),
-                })
-                .array(),
+            // items: z
+            //     .object({
+            //         name: z.string(),
+            //         quantity: z.number(),
+            //         orderId: z.number(),
+            //     })
+            //     .array(),
             totalPrice: z.number(),
             status: z.string(),
         }),

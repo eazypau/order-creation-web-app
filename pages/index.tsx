@@ -13,63 +13,6 @@ import cn from "../locales/cn";
 import { Order } from "../types/Order";
 import { Loading } from "../components/global/Loading";
 
-// const dummyOrders = [
-//     {
-//         id: "#1",
-//         customerName: "Jennifer",
-//         items: [
-//             {
-//                 id: "4",
-//                 name: "Dou Sa Bing",
-//                 quantity: 1,
-//             },
-//             {
-//                 id: "5",
-//                 name: "Xiang Bing",
-//                 quantity: 10,
-//             },
-//         ],
-//         totalPrice: 32,
-//         status: "unfulfill",
-//     },
-//     {
-//         id: "#2",
-//         customerName: "Joel",
-//         items: [
-//             {
-//                 id: "6",
-//                 name: "Dou Sa Bing",
-//                 quantity: 1,
-//             },
-//             {
-//                 id: "7",
-//                 name: "Xiang Bing",
-//                 quantity: 10,
-//             },
-//         ],
-//         totalPrice: 40,
-//         status: "fulfilled",
-//     },
-//     {
-//         id: "#3",
-//         customerName: "Nicholas",
-//         items: [
-//             {
-//                 id: "8",
-//                 name: "Dou Sa Bing",
-//                 quantity: 1,
-//             },
-//             {
-//                 id: "9",
-//                 name: "Xiang Bing",
-//                 quantity: 10,
-//             },
-//         ],
-//         totalPrice: 32,
-//         status: "unfulfill",
-//     },
-// ];
-
 const dataFormat = {
     id: "",
     customerName: "",
@@ -112,20 +55,9 @@ export default function Home() {
         "orders.findAllOrders",
     ]);
 
-    // const { data: orderItems, refetch: refetchOrderItems } = trpc.useQuery([
-    //     "orders.findAllOrderItems",
-    // ]);
-
-    // console.log("current orderlist: ", orderList);
-    // console.log("order item list: ", orderItems);
-
     const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
         onSuccess: (data, variables, context) => {
             console.log("data: ", data);
-            // setApiResponse({ ...data });
-            // console.log("set API response...");
-            // refetch();
-            // return data;
         },
     });
 
@@ -134,25 +66,43 @@ export default function Home() {
         {
             onSuccess: () => {
                 console.log("new item is created...");
-                // refetch();
-                // console.log("updated order list: ", orderList);
             },
         }
     );
 
     const updateOrderMutation = trpc.useMutation(["orders.updateOrder"], {
-        onSuccess: () => {
+        onSuccess: async () => {
             console.log("successfully update order total price.");
+            await refetch();
         },
     });
 
     /**
      * Update order status by ID
      *
-     * @param {string} id
+     * @param {object} order
      */
-    const updateOrderStatus = (id: string | number) => {
-        console.log("update order status");
+    const updateOrderStatus = async (order: {
+        id: number;
+        customerName: string;
+        totalPrice: number;
+        status: string;
+    }) => {
+        try {
+            setIsLoading(true);
+            const orderData = {
+                id: order.id,
+                customerName: order.customerName,
+                totalPrice: order.totalPrice,
+                status: "fulfilled",
+            };
+            await updateOrderMutation.mutateAsync(orderData);
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const passDataToSideBar = (id: string | number) => {
