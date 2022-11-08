@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "../global/Button";
 import { CheckIcon } from "@heroicons/react/solid";
-import { Order, OrderV2 } from "../../types/Order";
+import { OrderV2 } from "../../types/Order";
+import { useRouter } from "next/router";
 
 type Props = {
     tableHeader: string[];
@@ -13,6 +14,7 @@ type Props = {
         totalPrice: number;
         status: string;
     }) => void;
+    requireCheckButton?: boolean;
 };
 
 export const Table = ({
@@ -20,7 +22,10 @@ export const Table = ({
     tableContent,
     toggleSidebarFunc,
     updateOrderStatus,
+    requireCheckButton = true,
 }: Props) => {
+    const router = useRouter();
+
     const sortNames = () => {
         console.log("sort customer name");
     };
@@ -90,43 +95,55 @@ export const Table = ({
                     </tr>
                 </thead>
                 <tbody>
-                    {tableContent.map((row) => (
-                        <tr className="table-row-style" key={row.id}>
-                            <th
-                                onClick={() => toggleSidebarFunc(row.id)}
-                                scope="row"
-                                className="item-column-one-style row-general-style"
-                            >
-                                {row.id}&quot;
-                            </th>
-                            <td className="row-general-style">
-                                {row.customerName}
-                            </td>
-                            <td className="row-general-style">
-                                {row.items.map((item) => (
-                                    <p key={item.name + item.id + row.id}>
-                                        {item.name}: {item.quantity}
-                                    </p>
-                                ))}
-                            </td>
-                            <td className="row-general-style">
-                                ${row.totalPrice}
-                            </td>
-                            <td className="row-general-style hidden lg:block">
-                                {row.status}
-                            </td>
-                            <td className="row-general-style text-right">
-                                <Button
-                                    customWidth="py-1 px-3"
-                                    onClick={() => {
-                                        updateStatus(row);
-                                    }}
+                    {tableContent
+                        .filter((item) =>
+                            item.status
+                                .toLowerCase()
+                                .includes(
+                                    router.route === "/archive"
+                                        ? "fulfilled"
+                                        : "unfulfill"
+                                )
+                        )
+                        .map((row) => (
+                            <tr className="table-row-style" key={row.id}>
+                                <th
+                                    onClick={() => toggleSidebarFunc(row.id)}
+                                    scope="row"
+                                    className="item-column-one-style row-general-style"
                                 >
-                                    <CheckIcon width={15} height={15} />
-                                </Button>
-                            </td>
-                        </tr>
-                    ))}
+                                    {row.id}&quot;
+                                </th>
+                                <td className="row-general-style">
+                                    {row.customerName}
+                                </td>
+                                <td className="row-general-style">
+                                    {row.items.map((item) => (
+                                        <p key={item.name + item.id + row.id}>
+                                            {item.name}: {item.quantity}
+                                        </p>
+                                    ))}
+                                </td>
+                                <td className="row-general-style">
+                                    ${row.totalPrice}
+                                </td>
+                                <td className="row-general-style hidden lg:block">
+                                    {row.status}
+                                </td>
+                                {requireCheckButton && (
+                                    <td className="row-general-style text-right">
+                                        <Button
+                                            customWidth="py-1 px-3"
+                                            onClick={() => {
+                                                updateStatus(row);
+                                            }}
+                                        >
+                                            <CheckIcon width={15} height={15} />
+                                        </Button>
+                                    </td>
+                                )}
+                            </tr>
+                        ))}
                 </tbody>
             </table>
         </div>
