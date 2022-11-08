@@ -12,4 +12,5 @@ export default {
     products: "物品",
     allRightsReserve: "现在 _placeholder_ 版权所有",
     createOrder: "新订单",
+    archiveOrder: "归档订单",
 };

@@ -12,4 +12,5 @@ export default {
     products: "products",
     allRightsReserve: "All rights reserved",
     createOrder: "Create Order",
+    archiveOrder: "Archive",
 };
