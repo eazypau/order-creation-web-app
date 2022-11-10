@@ -154,7 +154,7 @@ export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
                         <div>
                             {hasCTAButton ? (
                                 <Button
-                                    customWidth="py-2 px-5"
+                                    customWidth="py-1 px-4"
                                     onClick={
                                         hasCTAButton
                                             ? toggleSidebarToCreate
@@ -164,7 +164,7 @@ export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
                                     }
                                 >
                                     <span className="flex items-center gap-1">
-                                        <PlusIcon className="w-4" />
+                                        <PlusIcon className="w-4 mt-0.5" />
                                         {t.createOrder}
                                     </span>
                                 </Button>
