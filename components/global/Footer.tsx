@@ -8,7 +8,7 @@ export const Footer = () => {
     let t = router.locale === "en" ? en : cn;
 
     return (
-        <footer className="flex flex-col items-center justify-between px-6 py-4 bg-white dark:bg-gray-800 sm:flex-row">
+        <footer className="flex flex-col items-center justify-between px-6 py-4 xl:px-20 bg-white dark:bg-gray-800 sm:flex-row">
             <a
                 href="#"
                 className="text-xl font-bold text-gray-800 dark:text-white hover:text-gray-700 dark:hover:text-gray-300"
