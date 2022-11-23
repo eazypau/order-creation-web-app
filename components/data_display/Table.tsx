@@ -107,13 +107,13 @@ export const Table = ({
                         )
                         .map((row) => (
                             <tr className="table-row-style" key={row.id}>
-                                <th
+                                <td
                                     onClick={() => toggleSidebarFunc(row.id)}
                                     scope="row"
                                     className="item-column-one-style row-general-style"
                                 >
                                     {row.id}&quot;
-                                </th>
+                                </td>
                                 <td className="row-general-style">
                                     {row.customerName}
                                 </td>
