@@ -31,25 +31,43 @@ export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
 
     return (
         <nav className="bg-white shadow dark:bg-gray-800 sticky top-0 z-40">
-            <div className="container px-6 py-4 mx-auto">
+            <div className="container px-6 py-4 xl:px-20 mx-auto">
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="flex items-center justify-between">
                         <div className="text-2xl font-bold text-gray-800 w-32 transition-colors duration-200 transform dark:text-white lg:text-3xl hover:text-gray-700 dark:hover:text-gray-300">
                             <Link href="/">{t.brand}</Link>
                         </div>
-                        <div className="flex">
+                        <div className="hidden sm:flex">
                             <Link href="/">
-                                <a className="px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">
+                                <a
+                                    className={
+                                        router.pathname == "/"
+                                            ? "active-nav-tab"
+                                            : "nav-tab"
+                                    }
+                                >
                                     {t.orders}
                                 </a>
                             </Link>
                             <Link href="/products">
-                                <a className="px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">
+                                <a
+                                    className={
+                                        router.pathname == "/products"
+                                            ? "active-nav-tab"
+                                            : "nav-tab"
+                                    }
+                                >
                                     {t.products}
                                 </a>
                             </Link>
                             <Link href="/archive">
-                                <a className="px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700">
+                                <a
+                                    className={
+                                        router.pathname == "/archive"
+                                            ? "active-nav-tab"
+                                            : "nav-tab"
+                                    }
+                                >
                                     {t.archiveOrder}
                                 </a>
                             </Link>
@@ -151,10 +169,27 @@ export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
                                 ""
                             )}
                         </div>
+                        <div className="flex flex-col mb-2 sm:hidden">
+                            <Link href="/">
+                                <a className="font-medium capitalize py-1.5 text-sm">
+                                    {t.orders}
+                                </a>
+                            </Link>
+                            <Link href="/products">
+                                <a className="font-medium capitalize py-1.5 text-sm">
+                                    {t.products}
+                                </a>
+                            </Link>
+                            <Link href="/archive">
+                                <a className="font-medium capitalize py-1.5 text-sm">
+                                    {t.archiveOrder}
+                                </a>
+                            </Link>
+                        </div>
                         <div>
                             {hasCTAButton ? (
                                 <Button
-                                    customWidth="py-1 px-4"
+                                    customWidth="py-1 px-3"
                                     onClick={
                                         hasCTAButton
                                             ? toggleSidebarToCreate
