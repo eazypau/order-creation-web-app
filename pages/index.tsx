@@ -12,6 +12,7 @@ import en from "../locales/en";
 import cn from "../locales/cn";
 import { Order } from "../types/Order";
 import { Loading } from "../components/global/Loading";
+import { useLoading } from "../hooks/useLoading";
 
 const dataFormat = {
     id: "",
@@ -48,7 +49,8 @@ export default function Home() {
     const [buttonName, setButtonName] = useState<"update" | "create" | "添加">(
         "update"
     );
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, setIsLoading } = useLoading();
     // const [apiResponse, setApiResponse] = useState<any>({});
 
     const { data: orderList, refetch } = trpc.useQuery([
@@ -182,6 +184,7 @@ export default function Home() {
             <NavBar
                 toggleSidebarToCreate={openCreateOrderSidebar}
                 hasCTAButton
+                CTAButtonText={t.createOrder}
             />
             <div className="relative">
                 <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
