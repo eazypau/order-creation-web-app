@@ -10,7 +10,7 @@ type Props = {
     customTextAlign?: string;
     type?: "text" | "number";
     placeholder?: string;
-    min: string;
+    min?: string;
 };
 
 // need flexible width class edit
