@@ -13,4 +13,10 @@ export default {
     allRightsReserve: "All rights reserved",
     createOrder: "Create Order",
     archiveOrder: "Archive",
+    productName: "Product Name",
+    quantity: "Quantity",
+    price: "Price",
+    active: "Active",
+    createProduct: "Create Product",
+    activate: "Activate",
 };
