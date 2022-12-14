@@ -9,11 +9,16 @@ import en from "../../locales/en";
 import cn from "../../locales/cn";
 
 type Props = {
-    toggleSidebarToCreate: (e: Event) => void;
+    toggleSidebarToCreate: (e: any) => void;
     hasCTAButton: boolean;
+    CTAButtonText?: string;
 };
 
-export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
+export const NavBar = ({
+    toggleSidebarToCreate,
+    hasCTAButton,
+    CTAButtonText = "Create Order",
+}: Props) => {
     let router: any = useRouter();
     let t = router.locale === "en" ? en : cn;
     const [isOpen, setIsOpen] = useState(false);
@@ -200,7 +205,7 @@ export const NavBar = ({ toggleSidebarToCreate, hasCTAButton }: Props) => {
                                 >
                                     <span className="flex items-center gap-1">
                                         <PlusIcon className="w-4 mt-0.5" />
-                                        {t.createOrder}
+                                        {CTAButtonText}
                                     </span>
                                 </Button>
                             ) : (
