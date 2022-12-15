@@ -13,4 +13,10 @@ export default {
     allRightsReserve: "现在 _placeholder_ 版权所有",
     createOrder: "新订单",
     archiveOrder: "归档订单",
+    productName: "产品名称",
+    quantity: "数量",
+    price: "价钱",
+    active: "现行",
+    createProduct: "制作产品",
+    activate: "启用",
 };

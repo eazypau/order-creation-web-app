@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 /* keep class and id name as kebab-case */
+.nav-tab {
+    @apply px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 hover:bg-gray-300;
+}
+
+.active-nav-tab {
+    @apply px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-white transition-colors duration-200 transform rounded-md md:mt-0 bg-gray-600 hover:bg-gray-300 hover:text-black;
+}
 
 .body-height {
     min-height: calc(100vh - 128px);
@@ -22,6 +29,30 @@
 
 .row-general-style {
     @apply py-4 px-6 align-top;
+}
+
+.table-form-label {
+    @apply py-2;
+}
+
+.table-form-input {
+    @apply p-2;
+}
+
+.table-form-input input {
+    @apply border border-gray-400 rounded-sm p-1 text-center w-full;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.table-form-input input::-webkit-outer-spin-button,
+.table-form-input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.table-form-input input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 .dots {

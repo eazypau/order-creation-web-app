@@ -7,7 +7,7 @@ type Props = {
     customColor?: string;
     customBorder?: string;
     customWidth?: string;
-    onClick: (e: any) => void;
+    onClick?: (e: any) => void;
     children: JSX.Element | string;
 };
 
@@ -21,7 +21,7 @@ export const Button = ({
     children,
 }: Props) => {
     const baseClassName =
-        "inline-block text-sm font-medium focus:outline-none focus:ring";
+        "inline-block text-sm font-medium focus:outline-none focus:ring transition-all duration-300 ease-out";
     const width = "w-auto px-7 lg:px-12 py-1.5 lg:py-3";
     const border = "border border-indigo-600 rounded";
     const variants = {
