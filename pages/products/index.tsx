@@ -10,6 +10,7 @@ import { Switch } from "@headlessui/react";
 import { trpc } from "../../utils/trpc";
 import { Loading } from "../../components/global/Loading";
 import { useLoading } from "../../hooks/useLoading";
+import { InputField } from "../../components/forms/InputField";
 
 const Products = () => {
     let router = useRouter();
@@ -19,6 +20,7 @@ const Products = () => {
     // const [isLoading, setIsLoading] = useState(false);
     const { isLoading, setIsLoading } = useLoading();
     const [product, setProduct] = useState({
+        id: 0,
         name: "",
         // quantity: 0,
         price: 0,
@@ -45,17 +47,31 @@ const Products = () => {
         },
     });
 
-    const openModal = (action: "create" | "update" | "添加" | "更新") => {
-        setProduct({
-            name: "",
-            // quantity: 0,
-            price: 0,
-            active: false,
-        });
+    const openModal = (
+        action: "create" | "update" | "添加" | "更新",
+        product?: { id: number; name: string; price: number; active: boolean }
+    ) => {
         setAction(action);
-        if (["create", "添加"].includes(action))
+        if (["create", "添加"].includes(action)) {
+            setProduct({
+                id: 0,
+                name: "",
+                // quantity: 0,
+                price: 0,
+                active: false,
+            });
             setModalHeading("Create Product");
-        else setModalHeading("Update Product");
+        } else {
+            setProduct(
+                product || {
+                    id: 0,
+                    name: "",
+                    price: 0,
+                    active: false,
+                }
+            );
+            setModalHeading("Update Product");
+        }
         setShowModal(true);
     };
 
@@ -72,14 +88,14 @@ const Products = () => {
         }
         setIsLoading(true);
         if (["create", "添加"].includes(action)) {
-            console.log("craeting");
+            // console.log("craeting");
             try {
                 const data = await createProductMutation.mutateAsync({
                     name: product.name,
                     price: Number(product.price),
                     active: product.active,
                 });
-                console.log(data);
+                // console.log(data);
                 setShowModal(false);
                 setIsLoading(false);
             } catch (error) {
@@ -88,7 +104,21 @@ const Products = () => {
                 setIsLoading(false);
             }
         } else if (["update", "更新"].includes(action)) {
-            console.log("updating");
+            // console.log("updating");
+            try {
+                const data = await updateProductMutation.mutateAsync({
+                    id: Number(product.id),
+                    name: product.name,
+                    price: Number(product.price),
+                    active: product.active,
+                });
+                setShowModal(false);
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
+                setShowModal(false);
+                setIsLoading(false);
+            }
         }
     };
 
@@ -133,15 +163,17 @@ const Products = () => {
                                     </label>
                                 </td>
                                 <td className="table-form-input">
-                                    <input
+                                    <InputField
                                         type="text"
                                         name="name"
                                         id="name"
-                                        maxLength={30}
                                         placeholder={t.productName}
-                                        required
+                                        hasBorder
+                                        customTextAlign="text-center text-lg"
                                         value={product.name}
                                         onChange={setDataValue}
+                                        autoComplete="off"
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -169,14 +201,17 @@ const Products = () => {
                                 </td>
                                 <td className="table-form-input">
                                     {/* https://stackoverflow.com/questions/34057595/allow-2-decimal-places-in-input-type-number */}
-                                    <input
+                                    <InputField
                                         type="text"
                                         name="price"
                                         id="price"
-                                        required
-                                        pattern="^\d*(\.\d{0,2})?$"
+                                        placeholder="5.50"
+                                        hasBorder
+                                        customTextAlign="text-center text-lg"
                                         value={product.price}
+                                        pattern="^\d*(\.\d{0,2})?$"
                                         onChange={setDataValue}
+                                        required
                                     />
                                 </td>
                             </tr>
@@ -215,7 +250,11 @@ const Products = () => {
                             <tr>
                                 <td></td>
                                 <td className="pt-3 px-2 flex justify-end">
-                                    <Button type="submit">Create</Button>
+                                    <Button type="submit">
+                                        {["create", "添加"].includes(action)
+                                            ? "Create"
+                                            : "Update"}
+                                    </Button>
                                 </td>
                             </tr>
                         </tbody>
@@ -283,7 +322,9 @@ const Products = () => {
                                     <td className="row-general-style flex justify-end">
                                         <Button
                                             type="button"
-                                            onClick={() => openModal("update")}
+                                            onClick={() =>
+                                                openModal("update", product)
+                                            }
                                             customWidth="w-16 py-1"
                                         >
                                             Edit
