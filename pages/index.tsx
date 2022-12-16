@@ -170,9 +170,9 @@ export default function Home() {
                     // console.log(itemDetails);
                     await createOrderItemMutation.mutateAsync(itemDetails);
                 }
+                await refetch();
                 setShowSideBar(false);
                 setIsLoading(false);
-                await refetch();
             } else if (["update", "更新"].includes(step)) {
                 console.log("updating order details");
             }
