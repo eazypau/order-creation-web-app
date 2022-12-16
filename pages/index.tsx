@@ -46,9 +46,9 @@ export default function Home() {
         totalPrice: 0,
         status: "",
     });
-    const [buttonName, setButtonName] = useState<"update" | "create" | "添加">(
-        "update"
-    );
+    const [buttonName, setButtonName] = useState<
+        "update" | "create" | "添加" | "更新"
+    >("update");
     const [productList, setProductList] = useState<any[]>([]);
     const { isLoading, setIsLoading } = useLoading();
 

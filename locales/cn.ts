@@ -18,5 +18,13 @@ export default {
     price: "价钱",
     active: "现行",
     createProduct: "制作产品",
+    updateProduct: "更新产品",
     activate: "启用",
+    beanPastePastry: "豆沙饼",
+    xiangBing: "香饼",
+    mooncake: "月饼",
+    delete: "删除",
+    yes: "是的",
+    cancel: "取消",
+    create: "添加",
 };

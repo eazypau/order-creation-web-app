@@ -14,7 +14,7 @@ type Props = {
     data?: Order; // set to optional for now, will remove "?" when going to production
     toggleSidebarFunc?: () => void;
     buttonName?: string;
-    process?: "create" | "update" | "添加";
+    process?: "create" | "update" | "添加" | "更新";
     options: any[];
     showSidebar: boolean;
     orderFunctionHandle: ({

@@ -74,7 +74,7 @@ const Products = () => {
                 price: 0,
                 active: false,
             });
-            setModalHeading("Create Product");
+            setModalHeading(t.createProduct);
         } else {
             setProduct(
                 product || {
@@ -84,7 +84,7 @@ const Products = () => {
                     active: false,
                 }
             );
-            setModalHeading("Update Product");
+            setModalHeading(t.updateProduct);
         }
         setShowModal(true);
     };
@@ -284,10 +284,13 @@ const Products = () => {
                             <tr>
                                 <td></td>
                                 <td className="pt-3 px-2 flex justify-end">
-                                    <Button type="submit">
+                                    <Button
+                                        type="submit"
+                                        customWidth="capitalize w-24 py-3"
+                                    >
                                         {["create", "添加"].includes(action)
-                                            ? "Create"
-                                            : "Update"}
+                                            ? t.create
+                                            : t.update}
                                     </Button>
                                 </td>
                             </tr>
@@ -298,24 +301,28 @@ const Products = () => {
             <Modal
                 isOpen={openPromptModal}
                 closeModal={() => setOpenPromptModal(false)}
-                heading={`Delete "${product.name}"`}
+                heading={`${t.delete} "${product.name}"`}
             >
                 <div className="mt-2">
-                    <p>Are you sure? (This is an irreversable action)</p>
+                    <p>
+                        {router.locale === "en"
+                            ? "Are you sure? (This is an irreversable action)"
+                            : "你确定吗?（这是不可逆的动作）"}
+                    </p>
                     <div className="mt-5 space-x-2">
                         <Button
                             type="button"
                             onClick={executeDeletePromptRespond}
-                            customWidth="w-20 py-2"
+                            customWidth="w-20 py-2 capitalize"
                         >
-                            Yes
+                            {t.yes}
                         </Button>
                         <Button
                             type="button"
                             onClick={() => setOpenPromptModal(false)}
-                            customWidth="w-20 py-2"
+                            customWidth="w-20 py-2 capitalize"
                         >
-                            No
+                            {t.cancel === "cancel" ? "no" : t.cancel}
                         </Button>
                     </div>
                 </div>
@@ -345,7 +352,7 @@ const Products = () => {
                                     {t.price}
                                 </th>
                                 <th scope="col" className="py-3 px-6">
-                                    {t.active}
+                                    {t.activate}
                                 </th>
                                 <th
                                     scope="col"
@@ -384,18 +391,18 @@ const Products = () => {
                                             onClick={() =>
                                                 openModal("update", product)
                                             }
-                                            customWidth="w-16 py-1"
+                                            customWidth="w-20 py-1.5 capitalize"
                                         >
-                                            Edit
+                                            {t.update}
                                         </Button>
                                         <Button
                                             type="button"
                                             onClick={() =>
                                                 openPromptModalAndSetId(product)
                                             }
-                                            customWidth="w-16 py-1 ml-2"
+                                            customWidth="w-20 py-1.5 ml-2 capitalize"
                                         >
-                                            Delete
+                                            {t.delete}
                                         </Button>
                                     </td>
                                 </tr>
