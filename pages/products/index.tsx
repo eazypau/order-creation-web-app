@@ -36,7 +36,7 @@ const Products = () => {
     const [action, setAction] = useState<"create" | "update" | "添加" | "更新">(
         "create"
     );
-    const [openPromptModal, setOpenPromptModal] = useState(true);
+    const [openPromptModal, setOpenPromptModal] = useState(false);
 
     const { data: productList, refetch } = trpc.useQuery([
         "products.findAllProducts",
