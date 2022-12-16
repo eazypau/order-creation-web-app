@@ -12,6 +12,13 @@ import { Loading } from "../../components/global/Loading";
 import { useLoading } from "../../hooks/useLoading";
 import { InputField } from "../../components/forms/InputField";
 
+type ProductObj = {
+    id: number;
+    name: string;
+    price: number;
+    active: boolean;
+};
+
 const Products = () => {
     let router = useRouter();
     let t = router.locale === "en" ? en : cn;
@@ -29,6 +36,7 @@ const Products = () => {
     const [action, setAction] = useState<"create" | "update" | "添加" | "更新">(
         "create"
     );
+    const [openPromptModal, setOpenPromptModal] = useState(true);
 
     const { data: productList, refetch } = trpc.useQuery([
         "products.findAllProducts",
@@ -47,9 +55,15 @@ const Products = () => {
         },
     });
 
+    const deleteProductMutation = trpc.useMutation(["products.deleteProduct"], {
+        onSuccess: async () => {
+            await refetch();
+        },
+    });
+
     const openModal = (
         action: "create" | "update" | "添加" | "更新",
-        product?: { id: number; name: string; price: number; active: boolean }
+        product?: ProductObj
     ) => {
         setAction(action);
         if (["create", "添加"].includes(action)) {
@@ -73,6 +87,26 @@ const Products = () => {
             setModalHeading("Update Product");
         }
         setShowModal(true);
+    };
+
+    const openPromptModalAndSetId = (product: ProductObj) => {
+        setProduct({ ...product });
+        setOpenPromptModal(true);
+    };
+
+    const executeDeletePromptRespond = async () => {
+        try {
+            setIsLoading(true);
+            await deleteProductMutation.mutateAsync({
+                id: product.id,
+            });
+            setOpenPromptModal(false);
+            setIsLoading(false);
+        } catch (error) {
+            console.error(error);
+            setOpenPromptModal(false);
+            setIsLoading(false);
+        }
     };
 
     // https://stackoverflow.com/questions/68326000/cant-assign-submit-event-type
@@ -99,7 +133,7 @@ const Products = () => {
                 setShowModal(false);
                 setIsLoading(false);
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 setShowModal(false);
                 setIsLoading(false);
             }
@@ -115,7 +149,7 @@ const Products = () => {
                 setShowModal(false);
                 setIsLoading(false);
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 setShowModal(false);
                 setIsLoading(false);
             }
@@ -261,6 +295,31 @@ const Products = () => {
                     </table>
                 </form>
             </Modal>
+            <Modal
+                isOpen={openPromptModal}
+                closeModal={() => setOpenPromptModal(false)}
+                heading={`Delete "${product.name}"`}
+            >
+                <div className="mt-2">
+                    <p>Are you sure? (This is an irreversable action)</p>
+                    <div className="mt-5 space-x-2">
+                        <Button
+                            type="button"
+                            onClick={executeDeletePromptRespond}
+                            customWidth="w-20 py-2"
+                        >
+                            Yes
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => setOpenPromptModal(false)}
+                            customWidth="w-20 py-2"
+                        >
+                            No
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
             <NavBar
                 hasCTAButton={true}
                 toggleSidebarToCreate={() => {
@@ -328,6 +387,15 @@ const Products = () => {
                                             customWidth="w-16 py-1"
                                         >
                                             Edit
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            onClick={() =>
+                                                openPromptModalAndSetId(product)
+                                            }
+                                            customWidth="w-16 py-1 ml-2"
+                                        >
+                                            Delete
                                         </Button>
                                     </td>
                                 </tr>
