@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import en from "../../locales/en";
 import cn from "../../locales/cn";
+import { calculateTotalPrice } from "../../helpers/calculateTotalPrice";
 
 type Props = {
     data?: Order; // set to optional for now, will remove "?" when going to production
@@ -65,9 +66,15 @@ export const Sidebar = ({
                 ...items[index],
                 quantity: e.target.value,
             };
+            const totalPrice = calculateTotalPrice({
+                items: items,
+                productList: options,
+            });
+
             setInputValue((prev) => ({
                 ...prev,
                 items: items,
+                totalPrice: totalPrice,
             }));
         }
         const { name, value } = e.target;
@@ -86,9 +93,15 @@ export const Sidebar = ({
             ...items[index],
             name: name,
         };
+        const totalPrice = calculateTotalPrice({
+            items: items,
+            productList: options,
+        });
+
         setInputValue((prev) => ({
             ...prev,
             items: items,
+            totalPrice: totalPrice,
         }));
     };
 
@@ -225,10 +238,17 @@ export const Sidebar = ({
                     </div>
                     <div className="flex justify-end">
                         <Button
-                            customColor="bg-green-500 hover:bg-transparent"
+                            customWidth="w-36 py-3 capitalize"
                             onClick={orderMutationHandler}
                         >
-                            {buttonName}
+                            <span>
+                                {buttonName} -{" "}
+                                {new Intl.NumberFormat("en-US", {
+                                    style: "currency",
+                                    currency: "MYR",
+                                    currencyDisplay: "narrowSymbol",
+                                }).format(inputValue.totalPrice)}
+                            </span>
                         </Button>
                     </div>
                 </form>
