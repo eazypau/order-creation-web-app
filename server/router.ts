@@ -137,12 +137,15 @@ const products = createRouter()
     })
     .mutation("updateProduct", {
         input: z.object({
+            id: z.number(),
             name: z.string(),
             price: z.number(),
             active: z.boolean(),
         }),
         resolve: async ({ input, ctx }) => {
-            return await ctx.prisma.productList.create({
+            const { id, ...rest } = input;
+            return await ctx.prisma.productList.update({
+                where: { id },
                 data: {
                     name: input.name,
                     price: input.price,

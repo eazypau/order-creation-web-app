@@ -11,6 +11,10 @@ type Props = {
     type?: "text" | "number";
     placeholder?: string;
     min?: string;
+    autoComplete?: string;
+    required?: boolean;
+    pattern?: string;
+    id?: string;
 };
 
 // need flexible width class edit
@@ -24,6 +28,10 @@ export const InputField = ({
     type = "text",
     min = "1",
     placeholder = "Enter text here",
+    autoComplete = "off",
+    required = false,
+    pattern,
+    id,
 }: Props) => {
     const baseClassName =
         "w-full p-1.5 lg:p-3 text-sm border-gray-200 rounded-lg";
@@ -42,12 +50,16 @@ export const InputField = ({
             </label>
             <input
                 className={style}
+                id={id}
                 type={type}
                 placeholder={placeholder}
                 name={name}
                 value={value}
                 onChange={onChange}
                 min={min}
+                autoComplete={autoComplete}
+                required={required}
+                pattern={pattern}
             />
         </div>
     );

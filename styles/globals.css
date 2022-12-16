@@ -39,10 +39,6 @@
     @apply p-2;
 }
 
-.table-form-input input {
-    @apply border border-gray-400 rounded-sm p-1 text-center w-full;
-}
-
 /* Chrome, Safari, Edge, Opera */
 .table-form-input input::-webkit-outer-spin-button,
 .table-form-input input::-webkit-inner-spin-button {
