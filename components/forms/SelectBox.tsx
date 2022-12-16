@@ -12,23 +12,35 @@ type Props = {
     customWidth?: string;
     value: string;
     onChange: (e?: any) => void;
+    options: any[];
 };
 
 // need flexible width class edit
 
-export const SelectBox = ({ customWidth = "", value, onChange }: Props) => {
+export const SelectBox = ({
+    customWidth = "",
+    value,
+    onChange,
+    options,
+}: Props) => {
     const width = "w-full"; // default width
-    const [selected, setSelected] = useState(productList[0]);
+    const [selected, setSelected] = useState({ name: "" });
+    const [availableOptions, setAvailableOptions] = useState<any[]>([]);
 
     useEffect(() => {
         if (!value) setSelected({ name: "" });
         else {
-            const productFinder = productList.find(
+            const productFinder = availableOptions.find(
                 (item) => item.name === value
             );
             setSelected(productFinder || { name: "" });
         }
-    }, [value]);
+    }, [value, availableOptions]);
+
+    useEffect(() => {
+        if (options.length > 0) setAvailableOptions(options);
+        else setAvailableOptions([]);
+    }, [options]);
 
     return (
         <div className={customWidth ? customWidth : width}>
@@ -50,9 +62,9 @@ export const SelectBox = ({ customWidth = "", value, onChange }: Props) => {
                         leaveTo="opacity-0"
                     >
                         <Listbox.Options className="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                            {productList.map((person, personIdx) => (
+                            {options.map((option, optionId) => (
                                 <Listbox.Option
-                                    key={personIdx}
+                                    key={optionId}
                                     className={({ active }) =>
                                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                             active
@@ -60,7 +72,7 @@ export const SelectBox = ({ customWidth = "", value, onChange }: Props) => {
                                                 : "text-gray-900"
                                         }`
                                     }
-                                    value={person}
+                                    value={option}
                                 >
                                     {({ selected }) => (
                                         <>
@@ -71,7 +83,7 @@ export const SelectBox = ({ customWidth = "", value, onChange }: Props) => {
                                                         : "font-normal"
                                                 }`}
                                             >
-                                                {person.name}
+                                                {option.name}
                                             </span>
                                             {selected ? (
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">

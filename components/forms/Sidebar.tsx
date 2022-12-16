@@ -15,6 +15,8 @@ type Props = {
     toggleSidebarFunc?: () => void;
     buttonName?: string;
     process?: "create" | "update" | "添加";
+    options: any[];
+    showSidebar: boolean;
     orderFunctionHandle: ({
         step,
         orderData,
@@ -29,6 +31,8 @@ export const Sidebar = ({
     toggleSidebarFunc,
     buttonName = "update",
     process = "update",
+    options,
+    showSidebar = false,
     orderFunctionHandle,
 }: Props) => {
     let router = useRouter();
@@ -129,7 +133,12 @@ export const Sidebar = ({
     };
 
     return (
-        <aside className="absolute right-0 top-0 z-20 lg:w-4/12 xl:w-1/4 2xl:w-3/12 px-5 py-5 lg:py-10 bg-white h-full">
+        <aside
+            className={
+                "absolute right-0 top-0 z-20 translate-x-0 lg:w-4/12 xl:w-1/4 2xl:w-3/12 px-5 py-5 lg:py-10 bg-white h-full overflow-hidden transition-all ease-out duration-300 " +
+                (showSidebar ? "translate-x-0" : "translate-x-full")
+            }
+        >
             <div className="flex justify-between mb-3 lg:mb-5">
                 <div className="flex items-center gap-1 lg:gap-2">
                     {/* only for create and update */}
@@ -187,6 +196,7 @@ export const Sidebar = ({
                             >
                                 <SelectBox
                                     value={item.name}
+                                    options={options}
                                     onChange={(e) =>
                                         handleSelectChange(e, index)
                                     }

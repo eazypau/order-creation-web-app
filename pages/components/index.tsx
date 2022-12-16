@@ -120,6 +120,8 @@ export default function Home() {
                     </div>
                     <div className="pt-4">
                         <Sidebar
+                            options={[]}
+                            showSidebar={false}
                             orderFunctionHandle={(e: any) => {
                                 console.log("toggled");
                             }}
@@ -128,6 +130,7 @@ export default function Home() {
                     <div className="pt-4 pb-20">
                         <p>Select Box</p>
                         <SelectBox
+                            options={[]}
                             value="Dou Sa Bing"
                             onChange={(e) => {
                                 console.log("do nothing");

@@ -1,6 +1,6 @@
 // import Head from "next/head";
 // import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "../components/global/Footer";
 import { NavBar } from "../components/global/NavBar";
 // import { Pagination } from "../components/data_display/Pagination";
@@ -49,13 +49,18 @@ export default function Home() {
     const [buttonName, setButtonName] = useState<"update" | "create" | "添加">(
         "update"
     );
-    // const [isLoading, setIsLoading] = useState(false);
+    const [productList, setProductList] = useState<any[]>([]);
     const { isLoading, setIsLoading } = useLoading();
-    // const [apiResponse, setApiResponse] = useState<any>({});
 
     const { data: orderList, refetch } = trpc.useQuery([
         "orders.findAllOrders",
     ]);
+    const { data: products } = trpc.useQuery(["products.findAllProducts"]);
+
+    useEffect(() => {
+        if (products) setProductList(products);
+        else setProductList([]);
+    }, [products]);
 
     const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
         onSuccess: (data, variables, context) => {
@@ -179,7 +184,7 @@ export default function Home() {
     };
 
     return (
-        <div className="bg-slate-200">
+        <div className="bg-slate-200 w-screen overflow-x-hidden">
             {isLoading ? <Loading /> : ""}
             <NavBar
                 toggleSidebarToCreate={openCreateOrderSidebar}
@@ -201,15 +206,15 @@ export default function Home() {
                         toggleSidebarFunc={passDataToSideBar}
                         updateOrderStatus={updateOrderStatus}
                     />
-                    {showSideBar && (
-                        <Sidebar
-                            data={orderDetails}
-                            toggleSidebarFunc={() => setShowSideBar(false)}
-                            buttonName={buttonName}
-                            process={buttonName}
-                            orderFunctionHandle={orderCreateUpdateHandler}
-                        />
-                    )}
+                    <Sidebar
+                        data={orderDetails}
+                        toggleSidebarFunc={() => setShowSideBar(false)}
+                        buttonName={buttonName}
+                        process={buttonName}
+                        options={productList}
+                        showSidebar={showSideBar}
+                        orderFunctionHandle={orderCreateUpdateHandler}
+                    />
                 </div>
             </div>
             <Footer />
