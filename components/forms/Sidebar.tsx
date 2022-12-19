@@ -9,12 +9,15 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import en from "../../locales/en";
 import cn from "../../locales/cn";
+import { calculateTotalPrice } from "../../helpers/calculateTotalPrice";
 
 type Props = {
     data?: Order; // set to optional for now, will remove "?" when going to production
     toggleSidebarFunc?: () => void;
     buttonName?: string;
-    process?: "create" | "update" | "添加";
+    process?: "create" | "update" | "添加" | "更新";
+    options: any[];
+    showSidebar: boolean;
     orderFunctionHandle: ({
         step,
         orderData,
@@ -29,6 +32,8 @@ export const Sidebar = ({
     toggleSidebarFunc,
     buttonName = "update",
     process = "update",
+    options,
+    showSidebar = false,
     orderFunctionHandle,
 }: Props) => {
     let router = useRouter();
@@ -61,9 +66,15 @@ export const Sidebar = ({
                 ...items[index],
                 quantity: e.target.value,
             };
+            const totalPrice = calculateTotalPrice({
+                items: items,
+                productList: options,
+            });
+
             setInputValue((prev) => ({
                 ...prev,
                 items: items,
+                totalPrice: totalPrice,
             }));
         }
         const { name, value } = e.target;
@@ -82,9 +93,15 @@ export const Sidebar = ({
             ...items[index],
             name: name,
         };
+        const totalPrice = calculateTotalPrice({
+            items: items,
+            productList: options,
+        });
+
         setInputValue((prev) => ({
             ...prev,
             items: items,
+            totalPrice: totalPrice,
         }));
     };
 
@@ -129,7 +146,12 @@ export const Sidebar = ({
     };
 
     return (
-        <aside className="absolute right-0 top-0 z-20 lg:w-4/12 xl:w-1/4 2xl:w-3/12 px-5 py-5 lg:py-10 bg-white h-full">
+        <aside
+            className={
+                "absolute right-0 top-0 z-20 translate-x-0 lg:w-4/12 xl:w-1/4 2xl:w-3/12 px-5 py-5 lg:py-10 bg-white h-full overflow-hidden transition-all ease-out duration-300 " +
+                (showSidebar ? "translate-x-0" : "translate-x-full")
+            }
+        >
             <div className="flex justify-between mb-3 lg:mb-5">
                 <div className="flex items-center gap-1 lg:gap-2">
                     {/* only for create and update */}
@@ -187,6 +209,7 @@ export const Sidebar = ({
                             >
                                 <SelectBox
                                     value={item.name}
+                                    options={options}
                                     onChange={(e) =>
                                         handleSelectChange(e, index)
                                     }
@@ -215,10 +238,17 @@ export const Sidebar = ({
                     </div>
                     <div className="flex justify-end">
                         <Button
-                            customColor="bg-green-500 hover:bg-transparent"
+                            customWidth="w-36 py-3 capitalize"
                             onClick={orderMutationHandler}
                         >
-                            {buttonName}
+                            <span>
+                                {buttonName} -{" "}
+                                {new Intl.NumberFormat("en-US", {
+                                    style: "currency",
+                                    currency: "MYR",
+                                    currencyDisplay: "narrowSymbol",
+                                }).format(inputValue.totalPrice)}
+                            </span>
                         </Button>
                     </div>
                 </form>

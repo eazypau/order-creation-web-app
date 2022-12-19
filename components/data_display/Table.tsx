@@ -125,7 +125,11 @@ export const Table = ({
                                     ))}
                                 </td>
                                 <td className="row-general-style">
-                                    ${row.totalPrice}
+                                    {new Intl.NumberFormat("en-US", {
+                                        style: "currency",
+                                        currency: "MYR",
+                                        currencyDisplay: "narrowSymbol",
+                                    }).format(row.totalPrice)}
                                 </td>
                                 <td className="row-general-style hidden lg:block">
                                     {row.status}

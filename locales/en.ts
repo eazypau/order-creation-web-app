@@ -18,5 +18,13 @@ export default {
     price: "Price",
     active: "Active",
     createProduct: "Create Product",
+    updateProduct: "Update Product",
     activate: "Activate",
+    beanPastePastry: "Tau Sa Piah",
+    xiangBing: "Heong Peah",
+    mooncake: "Mooncake",
+    delete: "Delete",
+    yes: "yes",
+    cancel: "cancel",
+    create: "create",
 };

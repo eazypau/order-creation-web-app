@@ -22,7 +22,7 @@ model OrderList {
   id            Int         @id @default(autoincrement())
   customerName  String
   items         OrderItem[]
-  totalPrice    Int
+  totalPrice    Float
   status        String
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
