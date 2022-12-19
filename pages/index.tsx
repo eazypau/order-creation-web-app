@@ -13,6 +13,7 @@ import cn from "../locales/cn";
 import { Order } from "../types/Order";
 import { Loading } from "../components/global/Loading";
 import { useLoading } from "../hooks/useLoading";
+import { calculateTotalPrice } from "../helpers/calculateTotalPrice";
 
 const dataFormat = {
     id: "",
@@ -46,6 +47,7 @@ export default function Home() {
         totalPrice: 0,
         status: "",
     });
+    const [orders, setOrders] = useState<any[]>([]);
     const [buttonName, setButtonName] = useState<
         "update" | "create" | "添加" | "更新"
     >("update");
@@ -56,6 +58,11 @@ export default function Home() {
         "orders.findAllOrders",
     ]);
     const { data: products } = trpc.useQuery(["products.findAllProducts"]);
+
+    useEffect(() => {
+        if (orderList) setOrders(orderList);
+        else setOrders([]);
+    }, [orderList]);
 
     useEffect(() => {
         if (products) setProductList(products);
@@ -83,6 +90,77 @@ export default function Home() {
             await refetch();
         },
     });
+
+    const handleFormInput = ({
+        action,
+        value,
+        index,
+    }: {
+        action: string;
+        value?: any;
+        index?: number;
+    }) => {
+        console.log(action);
+        // add item, remove item, edit item (name or qty change)
+        // update name
+        if (action === "name-change") {
+            setOrderDetails((prev) => ({
+                ...prev,
+                customerName: value,
+            }));
+        }
+        if (action === "add-item") {
+            const items = [...orderDetails.items];
+            items.push({
+                id: "",
+                name: "",
+                quantity: 1,
+            });
+            setOrderDetails((prev) => ({
+                ...prev,
+                items: items,
+            }));
+        }
+        if (action === "edit-item-name") {
+            const items = [...orderDetails.items];
+            const newItems = items.map((item, i) => {
+                item.id = item.id + item.quantity;
+                if (i === index) item.name = value;
+                return item;
+            });
+            setOrderDetails((prev) => ({
+                ...prev,
+                items: newItems,
+            }));
+            const totalPrice = calculateTotalPrice({
+                items: orderDetails.items,
+                productList: productList,
+            });
+            setOrderDetails((prev) => ({
+                ...prev,
+                totalPrice: totalPrice,
+            }));
+        }
+        if (action === "edit-item-qty") {
+            const items = [...orderDetails.items];
+            const newItems = items.map((item, i) => {
+                if (i === index) item.quantity = value;
+                return item;
+            });
+            setOrderDetails((prev) => ({
+                ...prev,
+                items: newItems,
+            }));
+            const totalPrice = calculateTotalPrice({
+                items: orderDetails.items,
+                productList: productList,
+            });
+            setOrderDetails((prev) => ({
+                ...prev,
+                totalPrice: totalPrice,
+            }));
+        }
+    };
 
     /**
      * Update order status by ID
@@ -113,31 +191,39 @@ export default function Home() {
     };
 
     const passDataToSideBar = (id: string | number) => {
+        if (id === orderDetails.id && showSideBar) return;
         setShowSideBar(false);
-        const findOrder: any = orderList?.find((order) => order.id === id);
-        setOrderDetails(findOrder || dataFormat);
-        setButtonName("update");
-        setShowSideBar(true);
+        setTimeout(() => {
+            const listOfOrders = [...orders];
+            const findOrder: any = listOfOrders.find(
+                (order) => order.id === id
+            );
+            setOrderDetails(JSON.parse(JSON.stringify({ ...findOrder })));
+            setButtonName("update");
+            setShowSideBar(true);
+        }, 400);
     };
 
     const openCreateOrderSidebar = (event: Event) => {
         event.preventDefault();
         setShowSideBar(false);
-        setOrderDetails({
-            id: router.locale === "en" ? "Create Order" : "新订单",
-            customerName: "",
-            items: [
-                {
-                    id: "",
-                    name: "",
-                    quantity: 1,
-                },
-            ],
-            totalPrice: 0,
-            status: "unfulfill",
-        });
-        setButtonName(router.locale === "en" ? "create" : "添加");
-        setShowSideBar(true);
+        setTimeout(() => {
+            setOrderDetails({
+                id: router.locale === "en" ? "Create Order" : "新订单",
+                customerName: "",
+                items: [
+                    {
+                        id: "",
+                        name: "",
+                        quantity: 1,
+                    },
+                ],
+                totalPrice: 0,
+                status: "unfulfill",
+            });
+            setButtonName(router.locale === "en" ? "create" : "添加");
+            setShowSideBar(true);
+        }, 400);
     };
 
     const orderCreateUpdateHandler = async ({
@@ -202,7 +288,7 @@ export default function Home() {
                             t.status,
                             "",
                         ]}
-                        tableContent={orderList || []}
+                        tableContent={orders}
                         toggleSidebarFunc={passDataToSideBar}
                         updateOrderStatus={updateOrderStatus}
                     />
@@ -213,6 +299,7 @@ export default function Home() {
                         process={buttonName}
                         options={productList}
                         showSidebar={showSideBar}
+                        handleInputs={handleFormInput}
                         orderFunctionHandle={orderCreateUpdateHandler}
                     />
                 </div>
