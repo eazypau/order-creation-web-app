@@ -1,10 +1,11 @@
 export type Order = {
-    id: string | number;
+    id: number;
     customerName: string;
     items: {
-        id: string | number;
+        id: number;
         name: string;
         quantity: number;
+        orderId: number;
     }[];
     totalPrice: number;
     status: string;
