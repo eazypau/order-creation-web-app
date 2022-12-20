@@ -301,7 +301,7 @@ export default function Home() {
                 }[] = [];
 
                 items.forEach((item) => {
-                    item.orderId = orderDetails.id;
+                    item.orderId = data.id;
                     item.quantity = Number(item.quantity);
                     if (Number(item.id) !== -1) {
                         existingItems.push(item);

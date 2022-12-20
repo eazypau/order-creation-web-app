@@ -17,5 +17,5 @@ export const calculateTotalPrice = ({
         totalPrice = totalPrice + findProduct.price * item.quantity;
     });
 
-    return totalPrice;
+    return Number(totalPrice.toFixed(2));
 };
