@@ -12,7 +12,7 @@ CREATE TABLE "OrderItem" (
 CREATE TABLE "OrderList" (
     "id" SERIAL NOT NULL,
     "customerName" TEXT NOT NULL,
-    "totalPrice" INTEGER NOT NULL,
+    "totalPrice" DOUBLE PRECISION NOT NULL,
     "status" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE "OrderList" (
 CREATE TABLE "ProductList" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "price" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "ProductList_pkey" PRIMARY KEY ("id")
