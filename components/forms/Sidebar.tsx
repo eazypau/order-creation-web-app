@@ -48,7 +48,7 @@ export const Sidebar = ({
     let router = useRouter();
     let t = router.locale === "en" ? en : cn;
     const [inputValue, setInputValue] = useState<Order>({
-        id: "",
+        id: -1,
         customerName: "",
         items: [],
         totalPrice: 0,
@@ -59,7 +59,7 @@ export const Sidebar = ({
         if (data) setInputValue(data);
         else
             setInputValue({
-                id: "",
+                id: -1,
                 customerName: "",
                 items: [],
                 totalPrice: 0,
@@ -130,7 +130,11 @@ export const Sidebar = ({
                     >
                         <ChevronDoubleRightIcon className="w-5 lg:w-7 hover:opacity-70" />
                     </button>
-                    <h5 className="sidebar-heading">{inputValue.id}</h5>
+                    <h5 className="sidebar-heading">
+                        {Number(inputValue.id) !== -1
+                            ? "Order number: #" + inputValue.id
+                            : "Create Order"}
+                    </h5>
                 </div>
                 <p
                     className={
@@ -177,7 +181,7 @@ export const Sidebar = ({
                     <div className="mb-5 space-y-2">
                         {inputValue.items.map((item, index) => (
                             <div
-                                key={item.id + inputValue.customerName}
+                                key={item.id + inputValue.customerName + index}
                                 className="flex gap-2"
                             >
                                 <SelectBox
