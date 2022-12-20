@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import en from "../../locales/en";
 import cn from "../../locales/cn";
-import { calculateTotalPrice } from "../../helpers/calculateTotalPrice";
 
 type Props = {
     data?: Order; // set to optional for now, will remove "?" when going to production
@@ -18,6 +17,15 @@ type Props = {
     process?: "create" | "update" | "添加" | "更新";
     options: any[];
     showSidebar: boolean;
+    handleInputs: ({
+        action,
+        value,
+        index,
+    }: {
+        action: string;
+        value?: any;
+        index?: number;
+    }) => void;
     orderFunctionHandle: ({
         step,
         orderData,
@@ -34,12 +42,13 @@ export const Sidebar = ({
     process = "update",
     options,
     showSidebar = false,
+    handleInputs,
     orderFunctionHandle,
 }: Props) => {
     let router = useRouter();
     let t = router.locale === "en" ? en : cn;
     const [inputValue, setInputValue] = useState<Order>({
-        id: "",
+        id: -1,
         customerName: "",
         items: [],
         totalPrice: 0,
@@ -50,7 +59,7 @@ export const Sidebar = ({
         if (data) setInputValue(data);
         else
             setInputValue({
-                id: "",
+                id: -1,
                 customerName: "",
                 items: [],
                 totalPrice: 0,
@@ -58,66 +67,26 @@ export const Sidebar = ({
             });
     }, [data]);
 
-    const handleChange = (e: any, index: number) => {
-        if (index >= 0) {
-            let previousInput = { ...inputValue };
-            let items = previousInput.items;
-            items[index] = {
-                ...items[index],
-                quantity: e.target.value,
-            };
-            const totalPrice = calculateTotalPrice({
-                items: items,
-                productList: options,
-            });
-
-            setInputValue((prev) => ({
-                ...prev,
-                items: items,
-                totalPrice: totalPrice,
-            }));
-        }
-        const { name, value } = e.target;
-        setInputValue((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        index: number
+    ) => {
+        handleInputs({
+            action: "edit-item-qty",
+            value: e.target.value,
+            index: index,
+        });
     };
 
     const handleSelectChange = (e: any, index: number) => {
         // console.log(e);
         const { name } = e;
-        let previousInput = { ...inputValue };
-        let items = previousInput.items;
-        items[index] = {
-            ...items[index],
-            name: name,
-        };
-        const totalPrice = calculateTotalPrice({
-            items: items,
-            productList: options,
-        });
-
-        setInputValue((prev) => ({
-            ...prev,
-            items: items,
-            totalPrice: totalPrice,
-        }));
+        handleInputs({ action: "edit-item-name", value: name, index: index });
     };
 
     const handleCreateNewItem = (e: Event) => {
         e.preventDefault();
-        const previousInput = { ...inputValue };
-        let items = previousInput.items;
-        items.push({
-            id: "",
-            name: "",
-            quantity: 1,
-        });
-        setInputValue((prev) => ({
-            ...prev,
-            items: items,
-        }));
+        handleInputs({ action: "add-item" });
     };
 
     const orderMutationHandler = (event: Event) => {
@@ -161,7 +130,11 @@ export const Sidebar = ({
                     >
                         <ChevronDoubleRightIcon className="w-5 lg:w-7 hover:opacity-70" />
                     </button>
-                    <h5 className="sidebar-heading">{inputValue.id}</h5>
+                    <h5 className="sidebar-heading">
+                        {Number(inputValue.id) !== -1
+                            ? "Order number: #" + inputValue.id
+                            : "Create Order"}
+                    </h5>
                 </div>
                 <p
                     className={
@@ -190,10 +163,14 @@ export const Sidebar = ({
                             placeholder="Enter name here"
                             value={inputValue.customerName}
                             onChange={(e) => {
-                                setInputValue((prev) => ({
-                                    ...prev,
-                                    customerName: e.target.value,
-                                }));
+                                // setInputValue((prev) => ({
+                                //     ...prev,
+                                //     customerName: e.target.value,
+                                // }));
+                                handleInputs({
+                                    action: "name-change",
+                                    value: e.target.value,
+                                });
                             }}
                             min="1"
                         />
@@ -204,7 +181,7 @@ export const Sidebar = ({
                     <div className="mb-5 space-y-2">
                         {inputValue.items.map((item, index) => (
                             <div
-                                key={inputValue.id + "-" + index}
+                                key={item.id + inputValue.customerName + index}
                                 className="flex gap-2"
                             >
                                 <SelectBox
@@ -220,7 +197,6 @@ export const Sidebar = ({
                                     type="number"
                                     placeholder="0"
                                     customTextAlign="text-center"
-                                    name={inputValue.id + "-" + index}
                                     value={item.quantity}
                                     min="1"
                                     onChange={(e) => handleChange(e, index)}
