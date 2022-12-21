@@ -56,10 +56,30 @@ export default function Home() {
     const [productList, setProductList] = useState<any[]>([]);
     const { isLoading, setIsLoading } = useLoading();
 
-    const { data: orderList, refetch } = trpc.useQuery([
-        "orders.findAllOrders",
-    ]);
-    const { data: products } = trpc.useQuery(["products.findAllProducts"]);
+    const { data: orderList, refetch } = trpc.getAllOrders.useQuery(
+        { limit: 50 },
+        {
+            staleTime: 5 * 1000,
+            select: (data) => data.orderList,
+            onError(err) {
+                console.error(err);
+            },
+        }
+    );
+    const { data: products } = trpc.getAllProducts.useQuery(
+        { limit: 50 },
+        {
+            staleTime: 5 * 1000,
+            select: (data) => data.products,
+            onError(err) {
+                console.error(err);
+            },
+        }
+    );
+    // const { data: orderList, refetch } = trpc.useQuery([
+    //     "orders.findAllOrders",
+    // ]);
+    // const { data: products } = trpc.useQuery(["products.findAllProducts"]);
 
     useEffect(() => {
         if (orderList) setOrders(orderList);
@@ -71,36 +91,66 @@ export default function Home() {
         else setProductList([]);
     }, [products]);
 
-    const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
-        onSuccess: (data, variables, context) => {
-            console.log("data: ", data);
-        },
-    });
-
-    const createOrderItemMutation = trpc.useMutation(
-        ["orders.createOrderItem"],
-        {
-            onSuccess: () => {
-                console.log("new item is created...");
-            },
-        }
-    );
-
-    const updateOrderMutation = trpc.useMutation(["orders.updateOrder"], {
+    const createOrderMutation = trpc.createOrder.useMutation({
         onSuccess: async () => {
-            console.log("successfully update order total price.");
-            await refetch();
+            refetch();
+        },
+        onError(error) {
+            console.error(error);
+        },
+    });
+    const createOrderItemMutation = trpc.createOrderItem.useMutation({
+        onSuccess: async () => {
+            console.log("successfully create order items");
+        },
+        onError(error) {
+            console.error(error);
+        },
+    });
+    const updateOrderMutation = trpc.updateOrder.useMutation({
+        onSuccess: async () => {
+            refetch();
+        },
+        onError(error) {
+            console.error(error);
+        },
+    });
+    const updateOrderItemMutation = trpc.updateOrderItem.useMutation({
+        onSuccess: async () => {
+            console.log("successfully update order items");
+        },
+        onError(error) {
+            console.error(error);
         },
     });
 
-    const updateOrderItemMutation = trpc.useMutation(
-        ["orders.updateOrderItem"],
-        {
-            onSuccess: async () => {
-                await refetch();
-            },
-        }
-    );
+    // const createOrderMutation = trpc.useMutation(["orders.createOrder"], {
+    //     onSuccess: (data, variables, context) => {
+    //         console.log("data: ", data);
+    //     },
+    // });
+    // const createOrderItemMutation = trpc.useMutation(
+    //     ["orders.createOrderItem"],
+    //     {
+    //         onSuccess: () => {
+    //             console.log("new item is created...");
+    //         },
+    //     }
+    // );
+    // const updateOrderMutation = trpc.useMutation(["orders.updateOrder"], {
+    //     onSuccess: async () => {
+    //         console.log("successfully update order total price.");
+    //         await refetch();
+    //     },
+    // });
+    // const updateOrderItemMutation = trpc.useMutation(
+    //     ["orders.updateOrderItem"],
+    //     {
+    //         onSuccess: async () => {
+    //             await refetch();
+    //         },
+    //     }
+    // );
 
     const passDataToSideBar = (id: string | number) => {
         if (id === orderDetails.id && showSideBar) return;
@@ -230,7 +280,7 @@ export default function Home() {
                 totalPrice: order.totalPrice,
                 status: "fulfilled",
             };
-            await updateOrderMutation.mutateAsync(orderData);
+            await updateOrderMutation.mutateAsync({ ...orderData });
             setIsLoading(false);
         } catch (error) {
             console.error(error);

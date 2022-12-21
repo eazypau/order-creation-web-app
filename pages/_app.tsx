@@ -1,20 +1,28 @@
-import "../styles/globals.css";
-import { withTRPC } from "@trpc/next";
 import { AppType } from "next/dist/shared/lib/utils";
-import type { ServerRouter } from "../server/router";
+import "../styles/globals.css";
+import { trpc } from "../utils/trpc";
 
-const App: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType = ({ Component, pageProps }) => {
     return <Component {...pageProps} />;
 };
 
-export default withTRPC<ServerRouter>({
-    config({ ctx }) {
-        const url =
-            process.env.NODE_ENV === "production"
-                ? `https://order-creation-web-app-vd9x.vercel.app/api/trpc`
-                : "http://localhost:3000/api/trpc";
+export default trpc.withTRPC(MyApp);
+// import { withTRPC } from "@trpc/next";
+// import { AppType } from "next/dist/shared/lib/utils";
+// import type { ServerRouter } from "../server/router";
 
-        return { url };
-    },
-    ssr: true,
-})(App);
+// const App: AppType = ({ Component, pageProps }) => {
+//     return <Component {...pageProps} />;
+// };
+
+// export default withTRPC<ServerRouter>({
+//     config({ ctx }) {
+//         const url =
+//             process.env.NODE_ENV === "production"
+//                 ? `${process.env.VERCEL_URL}/api/trpc`
+//                 : "http://localhost:3000/api/trpc";
+
+//         return { url };
+//     },
+//     ssr: true,
+// })(App);

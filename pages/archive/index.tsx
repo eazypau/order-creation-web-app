@@ -11,7 +11,17 @@ export default function Archive() {
     const router = useRouter();
     let t = router.locale === "en" ? en : cn;
 
-    const { data } = trpc.useQuery(["orders.findAllOrders"]);
+    // const { data } = trpc.useQuery(["orders.findAllOrders"]);
+    const { data, refetch } = trpc.getAllOrders.useQuery(
+        { limit: 50 },
+        {
+            staleTime: 5 * 1000,
+            select: (data) => data.orderList,
+            onError(err) {
+                console.error(err);
+            },
+        }
+    );
 
     return (
         <div className="bg-slate-200">

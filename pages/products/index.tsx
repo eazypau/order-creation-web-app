@@ -38,28 +38,66 @@ const Products = () => {
     );
     const [openPromptModal, setOpenPromptModal] = useState(false);
 
-    const { data: productList, refetch } = trpc.useQuery([
-        "products.findAllProducts",
-    ]);
+    const { data: productList, refetch } = trpc.getAllProducts.useQuery(
+        { limit: 50 },
+        {
+            staleTime: 5 * 1000,
+            select: (data) => data.products,
+            onError(err) {
+                console.error(err);
+            },
+        }
+    );
 
-    const createProductMutation = trpc.useMutation(["products.createProduct"], {
-        onSuccess: async (data, variables, context) => {
-            // console.log("product data: ", data);
-            await refetch();
-        },
-    });
-
-    const updateProductMutation = trpc.useMutation(["products.updateProduct"], {
+    const createProductMutation = trpc.createProduct.useMutation({
         onSuccess: async () => {
-            await refetch();
+            refetch();
+        },
+        onError(error) {
+            console.error(error);
         },
     });
 
-    const deleteProductMutation = trpc.useMutation(["products.deleteProduct"], {
+    const updateProductMutation = trpc.updateProduct.useMutation({
         onSuccess: async () => {
-            await refetch();
+            refetch();
+        },
+        onError(error) {
+            console.error(error);
         },
     });
+
+    const deleteProductMutation = trpc.deleteProduct.useMutation({
+        onSuccess: async () => {
+            refetch();
+        },
+        onError(error) {
+            console.error(error);
+        },
+    });
+
+    // const { data: productList, refetch } = trpc.useQuery([
+    //     "products.findAllProducts",
+    // ]);
+
+    // const createProductMutation = trpc.useMutation(["products.createProduct"], {
+    //     onSuccess: async (data, variables, context) => {
+    //         // console.log("product data: ", data);
+    //         await refetch();
+    //     },
+    // });
+
+    // const updateProductMutation = trpc.useMutation(["products.updateProduct"], {
+    //     onSuccess: async () => {
+    //         await refetch();
+    //     },
+    // });
+
+    // const deleteProductMutation = trpc.useMutation(["products.deleteProduct"], {
+    //     onSuccess: async () => {
+    //         await refetch();
+    //     },
+    // });
 
     const openModal = (
         action: "create" | "update" | "添加" | "更新",
