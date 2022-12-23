@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,26 +8,26 @@ datasource db {
 }
 
 model OrderItem {
-  id            Int         @id @default(autoincrement())
-  name          String
-  quantity      Int
-  order         OrderList   @relation(fields: [orderId], references: [id])
-  orderId       Int
+  id       Int       @id @default(autoincrement())
+  name     String
+  quantity Int
+  orderId  Int
+  order    OrderList @relation(fields: [orderId], references: [id])
 }
 
 model OrderList {
-  id            Int         @id @default(autoincrement())
-  customerName  String
-  items         OrderItem[]
-  totalPrice    Float
-  status        String
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  id           Int         @id @default(autoincrement())
+  customerName String
+  totalPrice   Float
+  status       String
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  items        OrderItem[]
 }
 
 model ProductList {
-  id            Int         @id @default(autoincrement())
-  name          String
-  price         Float
-  active        Boolean     @default(false)
+  id     Int     @id @default(autoincrement())
+  name   String
+  price  Float
+  active Boolean @default(false)
 }
