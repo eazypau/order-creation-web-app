@@ -14,6 +14,7 @@ import { useLoading } from "../hooks/useLoading";
 import { calculateTotalPrice } from "../helpers/calculateTotalPrice";
 import en from "../locales/en";
 import cn from "../locales/cn";
+import { ProductObj } from "../types/Product";
 
 const dataFormat = {
     id: -1,
@@ -49,12 +50,13 @@ export default function Home() {
         totalPrice: 0,
         status: "",
     });
-    const [orders, setOrders] = useState<any[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [buttonName, setButtonName] = useState<
         "update" | "create" | "添加" | "更新"
     >("update");
-    const [productList, setProductList] = useState<any[]>([]);
+    const [productList, setProductList] = useState<ProductObj[]>([]);
     const { isLoading, setIsLoading } = useLoading();
+    const [removedItems, setRemovedItems] = useState<{ id: number }[]>([]);
 
     const { data: orderList, refetch } = trpc.getAllOrders.useQuery(
         { limit: 50 },
@@ -118,6 +120,14 @@ export default function Home() {
     const updateOrderItemMutation = trpc.updateOrderItem.useMutation({
         onSuccess: async () => {
             console.log("successfully update order items");
+        },
+        onError(error) {
+            console.error(error);
+        },
+    });
+    const removeOrderItemMutation = trpc.deleteOrderItem.useMutation({
+        onSuccess: async () => {
+            console.log("successfully removed order item");
         },
         onError(error) {
             console.error(error);
@@ -259,6 +269,31 @@ export default function Home() {
                 totalPrice: totalPrice,
             }));
         }
+        if (action === "remove-item") {
+            const itemIndex = index || 0;
+            const items = [...orderDetails.items];
+            items.splice(itemIndex, 1);
+            const totalPrice = calculateTotalPrice({
+                items: items,
+                productList: productList,
+            });
+            setOrderDetails((prev) => ({
+                ...prev,
+                items: items,
+                totalPrice: totalPrice,
+            }));
+
+            if (value) {
+                const newRemovedItem = [
+                    ...removedItems,
+                    {
+                        id: value,
+                    },
+                ];
+
+                setRemovedItems([...newRemovedItem]);
+            }
+        }
     };
 
     /**
@@ -349,6 +384,7 @@ export default function Home() {
                     quantity: number;
                     orderId: number;
                 }[] = [];
+                const listOfItemsToRemove = [...removedItems];
 
                 items.forEach((item) => {
                     item.orderId = data.id;
@@ -362,6 +398,7 @@ export default function Home() {
 
                 console.log("new items:", newItems);
                 console.log("existing items:", existingItems);
+                console.log("deleteitem: ", listOfItemsToRemove);
 
                 if (newItems.length > 0) {
                     for (const item of newItems) {
@@ -373,10 +410,16 @@ export default function Home() {
                         await updateOrderItemMutation.mutateAsync(item);
                     }
                 }
+                if (listOfItemsToRemove.length > 0) {
+                    for (const item of removedItems) {
+                        await removeOrderItemMutation.mutateAsync(item);
+                    }
+                }
 
                 await refetch();
                 setShowSideBar(false);
                 setIsLoading(false);
+                setRemovedItems([]); // reset removed items
             }
         } catch (error) {
             console.error(error);

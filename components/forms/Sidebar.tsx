@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Button } from "../global/Button";
 import { InputField } from "./InputField";
 import { SelectBox } from "./SelectBox";
-import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/solid";
+import {
+    ChevronDoubleRightIcon,
+    PlusIcon,
+    TrashIcon,
+} from "@heroicons/react/solid";
 import { Order } from "../../types/Order";
 import { useEffect } from "react";
 // import { trpc } from "../../utils/trpc";
@@ -87,6 +91,15 @@ export const Sidebar = ({
     const handleCreateNewItem = (e: Event) => {
         e.preventDefault();
         handleInputs({ action: "add-item" });
+    };
+
+    const handleRemoveOrderItem = (
+        e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+        index: number,
+        id: number
+    ) => {
+        e.preventDefault();
+        handleInputs({ action: "remove-item", index: index, value: id });
     };
 
     const orderMutationHandler = (event: Event) => {
@@ -201,6 +214,20 @@ export const Sidebar = ({
                                     min="1"
                                     onChange={(e) => handleChange(e, index)}
                                 />
+                                {inputValue.items.length > 1 ? (
+                                    <TrashIcon
+                                        className="w-7 h-7 my-auto hover:text-red-600 transition-colors ease-in duration-300 cursor-pointer"
+                                        onClick={(e) => {
+                                            handleRemoveOrderItem(
+                                                e,
+                                                index,
+                                                item.id
+                                            );
+                                        }}
+                                    />
+                                ) : (
+                                    ""
+                                )}
                             </div>
                         ))}
                         <Button
