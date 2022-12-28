@@ -11,13 +11,7 @@ import { trpc } from "../../utils/trpc";
 import { Loading } from "../../components/global/Loading";
 import { useLoading } from "../../hooks/useLoading";
 import { InputField } from "../../components/forms/InputField";
-
-type ProductObj = {
-    id: number;
-    name: string;
-    price: number;
-    active: boolean;
-};
+import { ProductObj } from "../../types/Product";
 
 const Products = () => {
     let router = useRouter();
