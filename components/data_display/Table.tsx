@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "../global/Button";
 import { CheckIcon } from "@heroicons/react/solid";
-import { OrderV2 } from "../../types/Order";
+import { Order } from "../../types/Order";
 import { useRouter } from "next/router";
 
 type Props = {
     tableHeader: string[];
-    tableContent: OrderV2[];
+    tableContent: Order[];
     toggleSidebarFunc: (orderId: string | number) => void;
     updateOrderStatus: (order: {
         id: number;
@@ -112,7 +112,11 @@ export const Table = ({
                                     scope="row"
                                     className="item-column-one-style row-general-style"
                                 >
-                                    {row.id}&quot;
+                                    {row.createdAt.getDate() +
+                                        "/" +
+                                        row.createdAt.getMonth() +
+                                        "/" +
+                                        row.createdAt.getFullYear()}
                                 </td>
                                 <td className="row-general-style">
                                     {row.customerName}

@@ -57,6 +57,7 @@ export const Sidebar = ({
         items: [],
         totalPrice: 0,
         status: "",
+        createdAt: new Date(),
     });
 
     useEffect(() => {
@@ -68,6 +69,7 @@ export const Sidebar = ({
                 items: [],
                 totalPrice: 0,
                 status: "",
+                createdAt: new Date(),
             });
     }, [data]);
 

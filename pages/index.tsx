@@ -49,6 +49,7 @@ export default function Home() {
         ],
         totalPrice: 0,
         status: "",
+        createdAt: new Date(),
     });
     const [orders, setOrders] = useState<Order[]>([]);
     const [buttonName, setButtonName] = useState<
@@ -194,6 +195,7 @@ export default function Home() {
                 ],
                 totalPrice: 0,
                 status: "unfulfill",
+                createdAt: new Date(),
             });
             setButtonName(router.locale === "en" ? "create" : "添加");
             setShowSideBar(true);
@@ -444,7 +446,7 @@ export default function Home() {
                     </p>
                     <Table
                         tableHeader={[
-                            t.orderNumber,
+                            t.orderDate,
                             t.customerName,
                             t.items,
                             t.totalPrice,

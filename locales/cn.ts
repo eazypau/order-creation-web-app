@@ -1,6 +1,7 @@
 export default {
     brand: "品牌",
     orderNumber: "订单号",
+    orderDate: "订购日期",
     customerName: "客户名称",
     items: "物品",
     totalPrice: "总价",

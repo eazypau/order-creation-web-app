@@ -9,6 +9,7 @@ export type Order = {
     }[];
     totalPrice: number;
     status: string;
+    createdAt: Date;
 };
 
 export type OrderV2 = {

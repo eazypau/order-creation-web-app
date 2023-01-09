@@ -1,6 +1,7 @@
 export default {
     brand: "Brands",
     orderNumber: "Order No.",
+    orderDate: "Order Date",
     customerName: "Customer Name",
     items: "Items",
     totalPrice: "Total Price",
