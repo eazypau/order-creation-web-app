@@ -44,6 +44,8 @@ $ npm run start
 
 ## Demo
 
+https://user-images.githubusercontent.com/83596481/213341375-46ed2833-d72b-4322-bc8b-b8e25b9dc012.mp4
+
 ## Resources & References
 
 -   [Build a Full Stack App with Next.js, Tailwind, tRPC and Prisma ORM](https://dev.to/franciscomendes10866/build-a-full-stack-app-with-nextjs-tailwind-trpc-and-prisma-orm-4ail)
