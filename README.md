@@ -1,40 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Order Creation Web App
 
-## Getting Started
+A website to create and manage your orders.
 
-First, run the development server:
+## Technologies Used
+
+- NextJs
+- React
+- TypeScript
+- headlessui
+- trpc
+- clsx
+- zod
+- eslint
+- husky
+- linted-staged
+- tailwindcss
+- prettier
+- postgres
+- prisma
+
+## Features
+
+- create order
+- update order
+- create product
+- update product
+- delete product
+- language translation
+
+# Build Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
+# install dependencies
+$ npm install
+
+# serve with hot reload at localhost:3000
+$ npm run dev
+
+# build for production and preview
+$ npm run build
+$ npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Demo
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Heroku
-
-[Deploy using Heroku](https://elements.heroku.com/buildpacks/mars/heroku-nextjs)
-
-```bash
-heroku login
-heroku git:clone -a [app_name]
-git push heroku [branch_name]
-```
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Resources & References
+- [Build a Full Stack App with Next.js, Tailwind, tRPC and Prisma ORM](https://dev.to/franciscomendes10866/build-a-full-stack-app-with-nextjs-tailwind-trpc-and-prisma-orm-4ail)
+- [Build a Full Stack tRPC CRUD App with Next.js](https://codevoweb.com/build-a-fullstack-trpc-crud-app-with-nextjs/)
+- [How to setup Prettier, ESLint, Husky and Lint-Staged with a NextJS and Typescript Project](https://dev.to/joshchu/how-to-setup-prettier-eslint-husky-and-lint-staged-with-a-nextjs-and-typescript-project-i7b)
+- [Set up a Next.js project with ESLint, Prettier, Husky, and Lint Staged](https://amanhimself.dev/blog/setup-nextjs-project-with-eslint-prettier-husky-lint-staged/)
+- [How to Build a Fullstack App with Next.js, Prisma, and PostgreSQL](https://vercel.com/guides/nextjs-prisma-postgres)
