@@ -1,18 +1,19 @@
 import React from "react";
 import { Button } from "../global/Button";
 import { CheckIcon } from "@heroicons/react/solid";
-import { Order } from "../../types/Order";
+import { Order, OrderData } from "../../types/Order";
 import { useRouter } from "next/router";
 
 type Props = {
     tableHeader: string[];
-    tableContent: Order[];
+    tableContent: OrderData[];
     toggleSidebarFunc: (orderId: string | number) => void;
     updateOrderStatus: (order: {
         id: number;
         customerName: string;
         totalPrice: number;
         status: string;
+        deliveryDate: Date;
     }) => void;
     requireCheckButton?: boolean;
 };
@@ -34,6 +35,7 @@ export const Table = ({
         customerName: string;
         totalPrice: number;
         status: string;
+        deliveryDate: Date;
     }) => {
         updateOrderStatus(order);
     };
@@ -112,11 +114,16 @@ export const Table = ({
                                     scope="row"
                                     className="item-column-one-style row-general-style"
                                 >
-                                    {row.createdAt.getDate() +
+                                    {(row.deliveryDate.getDate() < 10
+                                        ? "0" + row.deliveryDate.getDate()
+                                        : row.deliveryDate.getDate()) +
                                         "/" +
-                                        row.createdAt.getMonth() +
+                                        (row.deliveryDate.getMonth() + 1 < 10
+                                            ? "0" +
+                                              (row.deliveryDate.getMonth() + 1)
+                                            : row.deliveryDate.getMonth() + 1) +
                                         "/" +
-                                        row.createdAt.getFullYear()}
+                                        row.deliveryDate.getFullYear()}
                                 </td>
                                 <td className="row-general-style">
                                     {row.customerName}

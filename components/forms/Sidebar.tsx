@@ -51,6 +51,8 @@ export const Sidebar = ({
 }: Props) => {
     let router = useRouter();
     let t = router.locale === "en" ? en : cn;
+    // const todayDate = new Date();
+
     const [inputValue, setInputValue] = useState<Order>({
         id: -1,
         customerName: "",
@@ -58,11 +60,34 @@ export const Sidebar = ({
         totalPrice: 0,
         status: "",
         createdAt: new Date(),
+        deliveryDate:
+            new Date().getFullYear() +
+            "-" +
+            (new Date().getMonth() < 10
+                ? "0" + (new Date().getMonth() + 1)
+                : new Date().getMonth() + 1) +
+            "-" +
+            (new Date().getDate() < 10
+                ? "0" + new Date().getDate()
+                : new Date().getDate()),
     });
 
     useEffect(() => {
-        if (data) setInputValue(data);
-        else
+        if (data) {
+            const response = { ...data };
+            const formatDate = new Date(data.deliveryDate);
+            response.deliveryDate =
+                formatDate.getFullYear() +
+                "-" +
+                (formatDate.getMonth() < 10
+                    ? "0" + (formatDate.getMonth() + 1)
+                    : formatDate.getMonth() + 1) +
+                "-" +
+                (formatDate.getDate() < 10
+                    ? "0" + formatDate.getDate()
+                    : formatDate.getDate());
+            setInputValue(response);
+        } else
             setInputValue({
                 id: -1,
                 customerName: "",
@@ -70,6 +95,16 @@ export const Sidebar = ({
                 totalPrice: 0,
                 status: "",
                 createdAt: new Date(),
+                deliveryDate:
+                    new Date().getFullYear() +
+                    "-" +
+                    (new Date().getMonth() < 10
+                        ? "0" + (new Date().getMonth() + 1)
+                        : new Date().getMonth() + 1) +
+                    "-" +
+                    (new Date().getDate() < 10
+                        ? "0" + new Date().getDate()
+                        : new Date().getDate()),
             });
     }, [data]);
 
@@ -132,7 +167,7 @@ export const Sidebar = ({
     return (
         <aside
             className={
-                "absolute right-0 top-0 z-20 translate-x-0 lg:w-4/12 xl:w-1/4 2xl:w-3/12 px-5 py-5 lg:py-10 bg-white h-full overflow-hidden transition-all ease-out duration-300 " +
+                "absolute right-0 top-0 z-20 translate-x-0 w-10/12 lg:w-4/12 xl:w-1/4 2xl:w-3/12 px-5 py-5 lg:py-10 bg-white h-full overflow-hidden transition-all ease-out duration-300 " +
                 (showSidebar ? "translate-x-0" : "translate-x-full")
             }
         >
@@ -148,7 +183,9 @@ export const Sidebar = ({
                     <h5 className="sidebar-heading">
                         {Number(inputValue.id) !== -1
                             ? "Order number: #" + inputValue.id
-                            : "Create Order"}
+                            : router.locale === "en"
+                            ? "Create Order"
+                            : "新订单"}
                     </h5>
                 </div>
                 <p
@@ -164,7 +201,7 @@ export const Sidebar = ({
             </div>
             <div>
                 <form>
-                    <div className="mb-5">
+                    <div className="mb-2">
                         <label
                             htmlFor="customerName"
                             className="pl-1 font-semibold text-sm lg:font-base"
@@ -174,6 +211,7 @@ export const Sidebar = ({
                         <InputField
                             hasBorder={true}
                             type="text"
+                            id="customerName"
                             name="customerName"
                             placeholder="Enter name here"
                             value={inputValue.customerName}
@@ -184,6 +222,33 @@ export const Sidebar = ({
                                 // }));
                                 handleInputs({
                                     action: "name-change",
+                                    value: e.target.value,
+                                });
+                            }}
+                            min="1"
+                        />
+                    </div>
+                    <div className="mb-5">
+                        <label
+                            htmlFor="deliveryDate"
+                            className="pl-1 font-semibold text-sm capitalize lg:font-base"
+                        >
+                            {t.deliveryDate}:
+                        </label>
+                        <InputField
+                            hasBorder={true}
+                            type="date"
+                            id="deliveryDate"
+                            name="deliveryDate"
+                            placeholder="Choose delivery date here"
+                            value={inputValue.deliveryDate}
+                            onChange={(e) => {
+                                // setInputValue((prev) => ({
+                                //     ...prev,
+                                //     customerName: e.target.value,
+                                // }));
+                                handleInputs({
+                                    action: "date-change",
                                     value: e.target.value,
                                 });
                             }}
