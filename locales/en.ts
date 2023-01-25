@@ -28,4 +28,5 @@ export default {
     yes: "yes",
     cancel: "cancel",
     create: "create",
+    deliveryDate: "delivery date",
 };

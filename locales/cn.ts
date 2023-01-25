@@ -28,4 +28,5 @@ export default {
     yes: "是的",
     cancel: "取消",
     create: "添加",
+    deliveryDate: "送货日期",
 };
