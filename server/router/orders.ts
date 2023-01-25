@@ -11,6 +11,7 @@ const defaultOrderSelect = Prisma.validator<Prisma.OrderListSelect>()({
     status: true,
     createdAt: true,
     updatedAt: true,
+    deliveryDate: true,
 });
 
 const defaultOrderItemSelect = Prisma.validator<Prisma.OrderItemSelect>()({
@@ -49,6 +50,7 @@ export const orderRouter = router({
                 customerName: z.string(),
                 totalPrice: z.number(),
                 status: z.string(),
+                deliveryDate: z.date(),
             })
         )
         .mutation(async ({ input }) => {
@@ -65,6 +67,7 @@ export const orderRouter = router({
                 customerName: z.string(),
                 totalPrice: z.number(),
                 status: z.string(),
+                deliveryDate: z.date(),
             })
         )
         .mutation(async ({ input }) => {
