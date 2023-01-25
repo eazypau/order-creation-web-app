@@ -8,7 +8,7 @@ type Props = {
     value?: string | number;
     onChange?: (e?: any) => void;
     customTextAlign?: string;
-    type?: "text" | "number";
+    type?: "text" | "number" | "date";
     placeholder?: string;
     min?: string;
     autoComplete?: string;
