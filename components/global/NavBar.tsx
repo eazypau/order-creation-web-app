@@ -197,7 +197,10 @@ export const NavBar = ({
                                     customWidth="py-1 px-3"
                                     onClick={
                                         hasCTAButton
-                                            ? toggleSidebarToCreate
+                                            ? (e) => {
+                                                  toggleSidebarToCreate(e);
+                                                  togglMenu();
+                                              }
                                             : (e) => {
                                                   console.log("do nothing");
                                               }
