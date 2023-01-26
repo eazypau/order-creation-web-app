@@ -12,6 +12,7 @@ import { Loading } from "../../components/global/Loading";
 import { useLoading } from "../../hooks/useLoading";
 import { InputField } from "../../components/forms/InputField";
 import { ProductObj } from "../../types/Product";
+import Head from "next/head";
 
 const Products = () => {
     let router = useRouter();
@@ -211,6 +212,9 @@ const Products = () => {
 
     return (
         <div className="bg-slate-200">
+            <Head>
+                <title>Products</title>
+            </Head>
             {isLoading ? <Loading /> : ""}
             <Modal
                 isOpen={showModal}

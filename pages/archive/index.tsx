@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { Table } from "../../components/data_display/Table";
@@ -25,6 +26,9 @@ export default function Archive() {
 
     return (
         <div className="bg-slate-200">
+            <Head>
+                <title>Fulfilled Orders</title>
+            </Head>
             <NavBar
                 hasCTAButton={false}
                 toggleSidebarToCreate={() => {

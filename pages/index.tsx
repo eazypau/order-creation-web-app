@@ -15,6 +15,7 @@ import { calculateTotalPrice } from "../helpers/calculateTotalPrice";
 import en from "../locales/en";
 import cn from "../locales/cn";
 import { ProductObj } from "../types/Product";
+import Head from "next/head";
 
 const dataFormat = {
     id: -1,
@@ -467,6 +468,9 @@ export default function Home() {
 
     return (
         <div className="bg-slate-200 w-screen overflow-x-hidden">
+            <Head>
+                <title>Orders</title>
+            </Head>
             {isLoading ? <Loading /> : ""}
             <NavBar
                 toggleSidebarToCreate={openCreateOrderSidebar}
