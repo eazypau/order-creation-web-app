@@ -184,7 +184,7 @@ export default function Home() {
                 (order) => order.id === id
             );
             setOrderDetails(JSON.parse(JSON.stringify({ ...findOrder })));
-            setButtonName("update");
+            setButtonName(router.locale === "en" ? "update" : "更新");
             setShowSideBar(true);
         }, 400);
     };
@@ -306,6 +306,7 @@ export default function Home() {
             const itemIndex = index || 0;
             const items = [...orderDetails.items];
             items.splice(itemIndex, 1);
+
             const totalPrice = calculateTotalPrice({
                 items: items,
                 productList: productList,
@@ -316,7 +317,7 @@ export default function Home() {
                 totalPrice: totalPrice,
             }));
 
-            if (value) {
+            if (value > 0) {
                 const newRemovedItem = [
                     ...removedItems,
                     {
@@ -480,7 +481,11 @@ export default function Home() {
             <div className="relative">
                 <div className="pt-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
                     <p className="mb-1 font-medium text-sm">
-                        * Click the order number to edit details.
+                        *{" "}
+                        {router.locale === "en"
+                            ? "Click the order number to edit details"
+                            : "请点击订单号编辑详情"}
+                        .
                     </p>
                     <Table
                         tableHeader={[

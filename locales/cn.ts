@@ -29,4 +29,5 @@ export default {
     cancel: "取消",
     create: "添加",
     deliveryDate: "送货日期",
+    no: "没有",
 };

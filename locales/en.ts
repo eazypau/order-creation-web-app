@@ -1,6 +1,6 @@
 export default {
     brand: "Brands",
-    orderNumber: "Order No.",
+    orderNumber: "Order No",
     orderDate: "Order Date",
     customerName: "Customer Name",
     items: "Items",
@@ -29,4 +29,5 @@ export default {
     cancel: "cancel",
     create: "create",
     deliveryDate: "delivery date",
+    no: "no",
 };

@@ -182,7 +182,7 @@ export const Sidebar = ({
                     </button>
                     <h5 className="sidebar-heading">
                         {Number(inputValue.id) !== -1
-                            ? "Order number: #" + inputValue.id
+                            ? t.orderNumber + ": " + inputValue.id
                             : router.locale === "en"
                             ? "Create Order"
                             : "新订单"}
@@ -302,7 +302,7 @@ export const Sidebar = ({
                             onClick={handleCreateNewItem}
                         >
                             <span className="flex items-center gap-1">
-                                <PlusIcon className="w-4" /> Item
+                                <PlusIcon className="w-4" /> {t.items}
                             </span>
                         </Button>
                     </div>

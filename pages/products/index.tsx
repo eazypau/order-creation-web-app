@@ -418,8 +418,8 @@ const Products = () => {
                                             currencyDisplay: "narrowSymbol",
                                         }).format(product.price)}
                                     </td>
-                                    <td className="row-general-style">
-                                        {product.active ? "Yes" : "No"}
+                                    <td className="row-general-style capitalize">
+                                        {product.active ? t.yes : t.no}
                                     </td>
                                     <td className="row-general-style flex justify-end">
                                         <Button
