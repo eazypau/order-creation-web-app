@@ -1,18 +1,19 @@
 import React from "react";
 import { Button } from "../global/Button";
 import { CheckIcon } from "@heroicons/react/solid";
-import { OrderV2 } from "../../types/Order";
+import { Order, OrderData } from "../../types/Order";
 import { useRouter } from "next/router";
 
 type Props = {
     tableHeader: string[];
-    tableContent: OrderV2[];
+    tableContent: OrderData[];
     toggleSidebarFunc: (orderId: string | number) => void;
     updateOrderStatus: (order: {
         id: number;
         customerName: string;
         totalPrice: number;
         status: string;
+        deliveryDate: Date;
     }) => void;
     requireCheckButton?: boolean;
 };
@@ -34,14 +35,15 @@ export const Table = ({
         customerName: string;
         totalPrice: number;
         status: string;
+        deliveryDate: Date;
     }) => {
         updateOrderStatus(order);
     };
 
     return (
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <table className="w-max md:w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-max md:w-full text-sm text-left text-gray-500">
+                <thead className="text-gray-700 capitalize bg-gray-50">
                     <tr>
                         {tableHeader.map((column) => {
                             if (
@@ -51,7 +53,7 @@ export const Table = ({
                                 return (
                                     <th
                                         scope="col"
-                                        className="py-3 px-6"
+                                        className="py-3 px-6 font-semibold"
                                         key={column}
                                     >
                                         <div className="flex items-center">
@@ -75,7 +77,7 @@ export const Table = ({
                                 return (
                                     <th
                                         scope="col"
-                                        className="hidden lg:block py-3 px-6"
+                                        className="hidden lg:block py-3 px-6 font-semibold"
                                         key={column}
                                     >
                                         {column}
@@ -85,7 +87,7 @@ export const Table = ({
                             return (
                                 <th
                                     scope="col"
-                                    className="py-3 px-6"
+                                    className="py-3 px-6 font-semibold"
                                     key={column}
                                 >
                                     {column}
@@ -112,7 +114,16 @@ export const Table = ({
                                     scope="row"
                                     className="item-column-one-style row-general-style"
                                 >
-                                    {row.id}&quot;
+                                    {(row.deliveryDate.getDate() < 10
+                                        ? "0" + row.deliveryDate.getDate()
+                                        : row.deliveryDate.getDate()) +
+                                        "/" +
+                                        (row.deliveryDate.getMonth() + 1 < 10
+                                            ? "0" +
+                                              (row.deliveryDate.getMonth() + 1)
+                                            : row.deliveryDate.getMonth() + 1) +
+                                        "/" +
+                                        row.deliveryDate.getFullYear()}
                                 </td>
                                 <td className="row-general-style">
                                     {row.customerName}

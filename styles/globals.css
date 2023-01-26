@@ -4,7 +4,7 @@
 
 /* keep class and id name as kebab-case */
 .nav-tab {
-    @apply px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 hover:bg-gray-300;
+    @apply px-2 py-1 mx-2 mt-2 font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 hover:bg-gray-300;
 }
 
 .active-nav-tab {

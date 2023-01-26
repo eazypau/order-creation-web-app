@@ -1,6 +1,7 @@
 export default {
     brand: "品牌",
     orderNumber: "订单号",
+    orderDate: "订购日期",
     customerName: "客户名称",
     items: "物品",
     totalPrice: "总价",
@@ -27,4 +28,5 @@ export default {
     yes: "是的",
     cancel: "取消",
     create: "添加",
+    deliveryDate: "送货日期",
 };

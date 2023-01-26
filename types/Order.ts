@@ -9,16 +9,21 @@ export type Order = {
     }[];
     totalPrice: number;
     status: string;
+    createdAt: Date;
+    deliveryDate: string;
 };
 
-export type OrderV2 = {
+export type OrderData = {
     id: number;
     customerName: string;
     items: {
-        id: string | number;
+        id: number;
         name: string;
         quantity: number;
+        orderId: number;
     }[];
     totalPrice: number;
     status: string;
+    createdAt: Date;
+    deliveryDate: Date;
 };

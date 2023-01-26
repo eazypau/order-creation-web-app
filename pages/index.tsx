@@ -8,7 +8,7 @@ import { Table } from "../components/data_display/Table";
 import { Sidebar } from "../components/forms/Sidebar";
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
-import { Order } from "../types/Order";
+import { Order, OrderData } from "../types/Order";
 import { Loading } from "../components/global/Loading";
 import { useLoading } from "../hooks/useLoading";
 import { calculateTotalPrice } from "../helpers/calculateTotalPrice";
@@ -34,6 +34,7 @@ const dataFormat = {
 export default function Home() {
     let router = useRouter();
     let t = router.locale === "en" ? en : cn;
+    const todayDate = new Date();
 
     const [showSideBar, setShowSideBar] = useState(false);
     const [orderDetails, setOrderDetails] = useState({
@@ -49,8 +50,19 @@ export default function Home() {
         ],
         totalPrice: 0,
         status: "",
+        createdAt: todayDate,
+        deliveryDate:
+            todayDate.getFullYear() +
+            "-" +
+            (todayDate.getMonth() < 10
+                ? "0" + (todayDate.getMonth() + 1)
+                : todayDate.getMonth() + 1) +
+            "-" +
+            (todayDate.getDate() < 10
+                ? "0" + todayDate.getDate()
+                : todayDate.getDate()),
     });
-    const [orders, setOrders] = useState<Order[]>([]);
+    const [orders, setOrders] = useState<OrderData[]>([]);
     const [buttonName, setButtonName] = useState<
         "update" | "create" | "添加" | "更新"
     >("update");
@@ -194,6 +206,17 @@ export default function Home() {
                 ],
                 totalPrice: 0,
                 status: "unfulfill",
+                createdAt: todayDate,
+                deliveryDate:
+                    todayDate.getFullYear() +
+                    "-" +
+                    (todayDate.getMonth() < 10
+                        ? "0" + (todayDate.getMonth() + 1)
+                        : todayDate.getMonth() + 1) +
+                    "-" +
+                    (todayDate.getDate() < 10
+                        ? "0" + todayDate.getDate()
+                        : todayDate.getDate()),
             });
             setButtonName(router.locale === "en" ? "create" : "添加");
             setShowSideBar(true);
@@ -210,12 +233,21 @@ export default function Home() {
         index?: number;
     }) => {
         // console.log(action);
+        // console.log(value);
+
         // add item, remove item, edit item (name or qty change)
         // update name
         if (action === "name-change") {
             setOrderDetails((prev) => ({
                 ...prev,
                 customerName: value,
+            }));
+        }
+        if (action === "date-change") {
+            // const newDeliveryDate = new Date(value);
+            setOrderDetails((prev) => ({
+                ...prev,
+                deliveryDate: value,
             }));
         }
         if (action === "add-item") {
@@ -306,6 +338,7 @@ export default function Home() {
         customerName: string;
         totalPrice: number;
         status: string;
+        deliveryDate: Date;
     }) => {
         try {
             setIsLoading(true);
@@ -314,6 +347,7 @@ export default function Home() {
                 customerName: order.customerName,
                 totalPrice: order.totalPrice,
                 status: "fulfilled",
+                deliveryDate: order.deliveryDate,
             };
             await updateOrderMutation.mutateAsync({ ...orderData });
             setIsLoading(false);
@@ -338,6 +372,7 @@ export default function Home() {
                     customerName: orderData.customerName,
                     status: orderData.status,
                     totalPrice: orderData.totalPrice,
+                    deliveryDate: new Date(orderData.deliveryDate),
                 };
                 setIsLoading(true);
                 const data = await createOrderMutation.mutateAsync(
@@ -364,6 +399,7 @@ export default function Home() {
                     customerName: orderData.customerName,
                     status: orderData.status,
                     totalPrice: orderData.totalPrice,
+                    deliveryDate: new Date(orderData.deliveryDate),
                 };
                 setIsLoading(true);
                 const data = await updateOrderMutation.mutateAsync(
@@ -444,7 +480,7 @@ export default function Home() {
                     </p>
                     <Table
                         tableHeader={[
-                            t.orderNumber,
+                            t.orderDate,
                             t.customerName,
                             t.items,
                             t.totalPrice,
