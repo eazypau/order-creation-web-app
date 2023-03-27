@@ -39,7 +39,7 @@ export default function Archive() {
                 <div className="py-10 px-3 w-11/12 xl:w-3/4 2xl:w-7/12 mx-auto body-height">
                     <Table
                         tableHeader={[
-                            t.orderNumber,
+                            t.deliveryDate,
                             t.customerName,
                             t.items,
                             t.totalPrice,

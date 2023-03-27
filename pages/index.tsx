@@ -489,7 +489,7 @@ export default function Home() {
                     </p>
                     <Table
                         tableHeader={[
-                            t.orderDate,
+                            t.deliveryDate,
                             t.customerName,
                             t.items,
                             t.totalPrice,
