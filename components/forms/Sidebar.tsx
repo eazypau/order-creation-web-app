@@ -144,20 +144,30 @@ export const Sidebar = ({
         const step = buttonName;
         const orderData = { ...inputValue };
         let hasEmptyInput = false;
+        const itemList: string[] = [];
+
         // console.log("data provided: ", inputValue);
-        inputValue.items.forEach((item) => {
+        orderData.items.forEach((item) => {
+            itemList.push(item.name);
             if (!item.name || !item.quantity) {
                 hasEmptyInput = true;
             }
         });
-        if (!inputValue.customerName) {
+        if (new Set(itemList).size !== itemList.length) {
+            alert(
+                "You are not allow to have duplicate items. Please remove or choose a different item to proceed"
+            );
+            return;
+        }
+        if (!orderData.customerName) {
             alert("Please enter the customer name.");
             return;
         }
-        if (inputValue.items.length < 1 || hasEmptyInput) {
+        if (orderData.items.length < 1 || hasEmptyInput) {
             alert("Please select the product and quantity to proceed.");
             return;
         }
+
         orderFunctionHandle({
             step: step,
             orderData: orderData,
