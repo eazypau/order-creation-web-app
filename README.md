@@ -1,55 +1,34 @@
-# Order Creation Web App
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-A website to create and manage your orders.
+## Getting Started
 
-## Technologies Used
-
--   NextJs
--   React
--   TypeScript
--   headlessui
--   trpc
--   clsx
--   zod
--   eslint
--   husky
--   linted-staged
--   tailwindcss
--   prettier
--   postgres
--   prisma
-
-## Features
-
--   create order
--   update order
--   create product
--   update product
--   delete product
--   language translation
-
-# Build Setup
+First, run the development server:
 
 ```bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and preview
-$ npm run build
-$ npm run start
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
 ```
 
-## Demo
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-https://user-images.githubusercontent.com/83596481/213341375-46ed2833-d72b-4322-bc8b-b8e25b9dc012.mp4
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Resources & References
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
--   [Build a Full Stack App with Next.js, Tailwind, tRPC and Prisma ORM](https://dev.to/franciscomendes10866/build-a-full-stack-app-with-nextjs-tailwind-trpc-and-prisma-orm-4ail)
--   [Build a Full Stack tRPC CRUD App with Next.js](https://codevoweb.com/build-a-fullstack-trpc-crud-app-with-nextjs/)
--   [How to setup Prettier, ESLint, Husky and Lint-Staged with a NextJS and Typescript Project](https://dev.to/joshchu/how-to-setup-prettier-eslint-husky-and-lint-staged-with-a-nextjs-and-typescript-project-i7b)
--   [Set up a Next.js project with ESLint, Prettier, Husky, and Lint Staged](https://amanhimself.dev/blog/setup-nextjs-project-with-eslint-prettier-husky-lint-staged/)
--   [How to Build a Fullstack App with Next.js, Prisma, and PostgreSQL](https://vercel.com/guides/nextjs-prisma-postgres)
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

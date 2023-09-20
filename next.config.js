@@ -1,11 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  i18n: {
-    locales: ["en", "cn"],
-    defaultLocale: "en"
-  }
-}
+  experimental: {
+    serverActions: true,
+  },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/en",
+        permanent: true,
+      },
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

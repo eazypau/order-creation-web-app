@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Table view height */
+main {
+  height: calc(100vh - 128px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* keep class and id name as kebab-case */
+.nav-tab {
+  @apply px-2 py-1 mx-2 mt-2 font-medium capitalize text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 hover:bg-gray-300;
+}
+
+.active-nav-tab {
+  @apply px-2 py-1 mx-2 mt-2 text-sm font-medium capitalize text-white transition-colors duration-200 transform rounded-md md:mt-0 bg-gray-600 hover:bg-gray-300 hover:text-black;
+}
+
+.body-height {
+  min-height: calc(100vh - 128px);
+}
+
+.sidebar-heading {
+  @apply font-bold text-lg lg:text-2xl;
+}
+
+.table-row-style {
+  @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700;
+}
+
+.item-column-one-style {
+  @apply font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer;
+}
+
+.row-general-style {
+  @apply py-4 px-6 align-top;
+}
+
+.table-form-label {
+  @apply py-2;
+}
+
+.table-form-input {
+  @apply p-2;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.table-form-input input::-webkit-outer-spin-button,
+.table-form-input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.table-form-input input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.dots {
+  width: 3.5em;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dots div {
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  background-color: #8338ec;
+  animation: fade 0.8s ease-in-out alternate infinite;
+}
+
+.dots div:nth-of-type(1) {
+  animation-delay: -0.4s;
+}
+
+.dots div:nth-of-type(2) {
+  animation-delay: -0.2s;
+}
+
+@keyframes fade {
+  from {
+      opacity: 1;
+  }
+  to {
+      opacity: 0;
+  }
+}
